@@ -1,0 +1,49 @@
+@import "primeicons/primeicons.css";
+
+:root {
+    // colors
+    --base: #1E90FF;
+    --branco: #fff;
+    --background: #f5f5f5;
+    --preto: #000;
+    --verde: #32CD32;
+    --amarelo: #FFD700;
+    --advice: #ffa600;
+    --error: #ff4646;
+
+    // typography
+    --main-font: 'Raleway', sans-serif;
+    --secondary-font: 'Poppins', sans-serif;
+
+    //sizes
+    --size-text-big: 18px;
+    --size-text-medium: 16px;
+    --size-text-small: 14px;
+    --size-text-tiny: 12px;
+
+    // nav-bar - light
+    --ui-background: var(--branco);
+    --ui-text: var(--preto);
+
+    --ui-hover-background: var(--preto);
+    --ui-hover-text: var(--branco);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html.app-dark {
+    --ui-background: var(--preto);
+    --ui-text: var(--branco);
+
+    --ui-hover-background: var(--branco);
+    --ui-hover-text: var(--preto);
+}

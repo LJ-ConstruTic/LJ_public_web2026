@@ -1,0 +1,15 @@
+{
+  "home": {
+    "title": "Bem-vindo",
+    "subtitle": "Construímos melhor"
+  },
+  "nav": {
+    "about": "Quienes somos",
+    "services": "Servicios",
+    "products": "Productos",
+    "contact": "Contacto"
+  },
+  "buttons": {
+    "show": "Ver mais"
+  }
+}

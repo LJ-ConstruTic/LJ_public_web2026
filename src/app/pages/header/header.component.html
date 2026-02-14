@@ -1,0 +1,21 @@
+<p-menubar [model]="menu" aria-label="Menu">
+    <ng-template #start>
+        <a routerLink="/" class="logo-link" aria-label="Ir al inicio">
+            <img src="/img/logo.png" class="logo"/>
+        </a>
+    </ng-template>
+
+    <ng-template #end>
+        <div class="actions-menu">
+            <div>
+                <p-select [options]="langOptions" [(ngModel)]="selectedLangCode" 
+                          optionLabel="name" optionValue="code" placeholder=""
+                          class="w-full md:w-56" (onChange)="onLangChange($event.value)" />
+            </div>
+            <div>
+                <p-button type="button" [text]="true" [rounded]="true" ariaLabel="Toggle theme" class="theme-mode"
+                          [icon]="(isDark$ | async) ? 'pi pi-moon' : 'pi pi-sun'" (onClick)="toggleTheme()"/>
+            </div>
+        </div>
+    </ng-template>
+</p-menubar>

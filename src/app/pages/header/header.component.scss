@@ -1,0 +1,73 @@
+:host ::ng-deep .p-menubar-item:not(.p-disabled) > .p-menubar-item-content:hover { // hover de menú
+    background: var(--ui-hover-background) !important; 
+    color: var(--ui-hover-text) !important;
+    font-weight: bold !important;
+}
+
+:host ::ng-deep .p-menubar .p-menubar-root-list {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center; 
+}
+
+:host ::ng-deep .p-menubar {
+    padding: 0 !important;
+}
+
+:host ::ng-deep .p-menubar-start,
+:host ::ng-deep .p-menubar-end {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+:host ::ng-deep .p-menubar-end {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+}
+
+:host ::ng-deep  .theme-mode .p-button-text:not(:disabled) { // botón switch theme
+    color: var(--ui-hover-background);
+}
+
+:host ::ng-deep  .theme-mode .p-button-text:not(:disabled):hover { // botón switch theme: hover
+    background: var(--ui-hover-background);
+    color: var(--ui-hover-text);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+    display: flex;
+    width: 250px;
+    display: block;
+    padding: 5px;
+    flex: 0 0 auto;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.links-menu {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.actions-menu {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
