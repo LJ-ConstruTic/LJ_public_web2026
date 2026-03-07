@@ -7,12 +7,12 @@ import esTranslations from './languages/es.json';
 import umbTranslations from './languages/umb.json';
 import enTranslations from './languages/en.json';
 
-type LangKey = 'pt-AO' | 'pt' | 'es' | 'umb' | 'en';
+type LangKey = 'pt' | 'es' | 'umb' | 'en';
 
 @Injectable()
 export class BackendTranslateLoader implements TranslateLoader {
   private translations: { [key: string]: any } = {
-    'pt-AO': ptTranslations,
+    'pt': ptTranslations,
     'es': esTranslations,
     'umb': umbTranslations,
     'en': enTranslations

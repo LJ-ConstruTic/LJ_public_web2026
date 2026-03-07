@@ -1,4 +1,4 @@
-import { STORAGE_KEY, ThemePref } from "../app/store/theme.state";
+import { STORAGE_KEY, ThemePref } from "../app/store/theme/theme.state";
 
 const ALLOWED: ThemePref[] = ['system', 'light', 'dark'];
 

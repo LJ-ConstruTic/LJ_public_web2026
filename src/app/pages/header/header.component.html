@@ -8,9 +8,9 @@
     <ng-template #end>
         <div class="actions-menu">
             <div>
-                <p-select [options]="langOptions" [(ngModel)]="selectedLangCode" 
-                          optionLabel="name" optionValue="code" placeholder=""
-                          class="w-full md:w-56" (onChange)="onLangChange($event.value)" />
+                <p-select [options]="langOptions()" [ngModel]="selectedCode()" 
+                          optionLabel="name" optionValue="code"
+                          class="w-full md:w-56" (ngModelChange)="onLangChange($event)" />
             </div>
             <div>
                 <p-button type="button" [text]="true" [rounded]="true" ariaLabel="Toggle theme" class="theme-mode"

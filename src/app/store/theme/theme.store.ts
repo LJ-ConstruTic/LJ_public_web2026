@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { initialThemeState, STORAGE_KEY, ThemePref, ThemeState } from "./theme.state";
 import { distinctUntilChanged, fromEventPattern, map, tap, withLatestFrom } from "rxjs";
-import { parseThemePref, systemPrefersDark } from "../../utils/theme.utils";
+import { parseThemePref, systemPrefersDark } from "../../../utils/theme.utils";
 import { ComponentStore } from '@ngrx/component-store';
 
 
