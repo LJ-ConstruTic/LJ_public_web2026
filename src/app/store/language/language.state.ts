@@ -13,3 +13,5 @@ export const initialLanguageState: LanguageState = {
   error: null,
   selectedCode: null,
 };
+
+export const LS_KEY = 'ui-lang-code';

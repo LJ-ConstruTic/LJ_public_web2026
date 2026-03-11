@@ -1,6 +1,6 @@
 import { ComponentStore } from "@ngrx/component-store";
 import { ComponentState, initialComponentState } from "./component.state";
-import { inject, Injectable } from "@angular/core";
+import { computed, inject, Injectable } from "@angular/core";
 import { ComponentService } from "../../core/services/component.service";
 import { ComponentDataModel, ComponentMenuItem } from "../../core/model/component-dto";
 import { switchMap, tap } from "rxjs";
@@ -14,6 +14,21 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     readonly $menuItems = this.selectSignal(state => state.menuItems)
     readonly $loading = this.selectSignal(state => state.loading)
     readonly $error = this.selectSignal(state => state.error)
+
+    // Transformar $menuItems (ComponentMenuItem[]) a MenuItem[] que es lo que pide primeng
+    readonly $menuConverted = computed(() =>
+        this.$menuItems().map(item => ({
+            label: item.tag,
+            id: item.id,
+            items: item.tagsParent.length ?
+                item.tagsParent.map(child => 
+                ({
+                    label: child.tag,
+                    id: child.id,
+                }))
+                : undefined,
+        }))
+    );
 
     constructor() {
         super(initialComponentState);
@@ -51,7 +66,7 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
                 this.componentService.getAllComponents().pipe(
                     tap({
                         next: (response) => {
-                            console.log('Component response:', response);
+                            console.log('Component TODOS LSO COMPONENTES:', response);
                             this.setItems(response.items ?? []);
                             this.setLoading(false);
                         },
@@ -66,29 +81,28 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
         )
     );
 
-    readonly loadMenu = this.effect<number>((trigger$) => 
+    readonly loadMenu = this.effect<number>((trigger$) =>
         trigger$.pipe(
             tap(() => {
                 this.setLoading(true);
                 this.setError(null);
             }),
-            switchMap((codeLanguage) => 
-            this.componentService.getComponentMenu(codeLanguage).pipe(
-                tap({
-                next: (response) => {
-                    console.log('Component response:', response);
-                    this.setMenuItems(response.items ?? []);
-                    this.setLoading(false);
-                },
-                error: (error) => {
-                    console.error('Error loading components:', error);
-                    this.setError('Error loading components');
-                    this.setLoading(false);
-                },
-        })
-      )
-    )
-  )
-);
+            switchMap((codeLanguage) =>
+                this.componentService.getComponentMenu(codeLanguage).pipe(
+                    tap({
+                        next: (response) => {
+                            this.setMenuItems(response.items ?? []);
+                            this.setLoading(false);
+                        },
+                        error: (error) => {
+                            console.error('Error loading components:', error);
+                            this.setError('Error loading components');
+                            this.setLoading(false);
+                        },
+                    })
+                )
+            )
+        )
+    );
 
 }

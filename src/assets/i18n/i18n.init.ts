@@ -1,8 +1,8 @@
 import { TranslateService } from '@ngx-translate/core';
-import { pickBrowserLangSafe } from './lang';
+import { getBrowserLang } from './lang';
 
 
 export function initI18n(translate: TranslateService) {
     translate.setFallbackLang('en');
-    translate.use(pickBrowserLangSafe(translate));
+    translate.use(getBrowserLang(translate));
 }
