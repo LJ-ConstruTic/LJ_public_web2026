@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BackendTranslateLoader } from '../assets/i18n/language-translate-loader';
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     LanguageStore,
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes), provideClientHydration(withEventReplay()),

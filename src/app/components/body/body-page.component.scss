@@ -1,0 +1,15 @@
+
+.component-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--section-text);
+    padding: 4rem 2rem;
+}
+
+:host ::ng-deep .section--white {
+    background-color: var(--section-odd) !important;
+}
+
+:host ::ng-deep .section--gray {
+    background-color: var(--section-even) !important;
+}

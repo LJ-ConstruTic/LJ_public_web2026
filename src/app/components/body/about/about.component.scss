@@ -1,0 +1,19 @@
+.about {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-direction: column;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        gap: 2rem;
+    }
+}
+
+.about-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    font-size: var(--size-text-big);
+}

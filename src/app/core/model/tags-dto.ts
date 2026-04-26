@@ -7,6 +7,12 @@ export interface TagDataModel {
   updatedAt: string;
   isActive: boolean;
   keyLabel: string;
-  internationalization: InternationalizationDataModel;
+  internationalization: TagItem;
+  imgUrl: string[];
+}
+
+export interface TagItem {
+  keyLabel: string;
+  tag: InternationalizationDataModel;
   imgUrl: string[];
 }

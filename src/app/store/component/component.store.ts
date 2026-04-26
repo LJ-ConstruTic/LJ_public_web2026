@@ -30,6 +30,10 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
         }))
     );
 
+    readonly $activeComponents = computed(() => 
+        this.$items().filter(c => c.isActive).sort((a, b) => a.idx - b.idx)
+    );
+
     constructor() {
         super(initialComponentState);
     }
@@ -67,11 +71,11 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
                     tap({
                         next: (response) => {
                             console.log('Component TODOS LSO COMPONENTES:', response);
-                            this.setItems(response.items ?? []);
+                            const filtered = (response.items ?? []).filter(item => item.name !== 'Menu');
+                            this.setItems(filtered);
                             this.setLoading(false);
                         },
                         error: (error) => {
-                            console.error('Error loading components:', error);
                             this.setError('Error loading components');
                             this.setLoading(false);
                         },

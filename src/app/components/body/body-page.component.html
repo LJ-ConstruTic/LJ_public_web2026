@@ -1,0 +1,13 @@
+
+@if($loading()){
+    <!-- PONER SPINNER AQUI -->
+    Cargando....
+}
+
+@for (component of $activeComponents(); track component.id; let isPar = $even) { <!-- even: Si el índice de fila actual es par-->
+    <section [id]="component.name" [class.section--gray]="!isPar" [class.section--white]="isPar">
+        <div class="component-container">
+            <ng-container *ngComponentOutlet="getComponent(component.name)" />
+        </div>
+    </section>
+}
