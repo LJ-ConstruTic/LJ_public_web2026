@@ -8,7 +8,7 @@ import { TagStore } from "../../store/tag/tag.store";
   selector: "body-page",
   standalone: true,
   imports: [ CommonModule ],
-  providers: [ ComponentAppStore, TagStore ],
+  providers: [ ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './body-page.component.html',
   styleUrl: './body-page.component.scss'
@@ -16,12 +16,14 @@ import { TagStore } from "../../store/tag/tag.store";
 export class BodyPageComponent implements OnInit{
     
     private componentStore = inject(ComponentAppStore);
+    readonly tagStore = inject(TagStore);
     
     readonly $loading = this.componentStore.$loading;
     readonly $activeComponents = this.componentStore.$activeComponents;
 
     ngOnInit() {
         this.componentStore.loadAllComponents();
+        this.tagStore.loadAllTags();
     }
 
     getComponent(name: string): Type<any> | null {

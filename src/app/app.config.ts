@@ -15,10 +15,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { API_BASE_URL } from '../api.tokens';
 import { environment } from '../environments/environments';
 import { LanguageStore } from './store/language/language.store';
+import { TagStore } from './store/tag/tag.store';
+import { ComponentAppStore } from './store/component/component.store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     LanguageStore,
+    TagStore,
+    ComponentAppStore,
     provideAnimations(),
     provideHttpClient(withFetch()),
     provideBrowserGlobalErrorListeners(),

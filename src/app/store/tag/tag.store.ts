@@ -4,6 +4,7 @@ import { computed, inject, Injectable } from '@angular/core';
 import { TagDataModel } from '../../core/model/tags-dto';
 import { switchMap, tap } from 'rxjs';
 import { TagService } from '../../core/services/tags.service';
+import { TagKey } from '../../core/dictionary/tags-dictionary';
 
 @Injectable()
 export class TagStore extends ComponentStore<TagState> {
@@ -15,8 +16,11 @@ export class TagStore extends ComponentStore<TagState> {
     readonly $loading = this.selectSignal((state) => state.loading);
     readonly $error = this.selectSignal((state) => state.error);
 
-    readonly $weAreImgUrl = computed(() =>this.$tags()
-        .find(tag =>  tag.isActive && tag.internationalization.keyLabel === 'headWeAre')?.internationalization.imgUrl[0] ?? null
+    readonly $tagByKey = (key: TagKey) =>
+    computed(() =>
+        this.$tags().find(
+            (tag) => tag.isActive && tag.internationalization.keyLabel === key
+        ) ?? null
     );
 
     readonly $activeTags = computed(() =>
@@ -70,7 +74,7 @@ export class TagStore extends ComponentStore<TagState> {
             switchMap(() =>
                 this.tagService.getAllTags().pipe(
                     tap({
-                        next: (response) => {
+                        next: (response) => { console.log('✅ getAllTags:', response);
                             this.setTags(response.items ?? []);
                             this.setTotal(response.size ?? 0);
                             this.setLoading(false);

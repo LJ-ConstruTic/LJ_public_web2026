@@ -30,11 +30,11 @@
     --ui-hover-text: var(--branco);
 
     // modo oscuro / light en body-page:
-    --section-odd: #ffffff;
-    --section-even: #f0f0f0;
+    --section-odd: #f7f7f7;
+    --section-even: #f7f7f7;
     --section-text: var(--preto);
     --grey-section: #444444;
-    --preto-section: #1a1a1a;
+    --preto-section: #444444;
 }
 
 body {
@@ -79,6 +79,13 @@ h1, h2, h3 {
   &:hover {
     background-color: var(--base);
   }
+}
+
+.component-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--section-text);
+    padding: 4rem 2rem;
 }
 
 .image-container {

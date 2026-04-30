@@ -1,0 +1,75 @@
+<div class="component-container">
+<section class="about-section">
+    <div class="about-section__content">
+      <h2>Quem somos</h2>
+      <p>
+        Luís José Construção e Soluções Tecnológicas LDA ou LJConstruTic somos uma Empresa
+        fundada em 2023 com propósito de prestar serviços de melhor qualidade nas áreas de
+        Construção Civil e Urbana, Soluções Tecnológicas em Tecnologia de Comunicação e
+        Informação TIC/IT.
+      </p>
+      <p>
+        Contamos com uma equipe de profissionais tanto locais como Internacionais e também uma
+        colaboração estreita de Engenheiros em Espanha com a finalidade de oferecer os melhores
+        serviços aos nossos clientes.
+      </p>
+    </div>
+    <!-- @if (weAreImg()) {
+      <div class="about-section__image">
+        <img [src]="weAreImg()" alt="Quem somos" />
+      </div>
+    } -->
+  </section>
+
+  <!-- Sección: Nossa visão -->
+  <section class="about-section about-section--reversed">
+    @if (vision()) {
+      <div class="about-section__image">
+        <img [src]="vision()" alt="Nossa visão" />
+      </div>
+    }
+    <div class="about-section__content">
+      <h2>Nossa visão</h2>
+      <p>
+        Atender a crescente demanda na área de Construção Civil e Urbana e na área Tecnológica,
+        moldado produtos finais inteligentes e sustentáveis através da Inovação contínua,
+        excelência operacional e compromisso com o desenvolvimento humano e ambiental
+        promovendo o desenvolvimento econômico local.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sección: Nossa missão -->
+  <section class="about-section">
+    <div class="about-section__content">
+      <h2>Nossa missão</h2>
+      <p>
+        Fazer com que a Construção Civil e Urbana e a Tecnológica de Comunicação e Informação
+        TIC/IT seja algo acessível a todos, empresas assim como particulares de maneira mais fácil,
+        segura e acessível aprimorando a modernização e tecnologia.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sección: Equipa -->
+  <section class="team">
+    <h2>Nossa equipe</h2>
+    <div class="team-grid">
+      @for (member of teamMembers(); track member.key) {
+        <div class="team__member">
+          <div class="team__member-img">
+            @if (member.img) {
+              <img [src]="member.img" [alt]="member.name" />
+            } @else {
+              <div class="team__member-placeholder">
+                {{ member.name.charAt(0) }}
+              </div>
+            }
+          </div>
+          <span class="team__member-role">{{ member.role }}</span>
+          <span class="team__member-name">{{ member.name }}</span>
+        </div>
+      }
+    </div>
+  </section>
+</div>

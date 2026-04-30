@@ -1,4 +1,4 @@
-import { Component, effect, inject } from "@angular/core";
+import { Component, computed, effect, inject } from "@angular/core";
 import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from "@ngx-translate/core";
 import { SelectModule } from 'primeng/select';
@@ -9,6 +9,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { RouterLink } from "@angular/router";
 import { LanguageStore } from "../../store/language/language.store";
 import { ComponentAppStore } from "../../store/component/component.store";
+import { TagStore } from "../../store/tag/tag.store";
+import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
 
 @Component({
     selector: 'app-header',
@@ -23,12 +25,16 @@ export class HeaderComponent {
     private readonly languageStore = inject(LanguageStore);
     readonly themeStore = inject(ThemeStore);
     readonly componentStore = inject(ComponentAppStore);
+    readonly tagStore = inject(TagStore);
 
     readonly isDark$ = this.themeStore.isDark$;
     readonly langOptions = this.languageStore.$langOptions;
     readonly selectedCode = this.languageStore.$selectedCode;
     readonly menu = this.componentStore.$menuConverted;
  
+    readonly logoUrl = computed(() =>
+        this.tagStore.$tagByKey(TAGS_DICTIONARY.COMPANY_LOGO_PRINCIPAL)()?.internationalization.imgUrl[0] ?? null
+    );
 
     constructor() {
         effect(() => {
