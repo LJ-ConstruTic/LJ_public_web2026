@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -23,6 +23,10 @@ export const appConfig: ApplicationConfig = {
     LanguageStore,
     TagStore,
     ComponentAppStore,
+    provideAppInitializer(() => { // load all tags by default donde sea
+      const tagStore = inject(TagStore);
+      tagStore.loadAllTags();
+    }),
     provideAnimations(),
     provideHttpClient(withFetch()),
     provideBrowserGlobalErrorListeners(),

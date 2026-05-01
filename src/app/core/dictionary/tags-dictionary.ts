@@ -1,7 +1,7 @@
 export const TAGS_DICTIONARY = {
     PRO_HEALT: 'proHealt',
     PRO_UMB_CULTURE: 'proUmbCultute',
-    WE_VISION: 'weVision',
+    WE_VISION: 'weVision', // nossa visão
     SERV_COLABOR: 'servColabor',
     WE_ARE_NAME_2: 'WeAreName2', // Jose
     WE_ARE_NAME_3: 'WeAreName3', // Pedro Muteca

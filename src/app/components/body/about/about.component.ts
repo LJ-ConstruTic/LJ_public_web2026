@@ -22,6 +22,6 @@ export class AboutComponent {
   );
 
   goToAboutDetail(): void {
-    this.router.navigate(['/about-detail']);
+    this.router.navigate(['about/about-detail']);
   }
 }

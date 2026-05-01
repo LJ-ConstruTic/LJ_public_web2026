@@ -7,7 +7,7 @@ export const routes: Routes = [
       import('./components/body/body-page.component').then(m => m.BodyPageComponent),
   },
   {
-    path: 'about-detail',
+    path: 'about/about-detail',
     loadComponent: () => import('./components/body/about-detail/about-detail.component').then(m => m.AboutDetailComponent),
   },
   { path: 'about', redirectTo: 'body-page', pathMatch: 'full' },
