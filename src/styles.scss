@@ -106,3 +106,19 @@ h1, h2, h3 {
     object-fit: cover;
     object-position: center;
 }
+
+.presentation-carousel {
+  li.p-carousel-indicator-active button {
+    background: var(--primary-color, #2073b4) !important;
+    transform: scale(1.35);
+  }
+}
+
+.presentation-carousel {
+  --p-carousel-indicator-width: 10px;
+  --p-carousel-indicator-height: 10px;
+  --p-carousel-indicator-border-radius: 50%;
+  --p-carousel-indicator-background: #bbb;
+  --p-carousel-indicator-hover-background: #999;
+  --p-carousel-indicator-active-background: var(--primary-color, #2073b4);
+}

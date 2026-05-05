@@ -1,7 +1,28 @@
+<p-carousel
+  [value]="translatedSlides()"
+  [numVisible]="1"
+  [numScroll]="1"
+  [circular]="true"
+  [autoplayInterval]="5000"
+  [showNavigators]="false"
+  [showIndicators]="true"
 
-<div>
-    <img src="/assets/img/keyboard2.jpg" alt="Cover Image" class="presentation-img" />
-    <h1>Construção e soluções tecnológicas TIC/IT</h1>
-    <h3>Reunimos duas áreas importantes e seus derivados no mercado de hoje:</h3>
-    <p>Construção civil e urbana e soluções tecnologica em tecnologia em comunicação e informação TIC/IT (informática) brindando aos nossos clientes serviços de qualidade com as tecnologias modernas.</p>
-</div>
+  styleClass="presentation-carousel">
+
+  <ng-template #item let-slide>
+    <div class="slide">
+      <div class="slide__text-side">
+        <h1 class="slide__title">{{ slide.title }}</h1>
+        <p class="slide__text">{{ slide.context }}</p>
+      </div>
+      <div class="slide__img-side">
+        @if (slide.imgUrl) {
+          <img [src]="slide.imgUrl" [alt]="slide.title" class="slide__img" />
+        } @else {
+          <div class="slide__img--placeholder"></div>
+        }
+      </div>
+    </div>
+  </ng-template>
+
+</p-carousel>
