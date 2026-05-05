@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from "@angular/core";
 import { TagService } from "../../../core/services/tags.service";
 import { CarouselModule } from "primeng/carousel";
-import { Slide, TranslatedSlide } from "../../../core/model/slide-dto";
-import { TagDataModel } from "../../../core/model/tags-dto";
-import { SLIDE_IMAGES, SLIDE_KEYS } from "../../../core/dictionary/slide-dictionary";
+import { TranslatedSlide } from "../../../core/model/slide-dto";
 import { LanguageStore } from "../../../store/language/language.store";
-import { CommonModelResponse, InternationalizationDataModel } from "../../../core/model/common-response-dto";
+import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
+import { TagStore } from "../../../store/tag/tag.store";
+import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
+import { IMG_DICTIONARY } from "../../../core/dictionary/imag-dictionary";
 
 
 @Component({
@@ -18,72 +19,37 @@ import { CommonModelResponse, InternationalizationDataModel } from "../../../cor
 })
 export class PresentationComponent {
   private tagService = inject(TagService);
+  private readonly tagStore      = inject(TagStore);
   private readonly languageStore = inject(LanguageStore);
+
+  activeIndex = signal<number>(0);
 
   private readonly lang = computed(
     () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel // current lang
   );
-  readonly translatedSlides = computed<TranslatedSlide[]>(() => // Vista derivada: se recalcula sola cuando cambia lang()
-    this.slides().map((slide) => ({
-      title: slide.title[this.lang()] || slide.title['en'],
-      context: slide.context[this.lang()] || slide.context['en'],
-      imgUrl: slide.imgUrl,
-    }))
-  );
 
-  activeIndex = signal<number>(0);
+  readonly slides = computed<TranslatedSlide[]>(() => {
+    const lang = this.lang();
+    const tags = this.tagStore.$tags();
 
-  private readonly slides = signal<Slide[]>([]); // Datos crudos con todos los idiomas
+    const text = (key: TagKey): string => {
+      const tag = tags.find((item) => item.isActive && item.internationalization.keyLabel === key)?.internationalization.tag;
+      return tag ? (tag[lang] || tag['en']) : '';
+    };
 
+    return [
+      { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: IMG_DICTIONARY.SLIDE_PROJECTBUILD },
+      { title: text(TAGS_DICTIONARY.SLI_APP_TITLE),          context: text(TAGS_DICTIONARY.SLI_APP_CTX),          imgUrl: IMG_DICTIONARY.SLIDE_APP          },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE),       context: text(TAGS_DICTIONARY.SLI_REFORM_CTX),       imgUrl: IMG_DICTIONARY.SLIDE_REFORM        },
+      { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE),       context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX),       imgUrl: IMG_DICTIONARY.SLIDE_MANTEN        },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE),      context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX),      imgUrl: IMG_DICTIONARY.SLIDE_REFORM2       },
+    ];
+  });
 
-  // configuración del carrusel
-  readonly carouselConfig = {
-    indicators: {
-      style: {
-        'gap': '0.5rem',
-        'padding': '0.75rem 0',
-      }
-    },
-    indicator: {
-      style: { 'display': 'flex' }
-    },
-    indicatorButton: {
-      style: {
-        'width': '10px',
-        'height': '10px',
-        'border-radius': '50%',
-        'border': 'none',
-        'padding': '0',
-        'min-width': '0',
-        'background': '#bbb',
-        'cursor': 'pointer',
-        'transition': 'background 0.3s ease, transform 0.3s ease',
-      }
-    }
-  };
-
-
-  ngOnInit(): void {
-    this.testGetAllTags();
-
-    this.tagService.getAllTags().subscribe({
-      next: ({ items }: CommonModelResponse<TagDataModel>) => {
-        const mapped: Slide[] = SLIDE_KEYS.map((prefix, i) => { // const mapped: Slide[] = SLIDE_KEYS.map((prefix) => {
-          const titleTag = items.find((t) => t.internationalization.keyLabel === `${prefix}Title`);
-          const contextTag = items.find((t) => t.internationalization.keyLabel === `${prefix}Context`);
-
-          return {
-            title: (titleTag?.internationalization.tag ?? '') as InternationalizationDataModel,
-            context: (contextTag?.internationalization.tag ?? '') as InternationalizationDataModel,
-            imgUrl: SLIDE_IMAGES[i], // imgUrl:  SLIDE_IMAGES[prefix],
-          };
-        });
-
-        this.slides.set(mapped);
-      },
-      error: (err) => console.error(err),
-    });
+  goTo(index: number): void {
+    this.activeIndex.set(index);
   }
+  
 
   ////////////////////////////////////////////////////////////////////////////////
 

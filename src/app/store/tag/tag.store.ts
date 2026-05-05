@@ -1,10 +1,12 @@
 import { ComponentStore } from '@ngrx/component-store';
 import { TagState, initialTagState } from './tag.state';
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, Signal } from '@angular/core';
 import { TagDataModel } from '../../core/model/tags-dto';
 import { switchMap, tap } from 'rxjs';
 import { TagService } from '../../core/services/tags.service';
 import { TagKey } from '../../core/dictionary/tags-dictionary';
+import { InternationalizationDataModel } from '../../core/model/common-response-dto';
+import { ImgKey } from '../../core/dictionary/imag-dictionary';
 
 @Injectable()
 export class TagStore extends ComponentStore<TagState> {
@@ -16,11 +18,18 @@ export class TagStore extends ComponentStore<TagState> {
     readonly $loading = this.selectSignal((state) => state.loading);
     readonly $error = this.selectSignal((state) => state.error);
 
-    readonly $tagByKey = (key: TagKey) =>
-    computed(() =>
-        this.$tags().find(
-            (tag) => tag.isActive && tag.internationalization.keyLabel === key
-        ) ?? null
+    readonly $translate = (key: TagKey, lang: Signal<keyof InternationalizationDataModel>) =>
+        computed(() => {
+            const tag = this.$tagByKey(key)()?.internationalization.tag;
+            return tag ? (tag[lang()] || tag['en']) : '';
+    });
+
+    readonly $tagByKey = (key: TagKey) =>computed(() =>
+        this.$tags().find((tag) => tag.isActive && tag.internationalization.keyLabel === key) ?? null
+    );
+
+    readonly $imgByKey = (key: ImgKey) =>computed(() =>
+        this.$tags().find((tag) => tag.isActive && tag.internationalization.keyLabel === key) ?? null
     );
 
     readonly $activeTags = computed(() =>
@@ -74,7 +83,8 @@ export class TagStore extends ComponentStore<TagState> {
             switchMap(() =>
                 this.tagService.getAllTags().pipe(
                     tap({
-                        next: (response) => { console.log('✅ getAllTags:', response);
+                        next: (response) => {
+                            console.log('✅ getAllTags:', response);
                             this.setTags(response.items ?? []);
                             this.setTotal(response.size ?? 0);
                             this.setLoading(false);
