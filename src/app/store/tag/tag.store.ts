@@ -6,7 +6,6 @@ import { switchMap, tap } from 'rxjs';
 import { TagService } from '../../core/services/tags.service';
 import { TagKey } from '../../core/dictionary/tags-dictionary';
 import { InternationalizationDataModel } from '../../core/model/common-response-dto';
-import { ImgKey } from '../../core/dictionary/imag-dictionary';
 
 @Injectable()
 export class TagStore extends ComponentStore<TagState> {
@@ -18,18 +17,15 @@ export class TagStore extends ComponentStore<TagState> {
     readonly $loading = this.selectSignal((state) => state.loading);
     readonly $error = this.selectSignal((state) => state.error);
 
-    readonly $translate = (key: TagKey, lang: Signal<keyof InternationalizationDataModel>) =>
+    readonly $text = (key: TagKey, lang: Signal<keyof InternationalizationDataModel>) =>
         computed(() => {
-            const tag = this.$tagByKey(key)()?.internationalization.tag;
+            const tag = this.$tags()
+                .find((tag) => tag.isActive && tag.internationalization.keyLabel === key)?.internationalization.tag;
             return tag ? (tag[lang()] || tag['en']) : '';
     });
 
-    readonly $tagByKey = (key: TagKey) =>computed(() =>
-        this.$tags().find((tag) => tag.isActive && tag.internationalization.keyLabel === key) ?? null
-    );
-
-    readonly $imgByKey = (key: ImgKey) =>computed(() =>
-        this.$tags().find((tag) => tag.isActive && tag.internationalization.keyLabel === key) ?? null
+    readonly $img = (key: TagKey, index = 0) =>
+        computed(() => this.$tags().find((tag) => tag.isActive && tag.internationalization.keyLabel === key)?.internationalization.imgUrl[index] ?? null
     );
 
     readonly $activeTags = computed(() =>

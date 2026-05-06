@@ -1,5 +1,24 @@
+import { TeamMemberConfig } from "../model/tags-dto";
+
 export const TAGS_DICTIONARY = {
-    // slider:
+    // ── Contact ───────────────────────────────────
+    CONT_WE: 'contWe',
+    CONT_MORE_INFO: 'contMoreInfo',
+    CONT_WE_HELP: 'contWeHelp',
+    CONT_WE_DO_DIF: 'contWeDoDif',
+    CONT_NAME: 'contName',
+    CONT_TEL: 'contTel',
+    CONT_EMAIL: 'contEmail',
+    CONT_MESSAGE: 'contMessage',
+
+    // ── Nav / Head ────────────────────────────────
+    HEAD_WE_ARE: 'headWeAre',
+    HEAD_PRODUCT: 'headProduct',
+    HEAD_SERVICES: 'headServices',
+    HEAD_CONTACT: 'headContact',
+    COMPANY_LOGO: 'companyLogoprincipal',
+
+    // ── Slider ────────────────────────────────────
     SLI_PROJECTBUILD_TITLE: 'sliProjectbuildTitle',
     SLI_PROJECTBUILD_CTX: 'sliProjectbuildContext',
     SLI_APP_TITLE: 'sliAppTitle',
@@ -11,15 +30,112 @@ export const TAGS_DICTIONARY = {
     SLI_REFORM2_TITLE: 'sliReform2Title',
     SLI_REFORM2_CTX: 'sliReform2Context',
 
-    // About
+    // ── Home ──────────────────────────────────────
     HOM_TITLE: 'homTitle',
     HOM_PRESENTATION: 'homPresentation',
     HOM_TITLE_2: 'homTitle2',
-    WE_HISTORY_CTX: 'weHistoryContext',
+    HOM_ESTRATEGIES_TITLE: 'homEstrategiesTitle',
+    HOM_ESTRATEGIES_CTX: 'homEstrategiesContext',
+    HOM_ESTRATEGIES_CTX2: 'homEstrategiesContext2',
+    HOM_GOALS_TITLE: 'homGoalsTitle',
+    HOM_GOALS_CTX: 'homGoalsContext',
+    HOM_GOAL_ITEM_TITLE_2: 'homGoalItemTitle2',
+    HOM_GOAL_ITEM_CTX_2: 'homGoalItemContext2',
+    HOM_GOAL_ITEM_TITLE_3: 'homGoalItemTitle3',
+    HOM_GOAL_ITEM_CTX_3: 'homGoalItemContext3',
+    HOM_GOAL_ITEM_TITLE_4: 'homGoalItemTitle4',
+    HOM_GOAL_ITEM_CTX_4: 'homGoalItemContext4',
+    HOM_GOAL_ITEM_TITLE_5: 'homGoalItemTitle5',
+    HOM_GOAL_ITEM_CTX_5: 'homGoalItemContext5',
+    HOM_GOAL_ITEM_TITLE_6: 'homGoalItemTitle6',
+    HOM_GOAL_ITEM_CTX_6: 'homGoalItemContext6',
+    HOM_GOAL_ITEM_TITLE_7: 'homGoalItemTitle7',
+    HOM_GOAL_ITEM_CTX_7: 'homGoalItemContext7',
+    GOAL_NAM_0: 'GoalNam0',
+    GOAL_DESC_0: 'GoalDesc0',
 
-    // About-detail:
+    // ── Products ──────────────────────────────────
+    PRO_WE_PRODUCTS: 'proWeProducts',
+    PRO_WE_PRODUCTS_CTX: 'proWeProductsContext',
+    PRO_WE_PRODUCTS_CTX_2: 'proWeProductsContext2',
+    PRO_HEALT: 'proHealt',
+    PRO_HEALT_CTX: 'proHealtContext',
+    PRO_UMB_CULTURE: 'proUmbCultute',
+    PRO_UMB_CULTURE_CTX: 'proUmbCultuteContext',
+    PRO_BUDGET: 'proBudget',
+    PRO_BUDGET_CTX: 'proBudgetContext',
+    PRO_BUDGET_CTX_2: 'proBudgetContext2',
+    PRO_DATE_MINING: 'proDateMining',
+    PRO_DATE_MINING_CTX_0: 'proDateMiningContext0',
+    PRO_DATE_MINING_CTX_1: 'proDateMiningContext1',
+    PRO_DATE_MINING_CTX_2: 'proDateMiningContext2',
+    PRO_DATE_MINING_CTX_3: 'proDateMiningContext3',
+
+    // ── About / We ────────────────────────────────
+    WE_HISTORY: 'weHistory',
+    WE_HISTORY_CTX: 'weHistoryContext',
     WE_HISTORY_CTX_2: 'weHistoryContext2',
     WE_HISTORY_CTX_3: 'weHistoryContext3',
+    WE_VISION: 'weVision',
+    WE_VISION_CTX: 'weVisionContext',
+    WE_MISSION: 'weMission',
+    WE_MISSION_CTX: 'weMissionContext',
+    WE_MISSION_CTX_2: 'weMissionContext2',
+    WE_JOB_WE: 'weJobwe',
+    WE_JOB_UX: 'weJobUx',
+    WE_JOB_CONTACT: 'weJobContac',
+    WE_JOB_BEST_TIC: 'weJobBestTic',
+
+    // ── Team ──────────────────────────────────────
+    WE_ARE_NAME_0: 'WeAreName0',
+    WE_ARE_JOB_0: 'WeAreJob0',
+    WE_ARE_NAME_1: 'WeAreName1',
+    WE_ARE_JOB_1: 'WeAreJob1',
+    WE_ARE_NAME_2: 'WeAreName2',
+    WE_ARE_JOB_2: 'WeAreJob2',
+    WE_ARE_NAME_3: 'WeAreName3',
+    WE_ARE_JOB_3: 'WeAreJob3',
+    WE_ARE_NAME_4: 'WeAreName4',
+
+    // ── Services ──────────────────────────────────
+    SERV_BUILD: 'servBuild',
+    SERV_BUILD_CTX: 'servBuildContext',
+    SERV_TIC: 'servTic',
+    SERV_TIC_CTX_1: 'servTicContext1',
+    SERV_TIC_CTX_2: 'servTicContext2',
+    SERV_TIC_CTX_3: 'servTicContext3',
+    SERV_REPAIRS: 'servRepairs',
+    SERV_REPAIRS_CTX: 'servRepairsContext',
+    SERV_REPAIRS_TEMS: 'servRepairsTems',
+    SERV_REPAIRS_TEM_1: 'servRepairsTem1',
+    SERV_REPAIRS_TEM_2: 'servRepairsTem2',
+    SERV_REPAIRS_TEM_3: 'servRepairsTem3',
+    SERV_REPAIRS_TEM_4: 'servRepairsTem4',
+    SERV_SALES: 'servSales',
+    SERV_SALES_CTX: 'servSalesContext',
+    SERV_SALES_CTX_TEMS: 'servSalesContextTems',
+    SERV_SALES_CTX_TEM_1: 'servSalesContextTem1',
+    SERV_SALES_CTX_TEM_2: 'servSalesContextTem2',
+    SERV_COLABOR: 'servColabor',
+    SERV_BUILD_2: 'servBild2',
+    SERV_DECOR_KITCHEN: 'servDecorkitchen',
+    SERV_DECOR: 'servDecor',
+    SERV_PAINT: 'servPaint',
+    SERV_REFORM_HOMEN: 'servReformHomen',
+    SERV_PLUMBING: 'servPlumbing',
+    SERV_DESC: 'ServDesc',
+    SERV_REP_DESC: 'ServRepDesc',
+    SERV_VEND_DESC: 'ServVendDesc',
+
+    // ── Join ──────────────────────────────────────
+    JOIN_TITLE_0: 'JoinTitle0',
+    JOIN_DESC_0: 'JoinDesc00',
 } as const;
 
 export type TagKey = typeof TAGS_DICTIONARY[keyof typeof TAGS_DICTIONARY];
+
+export const TEAM_CONFIG: TeamMemberConfig[] = [
+  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_2, jobKey: TAGS_DICTIONARY.WE_ARE_JOB_2 },
+  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_3, jobKey: TAGS_DICTIONARY.WE_ARE_JOB_3 },
+  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_4, },
+];

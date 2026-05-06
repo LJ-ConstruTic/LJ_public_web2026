@@ -1,18 +1,9 @@
 <div class="component-container">
 <section class="about-section">
     <div class="about-section__content">
-      <h2>Quem somos</h2>
-      <p>
-        Luís José Construção e Soluções Tecnológicas LDA ou LJConstruTic somos uma Empresa
-        fundada em 2023 com propósito de prestar serviços de melhor qualidade nas áreas de
-        Construção Civil e Urbana, Soluções Tecnológicas em Tecnologia de Comunicação e
-        Informação TIC/IT.
-      </p>
-      <p>
-        Contamos com uma equipe de profissionais tanto locais como Internacionais e também uma
-        colaboração estreita de Engenheiros em Espanha com a finalidade de oferecer os melhores
-        serviços aos nossos clientes.
-      </p>
+      <h2>{{ about_detail().historyTitle }}</h2>
+      <p>{{ about_detail().historyCtx2 }}</p>
+      <p>{{ about_detail().historyCtx3 }}</p>
     </div>
     <!-- @if (weAreImg()) {
       <div class="about-section__image">
@@ -23,39 +14,31 @@
 
   <!-- Sección: Nossa visão -->
   <section class="about-section about-section--reversed">
-    @if (vision()) {
+    @if (about_detail()) {
       <div class="about-section__image">
-        <img [src]="vision()" alt="Nossa visão" />
+        <img [src]="about_detail().visionImg" alt="Nossa visão" />
       </div>
     }
     <div class="about-section__content">
-      <h2>Nossa visão</h2>
-      <p>
-        Atender a crescente demanda na área de Construção Civil e Urbana e na área Tecnológica,
-        moldado produtos finais inteligentes e sustentáveis através da Inovação contínua,
-        excelência operacional e compromisso com o desenvolvimento humano e ambiental
-        promovendo o desenvolvimento econômico local.
-      </p>
+      <h2>{{ about_detail().visionTitle }}</h2>
+      <p>{{ about_detail().visionCtx }}</p>
     </div>
   </section>
 
   <!-- Sección: Nossa missão -->
   <section class="about-section">
     <div class="about-section__content">
-      <h2>Nossa missão</h2>
-      <p>
-        Fazer com que a Construção Civil e Urbana e a Tecnológica de Comunicação e Informação
-        TIC/IT seja algo acessível a todos, empresas assim como particulares de maneira mais fácil,
-        segura e acessível aprimorando a modernização e tecnologia.
-      </p>
+      <h2>{{ about_detail().missionTitle }}</h2>
+      <p>{{ about_detail().missionCtx }}</p>
+      <p>{{ about_detail().missionCtx2 }}</p>
     </div>
   </section>
 
   <!-- Sección: Equipa -->
   <section class="team">
-    <h2>Nossa equipe</h2>
+    <h2>{{ about_detail().teamTitle }}</h2>
     <div class="team-grid">
-      @for (member of teamMembers(); track member.key) {
+      @for (member of about_detail().team; track member.key) {
         <div class="team__member">
           <div class="team__member-img">
             @if (member.img) {
@@ -66,7 +49,7 @@
               </div>
             }
           </div>
-          <span class="team__member-role">{{ member.role }}</span>
+          <span class="team__member-role">{{ member.job }}</span>
           <span class="team__member-name">{{ member.name }}</span>
         </div>
       }

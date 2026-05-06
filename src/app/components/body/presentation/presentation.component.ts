@@ -6,7 +6,6 @@ import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { TagStore } from "../../../store/tag/tag.store";
 import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
-import { IMG_DICTIONARY } from "../../../core/dictionary/imag-dictionary";
 
 
 @Component({
@@ -38,11 +37,11 @@ export class PresentationComponent {
     };
 
     return [
-      { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: IMG_DICTIONARY.SLIDE_PROJECTBUILD },
-      { title: text(TAGS_DICTIONARY.SLI_APP_TITLE),          context: text(TAGS_DICTIONARY.SLI_APP_CTX),          imgUrl: IMG_DICTIONARY.SLIDE_APP          },
-      { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE),       context: text(TAGS_DICTIONARY.SLI_REFORM_CTX),       imgUrl: IMG_DICTIONARY.SLIDE_REFORM        },
-      { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE),       context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX),       imgUrl: IMG_DICTIONARY.SLIDE_MANTEN        },
-      { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE),      context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX),      imgUrl: IMG_DICTIONARY.SLIDE_REFORM2       },
+      { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: '' },
+      { title: text(TAGS_DICTIONARY.SLI_APP_TITLE),          context: text(TAGS_DICTIONARY.SLI_APP_CTX),          imgUrl: '' },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE),       context: text(TAGS_DICTIONARY.SLI_REFORM_CTX),       imgUrl: '' },
+      { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE),       context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX),       imgUrl: '' },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE),      context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX),      imgUrl: '' },
     ];
   });
 

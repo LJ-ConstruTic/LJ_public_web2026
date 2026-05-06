@@ -11,7 +11,6 @@ import { LanguageStore } from "../../store/language/language.store";
 import { ComponentAppStore } from "../../store/component/component.store";
 import { TagStore } from "../../store/tag/tag.store";
 import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
-import { IMG_DICTIONARY } from "../../core/dictionary/imag-dictionary";
 
 @Component({
     selector: 'app-header',
@@ -33,9 +32,7 @@ export class HeaderComponent {
     readonly selectedCode = this.languageStore.$selectedCode;
     readonly menu = this.componentStore.$menuConverted;
  
-    readonly logoUrl = computed(() =>
-        this.tagStore.$imgByKey(IMG_DICTIONARY.COMPANY_LOGO_PRINCIPAL)()?.internationalization.imgUrl[0] ?? null
-    );
+    readonly logoUrl = this.tagStore.$img(TAGS_DICTIONARY.COMPANY_LOGO);
 
     constructor() {
         effect(() => {
