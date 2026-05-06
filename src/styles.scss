@@ -146,3 +146,18 @@ h1, h2, h3 {
   --p-carousel-indicator-hover-background: #999;
   --p-carousel-indicator-active-background: var(--primary-color, #2073b4);
 }
+
+.presentation-carousel {
+  .p-carousel-content,
+  .p-carousel-items-content,
+  .p-carousel-items-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .p-carousel-item {
+    padding: 0 !important;
+    width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+}

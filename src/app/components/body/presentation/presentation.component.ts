@@ -14,7 +14,8 @@ import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionar
   imports: [CarouselModule],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './presentation.component.html'
+  templateUrl: './presentation.component.html',
+  styleUrls: ['./presentation.component.scss']
 })
 export class PresentationComponent {
   private tagService = inject(TagService);
