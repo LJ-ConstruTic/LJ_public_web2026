@@ -18,7 +18,7 @@ import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionar
 })
 export class PresentationComponent {
   private tagService = inject(TagService);
-  private readonly tagStore      = inject(TagStore);
+  private readonly tagStore = inject(TagStore);
   private readonly languageStore = inject(LanguageStore);
 
   activeIndex = signal<number>(0);
@@ -36,19 +36,22 @@ export class PresentationComponent {
       return tag ? (tag[lang] || tag['en']) : '';
     };
 
+    const img = (key: TagKey, i = 0): string =>
+      tags.find((t) => t.isActive && t.internationalization.keyLabel === key)?.internationalization.imgUrl[i] ?? '';
+
     return [
-      { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: '' },
-      { title: text(TAGS_DICTIONARY.SLI_APP_TITLE),          context: text(TAGS_DICTIONARY.SLI_APP_CTX),          imgUrl: '' },
-      { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE),       context: text(TAGS_DICTIONARY.SLI_REFORM_CTX),       imgUrl: '' },
-      { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE),       context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX),       imgUrl: '' },
-      { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE),      context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX),      imgUrl: '' },
+      { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE) },
+      { title: text(TAGS_DICTIONARY.SLI_APP_TITLE), context: text(TAGS_DICTIONARY.SLI_APP_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_APP_TITLE) },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE), context: text(TAGS_DICTIONARY.SLI_REFORM_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_REFORM_TITLE) },
+      { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE), context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_MANTEN_TITLE) },
+      { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE), context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_REFORM2_TITLE) },
     ];
   });
 
   goTo(index: number): void {
     this.activeIndex.set(index);
   }
-  
+
 
   ////////////////////////////////////////////////////////////////////////////////
 
