@@ -3,11 +3,12 @@ import { ComponentAppStore } from "../../store/component/component.store";
 import { CommonModule } from "@angular/common";
 import { COMPONENT_DICTIONARY } from "../../core/dictionary/component-dictionary";
 import { TagStore } from "../../store/tag/tag.store";
+import { PresentationComponent } from "./presentation/presentation.component";
 
 @Component({
   selector: "body-page",
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [ CommonModule, PresentationComponent ],
   providers: [ ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './body-page.component.html',

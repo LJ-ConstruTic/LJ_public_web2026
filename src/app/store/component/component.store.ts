@@ -31,7 +31,7 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     );
 
     readonly $activeComponents = computed(() => 
-        this.$items().filter(c => c.isActive).sort((a, b) => a.idx - b.idx)
+        this.$items().filter(comp => comp.isActive).sort((a, b) => a.idx - b.idx)
     );
 
     constructor() {
