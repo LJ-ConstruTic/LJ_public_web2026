@@ -5,6 +5,7 @@ import { TagKey, TAGS_DICTIONARY, TEAM_CONFIG } from "../../../core/dictionary/t
 import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { TeamMemberConfig } from "../../../core/model/tags-dto";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "about-detail",
@@ -17,6 +18,7 @@ import { TeamMemberConfig } from "../../../core/model/tags-dto";
 })
 export class AboutDetailComponent {
   readonly tagStore = inject(TagStore);
+  private readonly router = inject(Router);
   private readonly languageStore = inject(LanguageStore);
 
   private readonly lang = computed(
@@ -56,4 +58,8 @@ export class AboutDetailComponent {
       })),
     };
   });
+
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
 }

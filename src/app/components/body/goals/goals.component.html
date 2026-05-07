@@ -1,0 +1,18 @@
+<div class="goals">
+  <h2 class="goals-title">{{ goals().title }}</h2>
+
+  <div class="goals-grid">
+    <div class="goals-card goals-card-intro">
+      <p class="goals-intro-text">{{ goals().description }}</p>
+    </div>
+
+    @for (step of goals().steps; track step.num; let i = $index) {
+      <div class="goals-card" [ngStyle]="{ 'background-color': colors[i], '--card-color': colors[i], 'color': textColor(colors[i]) }">
+        <span class="goals-num">{{ step.num }}. {{ step.title }}</span>
+        <p class="goals-desc">{{ step.desc }}</p>
+        <i class="goals-icon pi" [ngClass]="icons[i]"></i>
+        <div class="goals-triangle"></div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,92 @@
+.goals {
+  padding: 2rem 0;
+}
+
+.goals-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 0 0 2rem;
+  color: inherit;
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem 1.5rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.goals-card {
+  position: relative;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem 3rem;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  box-sizing: border-box;
+}
+
+.goals-card-intro {
+  background: transparent;
+  border: 2px solid #ccc;
+  padding-bottom: 1.2rem;
+}
+
+.goals-card-intro .goals-triangle {
+  display: none;
+}
+
+.goals-intro-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  color: inherit;
+}
+
+.goals-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: inherit;
+}
+
+.goals-desc {
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+  color: inherit;
+}
+
+.goals-icon {
+  position: absolute;
+  bottom: 0.8rem;
+  right: 1rem;
+  font-size: 1.6rem;
+  opacity: 0.25;
+  color: inherit;
+}
+
+.goals-triangle {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 12px solid var(--card-color);
+  z-index: 2;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
+}

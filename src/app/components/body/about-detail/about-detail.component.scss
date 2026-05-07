@@ -125,3 +125,26 @@
     text-transform: uppercase;
   }
 }
+
+.back-section {
+  display: flex;
+  justify-content: left;
+  padding: 2rem 0 3rem;
+}
+
+.btn-back {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.6rem 1.8rem;
+  font-size: 0.95rem;
+  color: var(--section-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--preto);
+    color: var(--preto);
+    background: rgba(0, 0, 0, 0.03);
+  }
+}

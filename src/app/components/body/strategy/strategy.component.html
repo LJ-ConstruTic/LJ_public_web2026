@@ -1,0 +1,12 @@
+<section class="strategy">
+    <div class="image-container">
+        @if (strategy().img) {
+        <img class="image-style" [src]="strategy().img" alt="Strategy" />
+        }
+    </div>
+    <div class="strategy-content">
+        <h2>{{ strategy().title }}</h2>
+        <p>{{ strategy().ctx1 }}</p>
+        <p>{{ strategy().ctx2 }}</p>
+    </div>
+</section>

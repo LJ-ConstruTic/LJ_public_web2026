@@ -18,8 +18,6 @@
   }
 
   &__title {
-    font-size: clamp(1rem, 2vw, 1.6rem);
-    font-weight: 700;
     line-height: 1.2;
     margin: 0 0 1rem;
     letter-spacing: 0.03em;
@@ -29,7 +27,6 @@
   }
 
   &__text {
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
     line-height: 1.7;
     margin: 0;
     color: var(--ui-text);

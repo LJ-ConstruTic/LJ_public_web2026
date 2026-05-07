@@ -30,11 +30,8 @@
     --ui-hover-text: var(--branco);
 
     // modo oscuro / light en body-page:
-    --section-odd: #f7f7f7;
-    --section-even: #f7f7f7;
+    --bg-page: var(--branco);
     --section-text: var(--preto);
-    --grey-section: #444444;
-    --preto-section: #444444;
 }
 
 body {
@@ -42,6 +39,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: var(--main-font);
+    background-color: var(--bg-page);
 }
 
 html {
@@ -61,9 +59,8 @@ html.app-dark {
     --ui-hover-text: var(--preto);
 
     // body-page
-    --section-odd: var(--grey-section);
-    --section-even: var(--preto-section);
     --section-text: var(--branco);
+    --bg-page: #444444;
 }
 
 html.app-dark .btn-byn {
@@ -72,7 +69,11 @@ html.app-dark .btn-byn {
 }
 
 h1, h2, h3 {
-    font-family: var(--secondary-font);
+  font-family: var(--secondary-font);
+}
+
+strong {
+  font-weight: 700;
 }
 
 .btn-blue {
@@ -110,6 +111,7 @@ h1, h2, h3 {
     margin: 0 auto;
     color: var(--section-text);
     padding: 4rem 2rem;
+    background-color: transparent;
 }
 
 .image-container {

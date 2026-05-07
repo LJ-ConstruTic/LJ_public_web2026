@@ -5,11 +5,12 @@ import { Router } from "@angular/router";
 import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
 import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
+import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
 
 @Component({
   selector: "about",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BoldPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './about.component.html',

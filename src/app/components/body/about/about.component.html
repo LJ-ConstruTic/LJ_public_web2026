@@ -6,7 +6,7 @@
   </div>
 
   <div class="about-content">
-    <p >{{ about().history }}</p>
+    <p [innerHTML]="about().history | bold"></p>
     <button class="btn-byn" (click)="goToAboutDetail()">
       Saiba mais <!-- TODO: traducir -->
     </button>
