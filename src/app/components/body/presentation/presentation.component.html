@@ -1,25 +1,15 @@
-<p-carousel
-  [value]="slides()"
-  [numVisible]="1"
-  [numScroll]="1"
-  [circular]="true"
-  [autoplayInterval]="5000"
-  [showNavigators]="false"
-  [showIndicators]="true"
-
-  styleClass="presentation-carousel">
+<p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="5000"
+  [showNavigators]="false" [showIndicators]="true" styleClass="presentation-carousel">
 
   <ng-template #item let-slide>
     <div class="slide">
-      <div class="slide__text-side">
-        <h1 class="slide__title">{{ slide.title }}</h1>
-      </div>
-      <div class="slide__img-side">
-        @if (slide.imgUrl) {
-          <img [src]="slide.imgUrl" [alt]="slide.title" class="slide__img" />
-        } @else {
-          <div class="slide__img--placeholder"></div>
-        }
+      @if (slide.imgUrl) {
+      <img [src]="slide.imgUrl" [alt]="slide.title" class="slide-img" />
+      } @else {
+      <div class="slide-placeholder"></div>
+      }
+      <div class="slide-overlay">
+        <h1 class="slide-title">{{ slide.title }}</h1>
       </div>
     </div>
   </ng-template>
