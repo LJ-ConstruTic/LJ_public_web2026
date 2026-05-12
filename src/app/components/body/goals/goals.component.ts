@@ -61,7 +61,7 @@ export class GoalsComponent {
         const g = parseInt(hex.slice(3, 5), 16);
         const b = parseInt(hex.slice(5, 7), 16);
         const luminance = (r * 299 + g * 587 + b * 114) / 1000;
-        console.log(`Color: ${hex}, Luminancia: ${luminance}`);
+
         return luminance > 110 ? '#1a1a1a' : '#ffffff';
     }
 }
