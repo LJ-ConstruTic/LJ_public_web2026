@@ -2,8 +2,12 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provid
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
+import { firstValueFrom } from 'rxjs';
+
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors  } from '@angular/common/http';
+
+
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BackendTranslateLoader } from '../assets/i18n/language-translate-loader';
@@ -18,8 +22,29 @@ import { LanguageStore } from './store/language/language.store';
 import { TagStore } from './store/tag/tag.store';
 import { ComponentAppStore } from './store/component/component.store';
 
+// impor service Auth 
+import { AuthService } from '../app/auth/AuthService';
+import { publicJwtInterceptor } from '../app/auth/AuthInterceptor';
+
+
+export function initPublicSession() {
+  return () => {
+    const auth = inject(AuthService);
+
+    // Siempre nueva autenticación al levantar la app
+    auth.clearSession();
+      /*
+      if (auth.getAccessToken()) {
+        return Promise.resolve();
+      }
+      */
+    return firstValueFrom(auth.startPublicSession());
+  };
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    //provideRouter(routes),
     LanguageStore,
     TagStore,
     ComponentAppStore,
@@ -27,8 +52,9 @@ export const appConfig: ApplicationConfig = {
       const tagStore = inject(TagStore);
       tagStore.loadAllTags();
     }),
+
     provideAnimations(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([publicJwtInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })), 
@@ -57,6 +83,12 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(ThemeStore).init();
     }),
-    { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
+    { 
+      provide: API_BASE_URL,//[], 
+      useValue: environment.apiBaseUrl, //http://localhost:8060/v1',//
+      useFactory: initPublicSession,
+      multi: true
+
+    },
   ]
 };
