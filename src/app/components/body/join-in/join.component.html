@@ -4,14 +4,15 @@
   <p class="join-positions">{{ data().positions }}</p>
 
   @if (data().offers.length > 0) {
-    <div class="join-offers">
+    <div class="join-grid">
       @for (offer of data().offers; track offer.title) {
-        <div class="join-offer">
-          <i class="pi pi-briefcase join-offer-icon"></i>
-          <div>
-            <h3 class="join-offer-title">{{ offer.title }}</h3>
-            <p class="join-offer-desc">{{ offer.desc }}</p>
+        <div class="join-card">
+          <div class="join-card-icon">
+            <i class="pi pi-briefcase"></i>
           </div>
+          <h3 class="join-card-title">{{ offer.title }}</h3>
+          <p class="join-card-desc">{{ offer.desc }}</p>
+          <button class="btn-blue join-card-btn">Saiba mais</button>
         </div>
       }
     </div>

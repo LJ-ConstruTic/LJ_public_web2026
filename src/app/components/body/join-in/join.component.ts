@@ -29,14 +29,24 @@ readonly tagStore = inject(TagStore);
     const text = (key: TagKey) =>
       tags.find((t) => t.isActive && t.internationalization.keyLabel === key)?.internationalization.tag[lang] ?? '';
 
+    const offers = tags
+      .filter((t) => t.isActive && t.internationalization.keyLabel.startsWith('JoinTitle'))
+      .map((t) => {
+        const idx = t.internationalization.keyLabel.replace('JoinTitle', '');
+        const descKey = `JoinDesc0${idx}` as TagKey;
+        return {
+          title: t.internationalization.tag[lang] ?? '',
+          desc: tags.find((d) => d.isActive && d.internationalization.keyLabel === descKey)?.internationalization.tag[lang] ?? '',
+        };
+      })
+      .filter((o) => o.title);
+
     return {
-      title:    text(TAGS_DICTIONARY.WE_JOB_WE),
-      subtitle: text(TAGS_DICTIONARY.WE_JOB_BEST_TIC),
+      title:     text(TAGS_DICTIONARY.WE_JOB_WE),
+      subtitle:  text(TAGS_DICTIONARY.WE_JOB_BEST_TIC),
       positions: text(TAGS_DICTIONARY.WE_JOB_UX),
       cta:       text(TAGS_DICTIONARY.WE_JOB_CONTACT),
-      offers: [
-        { title: text(TAGS_DICTIONARY.JOIN_TITLE_0), desc: text(TAGS_DICTIONARY.JOIN_DESC_0) },
-      ],
+      offers,
     };
   });
 }
