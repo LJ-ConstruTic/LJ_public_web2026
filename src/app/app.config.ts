@@ -30,35 +30,37 @@ import { publicJwtInterceptor } from '../app/auth/AuthInterceptor';
 export function initPublicSession() {
   return () => {
     const auth = inject(AuthService);
+    const tagStore = inject(TagStore);
 
     // Siempre nueva autenticación al levantar la app
     auth.clearSession();
-      /*
-      if (auth.getAccessToken()) {
-        return Promise.resolve();
-      }
-      */
-    return firstValueFrom(auth.startPublicSession());
+
+    return firstValueFrom(auth.startPublicSession()).then(() => {tagStore.loadAllTags()}).catch((err) => {
+      console.error('Public session failed:', err);
+    });
   };
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    //provideRouter(routes),
     LanguageStore,
     TagStore,
     ComponentAppStore,
-    provideAppInitializer(() => { // load all tags by default donde sea
-      const tagStore = inject(TagStore);
-      tagStore.loadAllTags();
-    }),
-
+    {
+      provide: API_BASE_URL,
+      useValue: environment.apiBaseUrl,
+    },
     provideAnimations(),
     provideHttpClient(withFetch(), withInterceptors([publicJwtInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })), 
     provideClientHydration(withEventReplay()),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initPublicSession,
+      multi: true,
+    },
     importProvidersFrom(
       TranslateModule.forRoot({
         fallbackLang: 'en',
@@ -83,12 +85,17 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(ThemeStore).init();
     }),
-    { 
-      provide: API_BASE_URL,//[], 
-      useValue: environment.apiBaseUrl, //http://localhost:8060/v1',//
-      useFactory: initPublicSession,
-      multi: true
-
-    },
   ]
 };
+
+
+/*
+
+Chuleta:
+
+1. APP_INITIALIZER → llama a /v1/Login → guarda los tokens en localStorage
+2. El interceptor añade automáticamente el token a cada petición HTTP
+3. Si una petición devuelve 401 (token expirado) → el interceptor llama a /v1/Refresh para renovarlo y reintenta la petición
+4. Si el refresh también falla → hace un login nuevo desde cero
+
+*/

@@ -61,6 +61,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "src/utils/proxy/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "construtic:build:production"
@@ -74,7 +77,11 @@
         "prerender": {
           "builder": "@angular/build:prerender",
           "options": {
-            "routes": [ "/", "/about", "/contact" ]
+            "routes": [
+              "/",
+              "/about",
+              "/contact"
+            ]
           }
         },
         "extract-i18n": {

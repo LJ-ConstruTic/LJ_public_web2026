@@ -24,7 +24,6 @@ export class BodyPageComponent implements OnInit{
 
     ngOnInit() {
         this.componentStore.loadAllComponents();
-        this.tagStore.loadAllTags();
     }
 
     getComponent(name: string): Type<any> | null {
