@@ -1,12 +1,6 @@
 <div class="contact">
   <div class="contact-map">
-    <iframe
-      [src]="mapUrl | safe"
-      width="100%"
-      height="100%"
-      style="border:0;"
-      allowfullscreen
-      loading="lazy"
+    <iframe [src]="mapUrl | safe" width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
       referrerpolicy="no-referrer-when-downgrade">
     </iframe>
   </div>
@@ -19,7 +13,7 @@
       <label>{{ labels().name }} *:</label>
       <input pInputText formControlName="name" [class.input-error]="hasError('name')" />
       @if (hasError('name')) {
-        <small class="error-msg">{{ labels().name }} é obrigatório</small>
+      <small class="error-msg">{{ labels().name }} é obrigatório</small>
       }
     </div>
 
@@ -27,7 +21,7 @@
       <label>{{ labels().phone }} *:</label>
       <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" />
       @if (hasError('phone')) {
-        <small class="error-msg">{{ labels().phone }} é obrigatório</small>
+      <small class="error-msg">{{ labels().phone }} é obrigatório</small>
       }
     </div>
 
@@ -35,10 +29,10 @@
       <label>{{ labels().email }} *:</label>
       <input pInputText formControlName="email" [class.input-error]="hasError('email')" />
       @if (hasError('email') && form.get('email')?.hasError('required')) {
-        <small class="error-msg">{{ labels().email }} é obrigatório</small>
+      <small class="error-msg">{{ labels().email }} é obrigatório</small>
       }
       @if (hasError('email') && form.get('email')?.hasError('email')) {
-        <small class="error-msg">{{ labels().email }} inválido</small>
+      <small class="error-msg">{{ labels().email }} inválido</small>
       }
     </div>
 
@@ -46,12 +40,16 @@
       <label>{{ labels().message }} *:</label>
       <textarea pInputTextarea formControlName="message" rows="5" [class.input-error]="hasError('message')"></textarea>
       @if (hasError('message')) {
-        <small class="error-msg">{{ labels().message }} é obrigatório</small>
+      <small class="error-msg">{{ labels().message }} é obrigatório</small>
       }
     </div>
 
-    <button class="btn-blue" (click)="onSubmit()" [disabled]="submitted() && form.invalid">
-      Enviar
-    </button>
+    @if (sent()) {
+      <p class="success-msg">Mensagem enviada com sucesso!</p>
+    } @else {
+      <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()">
+        {{ sending() ? 'Enviando...' : 'Enviar' }}
+      </button>
+    }
   </div>
 </div>

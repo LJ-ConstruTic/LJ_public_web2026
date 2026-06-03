@@ -95,6 +95,7 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
                 this.componentService.getComponentMenu(codeLanguage).pipe(
                     tap({
                         next: (response) => {
+                            console.log('Component MENU:', response);
                             this.setMenuItems(response.items ?? []);
                             this.setLoading(false);
                         },

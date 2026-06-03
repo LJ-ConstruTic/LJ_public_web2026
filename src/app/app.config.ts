@@ -25,6 +25,8 @@ import { ComponentAppStore } from './store/component/component.store';
 // impor service Auth 
 import { AuthService } from '../app/auth/AuthService';
 import { publicJwtInterceptor } from '../app/auth/AuthInterceptor';
+import { ContactStore } from './store/body/contact.store';
+import { errorInterceptor } from '../utils/interceptor/error.interceptor';
 
 
 export function initPublicSession() {
@@ -46,12 +48,13 @@ export const appConfig: ApplicationConfig = {
     LanguageStore,
     TagStore,
     ComponentAppStore,
+    ContactStore,
     {
       provide: API_BASE_URL,
       useValue: environment.apiBaseUrl,
     },
     provideAnimations(),
-    provideHttpClient(withFetch(), withInterceptors([publicJwtInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([publicJwtInterceptor, errorInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })), 

@@ -62,7 +62,11 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "proxyConfig": "src/utils/proxy/proxy.conf.json"
+            "proxyConfig": "src/utils/proxy/proxy.conf.json",
+            "ssl": false,
+            "headers": {
+              "Content-Security-Policy": ""
+            }
           },
           "configurations": {
             "production": {

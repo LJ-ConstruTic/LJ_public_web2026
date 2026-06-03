@@ -11,5 +11,6 @@ export const routes: Routes = [
     loadComponent: () => import('./components/body/about-detail/about-detail.component').then(m => m.AboutDetailComponent),
   },
   { path: 'about', redirectTo: 'body-page', pathMatch: 'full' },
-  { path: '**', redirectTo: '' },
+  { path: 'not-found', loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent) },
+  { path: '**', redirectTo: 'not-found' },
 ];
