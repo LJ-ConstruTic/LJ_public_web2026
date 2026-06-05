@@ -1,1 +1,54 @@
-footer
+<div class="footer">
+  <div class="footer-main">
+
+    <div class="footer-brand">
+      @if (footer().logo) {
+        <img class="footer-logo" [src]="footer().logo" alt="LJConstruTic" />
+      }
+      <p class="footer-company">{{ footer().company }}</p>
+      <p class="footer-copyright">{{ footer().copyright }} {{ currentYear }}</p>
+    </div>
+
+    <div class="footer-social">
+      @if (footer().instagram) {
+        <a href="#" target="_blank" class="footer-social-link">
+          <img [src]="footer().instagram" alt="Instagram" />
+        </a>
+      }
+      @if (footer().facebook) {
+        <a href="#" target="_blank" class="footer-social-link">
+          <img [src]="footer().facebook" alt="Facebook" />
+        </a>
+      }
+      @if (footer().linkedin) {
+        <a href="#" target="_blank" class="footer-social-link">
+          <img [src]="footer().linkedin" alt="LinkedIn" />
+        </a>
+      }
+    </div>
+
+    <div class="footer-contact">
+      <a class="footer-contact-item" [href]="'tel:' + footer().phone">
+        <i class="pi pi-phone"></i>
+        <span>{{ footer().phone }}</span>
+      </a>
+      <a class="footer-contact-item" [href]="'mailto:' + footer().email">
+        <i class="pi pi-envelope"></i>
+        <span>{{ footer().email }}</span>
+      </a>
+      <span class="footer-contact-item">
+        <i class="pi pi-map-marker"></i>
+        <span>{{ footer().address }}</span>
+      </span>
+    </div>
+
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-legal">
+    <span>Política de privacidade</span>
+    <span>Proteção de dados</span>
+    <span>Política de cookies</span>
+  </div>
+</div>

@@ -1,12 +1,12 @@
-import { ComponentStore } from "@ngrx/component-store";
-import { initialServicesState, ServicesState } from "./services.state";
-import { ComponentService } from "../../core/services/component.service";
 import { inject, Injectable } from "@angular/core";
+import { ComponentStore } from "@ngrx/component-store";
+import { GoalsState, initialGoalsState } from "./goals.state";
+import { ComponentService } from "../../core/services/component.service";
 import { ComponentTagsDescription } from "../../core/model/component-dto";
 import { catchError, EMPTY, switchMap, tap } from "rxjs";
 
 @Injectable()
-export class ServicesStore extends ComponentStore<ServicesState> {
+export class GoalsStore extends ComponentStore<GoalsState> {
     private readonly componentService = inject(ComponentService);
 
     readonly tags$ = this.select((s) => s.tags);
@@ -14,7 +14,7 @@ export class ServicesStore extends ComponentStore<ServicesState> {
     readonly error$ = this.select((s) => s.error);
 
     constructor() {
-        super(initialServicesState);
+        super(initialGoalsState);
     }
 
     // Updaters
@@ -31,7 +31,7 @@ export class ServicesStore extends ComponentStore<ServicesState> {
     }));
 
     // Effect
-    readonly loadServicesTags = this.effect<string>((id$) =>
+    readonly loadGoalsTags = this.effect<string>((id$) =>
         id$.pipe(
             tap(() => {
                 this.setLoading(true);
@@ -41,6 +41,7 @@ export class ServicesStore extends ComponentStore<ServicesState> {
                 this.componentService.getTagsByComponentId(id).pipe(
                     tap((response: any) => {
                         const tags = response?.items ? response : { items: response };
+                        console.log('GOALS tags', tags);
                         this.setTags(tags);
                         this.setLoading(false);
                     }),

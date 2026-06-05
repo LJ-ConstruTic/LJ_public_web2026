@@ -5,6 +5,7 @@ import { LanguageStore } from './store/language/language.store';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ComponentAppStore } from './store/component/component.store';
+import { FooterStore } from './store/main/footer.store';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import { ComponentAppStore } from './store/component/component.store';
   imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  providers: [],
+  providers: [FooterStore],
 })
 export class App implements OnInit {
   private readonly componentStore = inject(ComponentAppStore);

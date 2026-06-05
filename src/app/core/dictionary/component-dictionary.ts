@@ -31,23 +31,22 @@ export const COMPONENT_DICTIONARY: Record<string, Type<any>> = {
   'Goals':   GoalsComponent,
   // 'Goals':   StrategyComponent,
   'Service': ServicesComponent,
-
   'Contact': ContactComponent,
 };
 
 /*
 Oks:
 - Header: Falta enlaces y poner bien Serviços no Servicos
-- Presentation: ok
+- Presentation: Falta quitarlo del diccionario, pero no está en el array de componentes
 - About: OK
-- About-detail: estamos en ello
-- Goals: NO
+- About-detail: estamos en ello, falta ver qué pasa con el Join in
+- Goals: Falta el order y acabar de poner todo correcto
 - Productos: ok, sólo quedan imágenes por enviar
 - Serviços: Le falta el título y los iconos
 - Service-detail: NO
 - Strategy: Debe aparecer en el json del componente
 - Contact: sólo quedaría probar si se pueden enviar cosas
-- Footer: NO
+- Footer: Faltan los enlaces a las redes sociais y las páginas de politica de privacidad
 
 - News: NO
 */

@@ -1,0 +1,133 @@
+// :host ::ng-deep .footer {
+//   padding: 2.5rem 2rem 1rem;
+//   background-color: var(--preto);
+// }
+
+// :host ::ng-deep .footer-main {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr;
+//   gap: 2rem;
+//   align-items: start;
+//   padding-bottom: 2rem;
+// }
+
+// :host ::ng-deep .footer-brand {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0.5rem;
+// }
+
+// :host ::ng-deep .footer-logo {
+//   height: 48px;
+//   width: auto;
+//   object-fit: contain;
+// }
+
+// :host ::ng-deep .footer-company {
+//   align-items: left;
+  
+//   color: var(--branco);
+//   font-size: 0.8rem;
+//   opacity: 0.6;
+//   margin: 0;
+// }
+
+// :host ::ng-deep .footer-copyright {
+//   color: var(--branco);
+//   font-size: 0.75rem;
+//   opacity: 0.5;
+//   margin: 0;
+// }
+
+// :host ::ng-deep .footer-social {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 1.2rem;
+// }
+
+// :host ::ng-deep .footer-social-link {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 36px;
+//   height: 36px;
+//   border-radius: 50%;
+//   border: 1px solid rgba(255, 255, 255, 0.2);
+//   transition: border-color 0.2s ease;
+//   text-decoration: none;
+
+//   &:hover {
+//     border-color: rgba(255, 255, 255, 0.6);
+//   }
+// }
+
+// :host ::ng-deep .footer-social-link img {
+//   width: 18px !important;
+//   height: 18px !important;
+//   filter: brightness(0) invert(1);
+// }
+
+// :host ::ng-deep .footer-contact {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0.6rem;
+//   align-items: flex-end;
+// }
+
+// :host ::ng-deep .footer-contact-item {
+//   display: flex;
+//   align-items: center;
+//   gap: 0.5rem;
+//   font-size: 0.85rem;
+//   color: var(--amarelo);
+//   text-decoration: none;
+
+//   i {
+//     font-size: 0.9rem;
+//   }
+
+//   &:hover {
+//     opacity: 0.8;
+//   }
+// }
+
+// :host ::ng-deep .footer-divider {
+//   color: var(--branco);
+//   border-top: 1px solid rgba(255, 255, 255, 0.15);
+//   margin-bottom: 1rem;
+// }
+
+// :host ::ng-deep .footer-legal {
+//   display: flex;
+//   justify-content: center;
+//   gap: 2rem;
+//   font-size: 0.75rem;
+//   color: var(--branco);
+//   opacity: 0.5;
+//   padding-bottom: 1rem;
+
+//   span {
+//     cursor: pointer;
+
+//     &:hover {
+//       opacity: 1;
+//     }
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .footer-main {
+//     grid-template-columns: 1fr;
+//     text-align: center;
+//   }
+
+//   .footer-contact {
+//     align-items: center;
+//   }
+
+//   .footer-social {
+//     justify-content: center;
+//   }
+// }

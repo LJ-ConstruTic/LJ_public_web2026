@@ -42,7 +42,6 @@ export class ServicesComponent implements OnInit {
 
     ngOnInit(): void {
         const servicesTags = this.componentStore.$items().find((component) => component.idx === 5);
-        console.log('servicesTagsssssssssssssssssss', servicesTags)
         if (servicesTags) {
             this.servicesStore.loadServicesTags(servicesTags.id);
         }
