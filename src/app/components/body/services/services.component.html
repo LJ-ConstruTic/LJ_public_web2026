@@ -1,0 +1,19 @@
+<div class="services">
+  <div class="services-grid">
+    @for (card of services().cards; track $index) {
+      <div class="services-card">
+        <div class="services-card-img">
+          @if (card.img) {
+            <img [src]="card.img" [alt]="card.title" />
+          } @else {
+            <div class="services-card-placeholder"></div>
+          }
+        </div>
+        <div class="services-card-content">
+          <h3 class="services-card-title">{{ card.title }}</h3>
+          <p class="services-card-desc">{{ card.desc }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,22 +1,23 @@
 <div class="component-container">
-<section class="about-section">
+  <!-- Historia -->
+  <section class="about-section">
+    @if (about_detail().historyImg) {
+      <div class="about-section__image">
+        <img [src]="about_detail().historyImg" alt="História" />
+      </div>
+    }
     <div class="about-section__content">
       <h2>{{ about_detail().historyTitle }}</h2>
       <p>{{ about_detail().historyCtx2 }}</p>
       <p>{{ about_detail().historyCtx3 }}</p>
     </div>
-    <!-- @if (weAreImg()) {
-      <div class="about-section__image">
-        <img [src]="weAreImg()" alt="Quem somos" />
-      </div>
-    } -->
   </section>
 
-  <!-- Sección: Nossa visão -->
+  <!-- Visão -->
   <section class="about-section about-section--reversed">
-    @if (about_detail()) {
+    @if (about_detail().visionImg) {
       <div class="about-section__image">
-        <img [src]="about_detail().visionImg" alt="Nossa visão" />
+        <img [src]="about_detail().visionImg" alt="Visão" />
       </div>
     }
     <div class="about-section__content">
@@ -25,8 +26,13 @@
     </div>
   </section>
 
-  <!-- Sección: Nossa missão -->
+  <!-- Missão -->
   <section class="about-section">
+    @if (about_detail().missionImg) {
+      <div class="about-section__image">
+        <img [src]="about_detail().missionImg" alt="Missão" />
+      </div>
+    }
     <div class="about-section__content">
       <h2>{{ about_detail().missionTitle }}</h2>
       <p>{{ about_detail().missionCtx }}</p>
@@ -34,11 +40,11 @@
     </div>
   </section>
 
-  <!-- Sección: Equipa -->
+  <!-- Equipa -->
   <section class="team">
     <h2>{{ about_detail().teamTitle }}</h2>
     <div class="team-grid">
-      @for (member of about_detail().team; track member.key) {
+      @for (member of about_detail().team; track member.name) {
         <div class="team__member">
           <div class="team__member-img">
             @if (member.img) {
@@ -56,9 +62,11 @@
     </div>
   </section>
 
+  <join></join>
+
   <section class="back-section">
     <button class="btn-back" (click)="goBack()">
-      <i class="pi pi-arrow-left"></i> Voltar
+      <i class="pi pi-arrow-left"></i> Voltar <!-- TODO: Traducir -->
     </button>
   </section>
 </div>

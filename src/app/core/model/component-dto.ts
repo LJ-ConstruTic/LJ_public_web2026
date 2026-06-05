@@ -28,7 +28,7 @@ export interface ComponentTagsByLanguage {
 
 export interface ComponentTagDescriptionItem {
     tagId: string;
-    keyLabel: string;
+    keys: string;
     order: number;
     tag: InternationalizationDataModel;
     imgUrl: string[];

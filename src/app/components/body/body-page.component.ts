@@ -23,10 +23,12 @@ export class BodyPageComponent implements OnInit{
     readonly $activeComponents = this.componentStore.$activeComponents;
 
     ngOnInit() {
-        this.componentStore.loadAllComponents();
+        
     }
 
     getComponent(name: string): Type<any> | null {
         return COMPONENT_DICTIONARY[name] ?? null;
+    // getComponent(idx: number): Type<any> | null {
+    //     return COMPONENT_DICTIONARY[idx] ?? null;
     }
 }

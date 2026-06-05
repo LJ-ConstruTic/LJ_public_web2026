@@ -1,26 +1,37 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
 import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
 import { TagStore } from "../../../store/tag/tag.store";
 import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { JoinStore } from "../../../store/body/join.store";
 
 @Component({
-    selector: "join",
-    standalone: true,
-    imports: [CommonModule ],
-    providers: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './join.component.html',
-    styleUrl: './join.component.scss'
+  selector: "join",
+  standalone: true,
+  imports: [CommonModule],
+  providers: [JoinStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './join.component.html',
+  styleUrl: './join.component.scss'
 })
-export class JoinInComponent {
-readonly tagStore = inject(TagStore);
-  private readonly languageStore = inject(LanguageStore);
+export class JoinInComponent implements OnInit {
+  readonly tagStore = inject(TagStore);
+  readonly joinInStore = inject(JoinStore);
+  readonly languageStore = inject(LanguageStore);
+  readonly componentStore = inject(ComponentAppStore);
 
   private readonly lang = computed(
     () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
   );
+
+  ngOnInit(): void {
+    const joinTags = this.componentStore.$items().find((component) => component.idx === 7);
+    if (joinTags) {
+      this.joinInStore.loadJoinTags(joinTags.id);
+    }
+  }
 
   readonly data = computed(() => {
     const lang = this.lang();
@@ -42,10 +53,10 @@ readonly tagStore = inject(TagStore);
       .filter((o) => o.title);
 
     return {
-      title:     text(TAGS_DICTIONARY.WE_JOB_WE),
-      subtitle:  text(TAGS_DICTIONARY.WE_JOB_BEST_TIC),
+      title: text(TAGS_DICTIONARY.WE_JOB_WE),
+      subtitle: text(TAGS_DICTIONARY.WE_JOB_BEST_TIC),
       positions: text(TAGS_DICTIONARY.WE_JOB_UX),
-      cta:       text(TAGS_DICTIONARY.WE_JOB_CONTACT),
+      cta: text(TAGS_DICTIONARY.WE_JOB_CONTACT),
       offers,
     };
   });

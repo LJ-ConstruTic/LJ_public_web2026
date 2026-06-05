@@ -80,8 +80,9 @@ export class TagStore extends ComponentStore<TagState> {
                 this.tagService.getAllTags().pipe(
                     tap({
                         next: (response) => {
-                            console.log('✅ getAllTags:', response);
-                            this.setTags(response.items ?? []);
+                            const tags = response?.items ?? response;
+                            console.log('✅ getAllTags:', tags);
+                            this.setTags(tags);
                             this.setTotal(response.size ?? 0);
                             this.setLoading(false);
                         },

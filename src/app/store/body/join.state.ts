@@ -1,17 +1,13 @@
 import { ComponentTagsDescription } from "../../core/model/component-dto";
 
-export interface ContactState {
+export interface JoinState {
   tags: ComponentTagsDescription | null;
   loading: boolean;
-  sending: boolean;
-  sent: boolean;
   error: string | null;
 }
 
-export const initialContactState: ContactState = {
+export const initialJoinState: JoinState = {
   tags: null,
   loading: false,
-  sending: false,
-  sent: false,
   error: null,
 };

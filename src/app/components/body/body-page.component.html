@@ -10,7 +10,8 @@
             <presentation/>
         } @else {
             <div class="component-container">
-                <ng-container *ngComponentOutlet="getComponent(component.name)" />
+                <!-- <ng-container *ngComponentOutlet="getComponent(component.idx)" /> -->
+                <ng-container *ngComponentOutlet="getComponent(component.name)"/>
             </div>
         }
     </section>

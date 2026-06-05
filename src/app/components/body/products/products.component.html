@@ -1,0 +1,16 @@
+<div class="products">
+    <h2 class="products-title">{{ products().title }}</h2>
+    <p class="products-subtitle">{{ products().subtitle }}</p>
+
+    <div class="products-grid">
+        @for (product of products().products; track product.title) {
+        <div class="products-card">
+            <div class="products-card-img">
+                <img [src]="product.img" [alt]="product.title" />
+            </div>
+            <h3 class="products-card-title">{{ product.title }}</h3>
+        </div>
+        }
+    </div>
+    <p class="products-subtitle">{{ products().subtitle2 }}</p>
+</div>

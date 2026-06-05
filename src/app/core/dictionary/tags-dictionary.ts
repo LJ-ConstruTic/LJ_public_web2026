@@ -86,17 +86,6 @@ export const TAGS_DICTIONARY = {
     WE_JOB_CONTACT: 'weJobContac',
     WE_JOB_BEST_TIC: 'weJobBestTic',
 
-    // ── Team ──────────────────────────────────────
-    WE_ARE_NAME_0: 'WeAreName0',
-    WE_ARE_JOB_0: 'WeAreJob0',
-    WE_ARE_NAME_1: 'WeAreName1',
-    WE_ARE_JOB_1: 'WeAreJob1',
-    WE_ARE_NAME_2: 'WeAreName2',
-    WE_ARE_JOB_2: 'WeAreJob2',
-    WE_ARE_NAME_3: 'WeAreName3',
-    WE_ARE_JOB_3: 'WeAreJob3',
-    WE_ARE_NAME_4: 'WeAreName4',
-
     // ── Services ──────────────────────────────────
     SERV_BUILD: 'servBuild',
     SERV_BUILD_CTX: 'servBuildContext',
@@ -133,9 +122,3 @@ export const TAGS_DICTIONARY = {
 } as const;
 
 export type TagKey = typeof TAGS_DICTIONARY[keyof typeof TAGS_DICTIONARY];
-
-export const TEAM_CONFIG: TeamMemberConfig[] = [
-  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_2, jobKey: TAGS_DICTIONARY.WE_ARE_JOB_2 },
-  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_3, jobKey: TAGS_DICTIONARY.WE_ARE_JOB_3 },
-  { nameKey: TAGS_DICTIONARY.WE_ARE_NAME_4, },
-];

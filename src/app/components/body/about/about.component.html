@@ -1,7 +1,7 @@
 <div class="about">
   <div class="image-container">
-    @if (weAreImgUrl()) {
-      <img class="image-style" [src]="weAreImgUrl()" alt="Who we are" />
+    @if (about().weAreImg) {
+      <img class="image-style" [src]="about().weAreImg" alt="Who we are" />
     }
   </div>
 

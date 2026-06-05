@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { ComponentDataModel, ComponentMenuItem, ComponentTagsByLanguage, ComponentTagsDescription } from "../model/component-dto";
 import { CommonModelResponse } from "../model/common-response-dto";
 import { AbstractApiService } from "./abstract-api.service";
@@ -8,7 +8,7 @@ import { AbstractApiService } from "./abstract-api.service";
 @Injectable({
     providedIn: 'root'
 })
-export class ComponentService extends AbstractApiService{
+export class ComponentService extends AbstractApiService {
     constructor() {
         super('/Component');
     }
@@ -38,7 +38,8 @@ export class ComponentService extends AbstractApiService{
     getTagsByComponentId(componentId: string): Observable<ComponentTagsDescription> {
         if (!componentId) throw new Error('Missing required param: componentId');
 
-        return this.get<ComponentTagsDescription>(`/tags/${encodeURIComponent(componentId)}`
+        return this.get<any>(`/tags/${encodeURIComponent(componentId)}`).pipe(
+            map((response) => response?.items ?? response)
         );
     }
 
@@ -49,6 +50,6 @@ export class ComponentService extends AbstractApiService{
 
         const params = new HttpParams().set('codeLanguage', String(codeLanguage));
 
-        return this.get<CommonModelResponse<ComponentMenuItem>>(`/menu`,{ params });
+        return this.get<CommonModelResponse<ComponentMenuItem>>(`/menu`, { params });
     }
 }

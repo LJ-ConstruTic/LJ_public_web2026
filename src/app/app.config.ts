@@ -48,7 +48,6 @@ export const appConfig: ApplicationConfig = {
     LanguageStore,
     TagStore,
     ComponentAppStore,
-    ContactStore,
     {
       provide: API_BASE_URL,
       useValue: environment.apiBaseUrl,

@@ -11,12 +11,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { ContactStore } from "../../../store/body/contact.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { filter, take } from "rxjs";
+import { ComponentAppStore } from "../../../store/component/component.store";
 
 @Component({
     selector: "contact",
     standalone: true,
     imports: [CommonModule, InputTextModule, ButtonModule, SafePipe, ReactiveFormsModule],
-    providers: [],
+    providers: [ContactStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './contact.component.html',
     styleUrl: './contact.component.scss'
@@ -25,36 +26,54 @@ export class ContactComponent {
     readonly tagStore = inject(TagStore);
     readonly contactStore = inject(ContactStore);
     readonly languageStore = inject(LanguageStore);
+    readonly componentStore = inject(ComponentAppStore);
 
     private readonly fb = inject(FormBuilder);
 
     readonly sending = toSignal(this.contactStore.sending$, { initialValue: false });
     readonly sent = toSignal(this.contactStore.sent$, { initialValue: false });
+    private readonly items = toSignal(this.contactStore.tags$, { initialValue: null });
 
     submitted = signal(false);
 
-
-    readonly mapUrl = 'https://maps.google.com/maps?q=-12.3644,13.5360&z=15&output=embed';
+    ngOnInit(): void {
+        const contact = this.componentStore.$items().find((component) => component.idx === 9);
+        if (contact) {
+        this.contactStore.loadContactTags(contact.id);
+        }
+    }
 
     private readonly lang = computed(
         () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
     );
 
 
-    readonly labels = computed(() => {
-        const lang = this.lang();
-        const tags = this.tagStore.$tags();
+    private readonly contactItems = computed(() => {
+    const lang = this.lang();
+    const raw = this.items();
+    return (Array.isArray(raw) ? raw : raw?.items ?? [])
+        .sort((a, b) => a.order - b.order)
+        .map((i) => ({
+            keys: i.keys,
+            text: i.tag[lang] ?? '',
+            img:  i.imgUrl[0] ?? null,
+        }));
+    });
 
-        const text = (key: TagKey) =>
-            tags.find((t) => t.isActive && t.internationalization.keyLabel === key)?.internationalization.tag[lang] ?? '';
+    readonly label = computed(() => {
+        const items = this.contactItems();
+        const find    = (keys: string) => items.find((i) => i.keys === keys)?.text ?? '';
+        const findImg = (keys: string) => items.find((i) => i.keys === keys)?.img  ?? '';
 
         return {
-            title: text(TAGS_DICTIONARY.CONT_MORE_INFO),
-            subtitle: text(TAGS_DICTIONARY.CONT_WE_HELP),
-            name: text(TAGS_DICTIONARY.CONT_NAME),
-            phone: text(TAGS_DICTIONARY.CONT_TEL),
-            email: text(TAGS_DICTIONARY.CONT_EMAIL),
-            message: text(TAGS_DICTIONARY.CONT_MESSAGE),
+            title:    find('contMoreInfo'),
+            subtitle: find('contWeHelp'),
+            name:     find('contName'),
+            phone:    find('contTel'),
+            email:    find('contEmail'),
+            message:  find('contMessage'),
+            btnSend:  find('btnSendContactForm'),
+            mapUrl:   findImg('mapContatFormUrl'),
         };
     });
 
