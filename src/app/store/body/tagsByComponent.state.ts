@@ -1,12 +1,12 @@
 import { ComponentTagsDescription } from "../../core/model/component-dto";
 
-export interface ProductsState {
+export interface ComponentTagState {
   tags: ComponentTagsDescription | null;
   loading: boolean;
   error: string | null;
 }
 
-export const initialProductsState: ProductsState = {
+export const initialComponentTagState: ComponentTagState = {
   tags: null,
   loading: false,
   error: null,

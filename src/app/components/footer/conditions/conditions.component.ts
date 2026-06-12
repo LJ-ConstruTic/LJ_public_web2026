@@ -5,24 +5,24 @@ import { LanguageStore } from "../../../store/language/language.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
+import { FooterStore } from "../../../store/main/footer.store";
 
 @Component({
     selector: "products",
     standalone: true,
     imports: [CommonModule],
-    providers: [GetComponentTagsStore],
+    providers: [FooterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './product-detail.component.html',
-    styleUrl: './product-detail.component.scss'
+    templateUrl: './conditions.component.html',
+    styleUrl: './conditions.component.scss'
 })
-export class ProductDetailComponent implements OnInit {
+export class ConditionsComponent implements OnInit {
     readonly tagStore = inject(TagStore);
     readonly languageStore = inject(LanguageStore);
-    readonly productsStore = inject(GetComponentTagsStore);
+    readonly footerStore = inject(FooterStore);
     readonly componentStore = inject(ComponentAppStore);
 
-    private readonly items = toSignal(this.productsStore.tags$, { initialValue: null });
+    private readonly items = toSignal(this.footerStore.tags$, { initialValue: null });
 
     private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
 
@@ -47,9 +47,9 @@ export class ProductDetailComponent implements OnInit {
     });
 
     ngOnInit(): void {
-        const productsTags = this.componentStore.$items().find((component) => component.idx === 12);
+        const productsTags = this.componentStore.$items().find((component) => component.idx === 19);
         if (productsTags) {
-            this.productsStore.loadComponentTags(productsTags.id);
+            this.footerStore.loadFooterTags(productsTags.id);
         }
     }
 

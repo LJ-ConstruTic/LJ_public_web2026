@@ -1,18 +1,17 @@
 import { CommonModule, NgStyle } from "@angular/common";
-import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { TagStore } from "../../../store/tag/tag.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { GoalsStore } from "../../../store/body/goals.store";
+import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 @Component({
     selector: "goals",
     standalone: true,
     imports: [CommonModule],
-    providers: [GoalsStore],
+    providers: [GetComponentTagsStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     templateUrl: './goals.component.html',
@@ -21,7 +20,7 @@ import { GoalsStore } from "../../../store/body/goals.store";
 export class GoalsComponent implements OnInit {
     readonly tagStore = inject(TagStore);
     readonly languageStore = inject(LanguageStore);
-    readonly goalsStore = inject(GoalsStore);
+    readonly goalsStore = inject(GetComponentTagsStore);
     readonly componentStore = inject(ComponentAppStore);
 
     private readonly items = toSignal(this.goalsStore.tags$, { initialValue: null });
@@ -64,7 +63,7 @@ export class GoalsComponent implements OnInit {
     ngOnInit(): void {
         const goalsTags = this.componentStore.$items().find((component) => component.idx === 4);
         if (goalsTags) {
-            this.goalsStore.loadGoalsTags(goalsTags.id);
+            this.goalsStore.loadComponentTags(goalsTags.id);
         }
     }
 

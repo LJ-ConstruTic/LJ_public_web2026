@@ -8,6 +8,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { StrategyComponent } from "../../components/body/strategy/strategy.component";
 import { ProductsComponent } from "../../components/body/products/products.component";
 import { ServicesComponent } from "../../components/body/services/services.component";
+import { ProductDetailComponent } from "../../components/body/product-detail/product-detail.component";
+import { ConditionsComponent } from "../../components/footer/conditions/conditions.component";
 
 // Cuando esté bien lo de los componentes, poner este primero:
 
@@ -32,6 +34,8 @@ export const COMPONENT_DICTIONARY: Record<string, Type<any>> = {
   // 'Goals':   StrategyComponent,
   'Service': ServicesComponent,
   'Contact': ContactComponent,
+  'Product Detail': ProductDetailComponent,
+  'Termos e Condições ':ConditionsComponent
 };
 
 /*

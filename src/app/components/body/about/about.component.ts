@@ -6,15 +6,15 @@ import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionar
 import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
-import { WeAreStore } from "../../../store/body/we-are.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 @Component({
   selector: "about",
   standalone: true,
   imports: [CommonModule, BoldPipe],
-  providers: [WeAreStore],
+  providers: [GetComponentTagsStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './about.component.html',
@@ -24,7 +24,7 @@ export class AboutComponent implements OnInit {
   readonly tagStore = inject(TagStore);
   readonly languageStore = inject(LanguageStore);
   readonly router = inject(Router);
-  readonly weAreStore = inject(WeAreStore);
+  readonly weAreStore = inject(GetComponentTagsStore);
   readonly componentStore = inject(ComponentAppStore);
 
   private readonly items = toSignal(this.weAreStore.tags$, { initialValue: null });
@@ -45,7 +45,7 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     const weAre = this.componentStore.$items().find((component) => component.idx === 3);
     if (weAre) {
-      this.weAreStore.loadWeAreTags(weAre.id);
+      this.weAreStore.loadComponentTags(weAre.id);
     }
   }
 

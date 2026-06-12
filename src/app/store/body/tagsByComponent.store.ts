@@ -1,16 +1,16 @@
 import { inject, Injectable } from "@angular/core";
 import { ComponentStore } from "@ngrx/component-store";
-import { initialProductsState, ProductsState } from "./products.state";
+import { ComponentTagState, initialComponentTagState } from "./tagsByComponent.state";
 import { ComponentService } from "../../core/services/component.service";
 import { ComponentTagsDescription } from "../../core/model/component-dto";
 import { catchError, EMPTY, switchMap, tap } from "rxjs";
 
 @Injectable()
-export class ProductsStore extends ComponentStore<ProductsState> {
+export class GetComponentTagsStore extends ComponentStore<ComponentTagState> {
     private readonly componentService = inject(ComponentService);
 
     constructor() {
-        super(initialProductsState);
+        super(initialComponentTagState);
     }
 
     readonly tags$ = this.select((s) => s.tags);
@@ -30,7 +30,7 @@ export class ProductsStore extends ComponentStore<ProductsState> {
     }));
 
     // Effect
-    readonly loadProductsTags = this.effect<string>((id$) =>
+    readonly loadComponentTags = this.effect<string>((id$) =>
         id$.pipe(
             tap(() => {
                 this.setLoading(true);
@@ -40,6 +40,7 @@ export class ProductsStore extends ComponentStore<ProductsState> {
                 this.componentService.getTagsByComponentId(id).pipe(
                     tap((response: any) => {
                         const tags = response?.items ? response : { items: response };
+                        console.log('Component tags', tags);
                         this.setTags(tags);
                         this.setLoading(false);
                     }),

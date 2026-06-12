@@ -5,20 +5,20 @@ import { TagStore } from "../../../store/tag/tag.store";
 import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { ComponentAppStore } from "../../../store/component/component.store";
-import { JoinStore } from "../../../store/body/join.store";
+import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 @Component({
   selector: "join",
   standalone: true,
   imports: [CommonModule],
-  providers: [JoinStore],
+  providers: [GetComponentTagsStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './join.component.html',
   styleUrl: './join.component.scss'
 })
 export class JoinInComponent implements OnInit {
   readonly tagStore = inject(TagStore);
-  readonly joinInStore = inject(JoinStore);
+  readonly joinInStore = inject(GetComponentTagsStore);
   readonly languageStore = inject(LanguageStore);
   readonly componentStore = inject(ComponentAppStore);
 
@@ -29,7 +29,7 @@ export class JoinInComponent implements OnInit {
   ngOnInit(): void {
     const joinTags = this.componentStore.$items().find((component) => component.idx === 7);
     if (joinTags) {
-      this.joinInStore.loadJoinTags(joinTags.id);
+      this.joinInStore.loadComponentTags(joinTags.id);
     }
   }
 

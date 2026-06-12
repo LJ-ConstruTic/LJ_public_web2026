@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
 import { TagStore } from "../../../store/tag/tag.store";
 import { LanguageStore } from "../../../store/language/language.store";
-import { ProductsStore } from "../../../store/body/products.store";
+import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { toSignal } from "@angular/core/rxjs-interop";
@@ -11,7 +11,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
     selector: "products",
     standalone: true,
     imports: [CommonModule],
-    providers: [ProductsStore],
+    providers: [GetComponentTagsStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './products.component.html',
     styleUrl: './products.component.scss'
@@ -19,7 +19,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 export class ProductsComponent implements OnInit {
     readonly tagStore = inject(TagStore);
     readonly languageStore = inject(LanguageStore);
-    readonly productsStore = inject(ProductsStore);
+    readonly productsStore = inject(GetComponentTagsStore);
     readonly componentStore = inject(ComponentAppStore);
 
     private readonly items = toSignal(this.productsStore.tags$, { initialValue: null });
@@ -28,30 +28,28 @@ export class ProductsComponent implements OnInit {
 
     readonly products = computed(() => {
         const lang = this.lang();
-        const rawItems = this.items()?.items ?? [];
+    const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
 
-        const byOrder = (order: number) => rawItems.find((i) => i.order === order);
+    const text = (i: typeof rawItems[0]) => i?.tag[lang] ?? '';
 
-        const products = rawItems
-            .filter((i) => i.order >= 3 && i.imgUrl.length > 0)
-            .sort((a, b) => a.order - b.order)
-            .map((i) => ({
-                title: i.tag[lang] ?? '',
-                img: i.imgUrl[0],
-            }));
+    const productItems = rawItems.filter((i) => i.imgUrl.length > 0);
+    const textItems = rawItems.filter((i) => i.imgUrl.length === 0);
 
-        return {
-            title: byOrder(1)?.tag[lang] ?? '',
-            subtitle: byOrder(2)?.tag[lang] ?? '',
-            subtitle2: byOrder(6)?.tag[lang] ?? '',
-            products,
-        };
+    return {
+        title: text(textItems[0]),
+        subtitle: text(textItems[1]),
+        subtitle2: text(textItems[textItems.length - 1]),
+        products: productItems.map((i) => ({
+            title: text(i),
+            img: i.imgUrl[0],
+        })),
+    };
     });
 
     ngOnInit(): void {
         const productsTags = this.componentStore.$items().find((component) => component.idx === 6);
         if (productsTags) {
-            this.productsStore.loadProductsTags(productsTags.id);
+            this.productsStore.loadComponentTags(productsTags.id);
         }
     }
 

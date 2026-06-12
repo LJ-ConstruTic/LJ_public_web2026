@@ -1,50 +1,29 @@
 <div class="component-container">
   <!-- Historia -->
-  <section class="about-section">
-    @if (about_detail().historyImg) {
-      <div class="about-section__image">
-        <img [src]="about_detail().historyImg" alt="História" />
+  @for (section of sections(); track $index) {
+    <section
+      class="about-section"
+      [class.about-section--reversed]="$index % 2 !== 0"
+    >
+      @if (section.img) {
+        <div class="about-section__image">
+          <img [src]="section.img" [alt]="section.title" />
+        </div>
+      }
+      <div class="about-section__content">
+        <h2>{{ section.title }}</h2>
+        @for (p of section.paragraphs; track $index) {
+          <p>{{ p }}</p>
+        }
       </div>
-    }
-    <div class="about-section__content">
-      <h2>{{ about_detail().historyTitle }}</h2>
-      <p>{{ about_detail().historyCtx2 }}</p>
-      <p>{{ about_detail().historyCtx3 }}</p>
-    </div>
-  </section>
-
-  <!-- Visão -->
-  <section class="about-section about-section--reversed">
-    @if (about_detail().visionImg) {
-      <div class="about-section__image">
-        <img [src]="about_detail().visionImg" alt="Visão" />
-      </div>
-    }
-    <div class="about-section__content">
-      <h2>{{ about_detail().visionTitle }}</h2>
-      <p>{{ about_detail().visionCtx }}</p>
-    </div>
-  </section>
-
-  <!-- Missão -->
-  <section class="about-section">
-    @if (about_detail().missionImg) {
-      <div class="about-section__image">
-        <img [src]="about_detail().missionImg" alt="Missão" />
-      </div>
-    }
-    <div class="about-section__content">
-      <h2>{{ about_detail().missionTitle }}</h2>
-      <p>{{ about_detail().missionCtx }}</p>
-      <p>{{ about_detail().missionCtx2 }}</p>
-    </div>
-  </section>
+    </section>
+  }
 
   <!-- Equipa -->
   <section class="team">
-    <h2>{{ about_detail().teamTitle }}</h2>
+    <h2>{{ teamSection().teamTitle }}</h2>
     <div class="team-grid">
-      @for (member of about_detail().team; track member.name) {
+      @for (member of teamSection().members; track member.name) {
         <div class="team__member">
           <div class="team__member-img">
             @if (member.img) {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, OnInit, signal } from "@angular/core";
 import { TagService } from "../../../core/services/tags.service";
 import { CarouselModule } from "primeng/carousel";
 import { TranslatedSlide } from "../../../core/model/slide-dto";
@@ -6,27 +6,34 @@ import { LanguageStore } from "../../../store/language/language.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { TagStore } from "../../../store/tag/tag.store";
 import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 
 @Component({
   selector: "presentation",
   standalone: true,
   imports: [CarouselModule],
-  providers: [],
+  providers: [GetComponentTagsStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './presentation.component.html',
   styleUrls: ['./presentation.component.scss']
 })
-export class PresentationComponent {
-  private tagService = inject(TagService);
-  private readonly tagStore = inject(TagStore);
-  private readonly languageStore = inject(LanguageStore);
+export class PresentationComponent implements OnInit{
+  readonly tagStore = inject(TagStore);
+  readonly weAreStore = inject(GetComponentTagsStore);
+  readonly languageStore = inject(LanguageStore);
+  private readonly componentStore = inject(ComponentAppStore);
+  private readonly injector = inject(Injector);
+
+  private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+
+  private readonly items = toSignal(this.weAreStore.tags$, { initialValue: null });
 
   activeIndex = signal<number>(0);
 
-  private readonly lang = computed(
-    () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel // current lang
-  );
+  // Faltará coger los datos a partir del componente
 
   readonly slides = computed<TranslatedSlide[]>(() => {
     const lang = this.lang();
@@ -49,25 +56,20 @@ export class PresentationComponent {
     ];
   });
 
+    ngOnInit(): void {
+      effect(() => {
+        const items = this.componentStore.$items();
+        if (items.length === 0) return;
+
+        const weAre = items.find((c) => c.idx === 3);
+        if (weAre) {
+          this.weAreStore.loadComponentTags(weAre.id);
+        }
+      }, { injector: this.injector });
+    }
+
   goTo(index: number): void {
     this.activeIndex.set(index);
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////////////
-
-  testGetAllTags(): void {
-    this.tagService.getAllTags().subscribe({
-      next: (response) => console.log('✅ getAllTags:', response),
-      error: (err) => console.error('❌ Error getAllTags:', err),
-    });
-  }
-
-  testGetTagById(id: number): void {
-    this.tagService.getTagById(id).subscribe({
-      next: (tag) => console.log(`✅ getTagById(${id}):`, tag),
-      error: (err) => console.error(`❌ Error getTagById(${id}):`, err),
-    });
   }
 
 }
