@@ -27,7 +27,8 @@
 
 .join-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  justify-content: center;
   gap: 1.5rem;
   margin: 0 0 2rem;
 }

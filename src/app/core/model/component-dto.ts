@@ -32,6 +32,7 @@ export interface ComponentTagDescriptionItem {
     order: number;
     tag: InternationalizationDataModel;
     imgUrl: string[];
+    tagHtml?: string;
 }
 
 export interface ComponentTagsDescription {

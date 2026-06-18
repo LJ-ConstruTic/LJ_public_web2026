@@ -1,8 +1,4 @@
-Falta mirar que los textos sean correctos
 <div class="join">
-  <p class="join-subtitle">{{ data().subtitle }}</p>
-  <p class="join-positions">{{ data().positions }}</p>
-
   @if (data().offers.length > 0) {
     <div class="join-grid">
       @for (offer of data().offers; track offer.title) {
@@ -17,6 +13,4 @@ Falta mirar que los textos sean correctos
       }
     </div>
   }
-
-  <p class="join-cta">{{ data().cta }}</p>
 </div>

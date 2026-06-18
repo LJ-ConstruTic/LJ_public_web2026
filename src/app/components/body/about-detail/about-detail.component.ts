@@ -37,9 +37,7 @@ export class AboutDetailComponent {
     const lang = this.lang();
     const rawItems = this.items()?.items ?? [];
 
-    const sectionItems = rawItems.filter(
-      (i) => i.order >= 2 && !/^WeAre(Name|Job)\d+$/.test(i.keys)
-    );
+    const sectionItems = rawItems.filter((i) => i.order >= 2 && i.order <= 10);
 
     const result: AboutSection[] = [];
     let current: AboutSection | null = null;

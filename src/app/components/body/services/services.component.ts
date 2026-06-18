@@ -29,10 +29,13 @@ export class ServicesComponent implements OnInit {
         const lang = this.lang();
         const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
 
+        const sectionTitle = rawItems.find((i) => i.order === 1)?.tag[lang] ?? '';
+        const cardItems = rawItems.filter((i) => i.order > 1);
+
         const cards = [];
-        for (let i = 0; i < rawItems.length; i += 2) {
-            const title = rawItems[i];
-            const desc = rawItems[i + 1];
+        for (let i = 0; i < cardItems.length; i += 2) {
+            const title = cardItems[i];
+            const desc = cardItems[i + 1];
             if (!title) continue;
             cards.push({
                 title: title.tag[lang] ?? '',
@@ -41,7 +44,7 @@ export class ServicesComponent implements OnInit {
             });
         }
 
-        return { cards };
+        return { sectionTitle, cards };
     });
 
     ngOnInit(): void {
