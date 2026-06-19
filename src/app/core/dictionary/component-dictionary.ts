@@ -10,6 +10,13 @@ import { ProductsComponent } from "../../components/body/products/products.compo
 import { ServicesComponent } from "../../components/body/services/services.component";
 import { ProductDetailComponent } from "../../components/body/product-detail/product-detail.component";
 import { ConditionsComponent } from "../../components/footer/conditions/conditions.component";
+import { NewsComponent } from "../../components/body/news/news.component";
+import { CookiesComponent } from "../../components/footer/cookies/cookies.component";
+import { DataProtectionComponent } from "../../components/footer/data-protection/data-protection.component";
+import { PrivacityComponent } from "../../components/footer/privacity/privacity.component";
+import { TeamComponent } from "../../components/body/team/team.component";
+import { ServicesDetailComponent } from "../../components/body/services-detail/services-detail.component";
+import { JoinInDetailComponent } from "../../components/body/join-in-detail/join-in-detail.component";
 
 // Cuando esté bien lo de los componentes, poner este primero:
 
@@ -29,13 +36,20 @@ import { ConditionsComponent } from "../../components/footer/conditions/conditio
 
 export const COMPONENT_DICTIONARY: Record<string, Type<any>> = {
   'We Are':  AboutComponent,
+  'Team': TeamComponent,
   'Product': ProductsComponent,
   'Goals':   GoalsComponent,
-  // 'Goals':   StrategyComponent,
+  'Reviews Client':   NewsComponent,
+  'Strategy':   StrategyComponent,
   'Service': ServicesComponent,
+  'Service Detail':   ServicesDetailComponent,
   'Contact': ContactComponent,
   'Product Detail': ProductDetailComponent,
-  'Termos e Condições ':ConditionsComponent
+  'Termos e Condições ':ConditionsComponent,
+  'Política de cookies': CookiesComponent,
+  'Proteçao de Dados': DataProtectionComponent,
+  'Políticas de Privacidades': PrivacityComponent,
+  'Join In Detail': JoinInDetailComponent
 };
 
 /*

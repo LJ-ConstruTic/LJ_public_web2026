@@ -3,27 +3,17 @@
 
     <div class="footer-brand">
       @if (footer().logo) {
-        <img class="footer-logo" [src]="footer().logo" alt="LJConstruTic" />
+      <img class="footer-logo" [src]="footer().logo" alt="LJConstruTic" />
       }
       <p class="footer-company">{{ footer().company }}</p>
       <p class="footer-copyright">{{ footer().copyright }} {{ currentYear }}</p>
     </div>
 
     <div class="footer-social">
-      @if (footer().instagram) {
-        <a href="#" target="_blank" class="footer-social-link">
-          <img [src]="footer().instagram" alt="Instagram" />
-        </a>
-      }
-      @if (footer().facebook) {
-        <a href="#" target="_blank" class="footer-social-link">
-          <img [src]="footer().facebook" alt="Facebook" />
-        </a>
-      }
-      @if (footer().linkedin) {
-        <a href="#" target="_blank" class="footer-social-link">
-          <img [src]="footer().linkedin" alt="LinkedIn" />
-        </a>
+      @for (social of footer().socials; track social.url) {
+      <a [href]="social.url" target="_blank" class="footer-social-link">
+        <img [src]="social.icon" [alt]="social.alt" />
+      </a>
       }
     </div>
 

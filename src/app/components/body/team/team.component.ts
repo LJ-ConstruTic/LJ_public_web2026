@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
@@ -7,35 +7,39 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 @Component({
-    selector: "conditions",
+    selector: "team",
     standalone: true,
     imports: [CommonModule],
     providers: [GetComponentTagsStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './conditions.component.html',
-    styleUrl: './conditions.component.scss'
+    templateUrl: './team.component.html',
+    styleUrls: ['./team.component.scss']
 })
-export class ConditionsComponent implements OnInit {
+export class TeamComponent {
     readonly languageStore = inject(LanguageStore);
-    readonly conditionsStore = inject(GetComponentTagsStore);
+    readonly teamStore = inject(GetComponentTagsStore);
     readonly componentStore = inject(ComponentAppStore);
+    private readonly injector = inject(Injector);
 
-    private readonly items = toSignal(this.conditionsStore.tags$, { initialValue: null });
     private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    private readonly items = toSignal(this.teamStore.tags$, { initialValue: null });
 
-    readonly content = computed(() => {
+    readonly members = computed(() => {
         const lang = this.lang();
         return [...(this.items()?.items ?? [])]
             .sort((a, b) => a.order - b.order)
             .map(i => ({
-                tagHtml: i.tagHtml,
-                text: i.tag[lang] ?? '',
+                name: i.tag[lang] ?? '',
+                img: i.imgUrl[0] ?? null,
             }));
     });
 
-    ngOnInit(): void {
-        const tags = this.componentStore.$items().find((c) => c.idx === 19);
-        if (tags) this.conditionsStore.loadComponentTags(tags.id);
+    constructor() {
+        effect(() => {
+            const items = this.componentStore.$items();
+            if (items.length === 0) return;
+            const team = items.find((c) => c.idx === 20);
+            if (team) this.teamStore.loadComponentTags(team.id);
+        }, { injector: this.injector });
     }
-
 }

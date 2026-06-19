@@ -7,15 +7,15 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
 
 @Component({
-    selector: "conditions",
+    selector: "privacity",
     standalone: true,
     imports: [CommonModule],
     providers: [GetComponentTagsStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './conditions.component.html',
-    styleUrl: './conditions.component.scss'
+    templateUrl: './privacity.component.html',
+    styleUrls: ['./privacity.component.scss']
 })
-export class ConditionsComponent implements OnInit {
+export class PrivacityComponent implements OnInit {
     readonly languageStore = inject(LanguageStore);
     readonly conditionsStore = inject(GetComponentTagsStore);
     readonly componentStore = inject(ComponentAppStore);
@@ -34,7 +34,7 @@ export class ConditionsComponent implements OnInit {
     });
 
     ngOnInit(): void {
-        const tags = this.componentStore.$items().find((c) => c.idx === 19);
+        const tags = this.componentStore.$items().find((c) => c.idx === 16);
         if (tags) this.conditionsStore.loadComponentTags(tags.id);
     }
 

@@ -1,0 +1,12 @@
+<div class="services-detail">
+    <div class="services-detail-grid">
+        @for (item of content(); track $index) {
+        <div class="services-detail-card">
+            @if (item.img) {
+            <img class="services-detail-card-img" [src]="item.img" [alt]="item.title" />
+            }
+            <h2 class="services-detail-card-title">{{ item.title }}</h2>
+        </div>
+        }
+    </div>
+</div>Service detail?
