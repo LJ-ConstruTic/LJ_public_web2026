@@ -1,5 +1,5 @@
 .products {
-  padding: 2rem 0;
+  padding: 2rem 1.5rem;
 }
 
 .products-title {
@@ -27,7 +27,7 @@
 
 .products-card {
   display: flex;
-  flex: 0 1 220px;
+  flex: 0 1 260px;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
@@ -43,8 +43,8 @@
 }
 
 .products-card-img {
-  width: 80px;
-  height: 80px;
+  width: 105px;
+  height: 105px;
   border-radius: 8px;
   overflow: hidden;
 

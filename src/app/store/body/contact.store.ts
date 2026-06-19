@@ -56,6 +56,7 @@ export class ContactStore extends ComponentStore<ContactState> {
                 this.componentService.getTagsByComponentId(id).pipe(
                     tap((response: any) => {
                         const tags = response?.items ?? response;
+                        console.log('CONTACT tags', tags);
                         this.setTags(tags);
                         this.setLoading(false);
                     }),
