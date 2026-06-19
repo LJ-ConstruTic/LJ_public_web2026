@@ -1,4 +1,4 @@
-import { CommonModule, NgStyle } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { TagStore } from "../../../store/tag/tag.store";
@@ -28,24 +28,26 @@ export class GoalsComponent implements OnInit {
 
     readonly goals = computed(() => {
         const lang = this.lang();
-        const rawItems = this.items()?.items ?? [];
+        const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
 
-        // const text = (key: TagKey) =>
-        //     tags.find((tag) => tag.isActive && tag.internationalization.keyLabel === key)?.internationalization.tag[lang] ?? '';
+        const sectionTitle = rawItems.find((i) => i.order === 1)?.tag[lang] ?? '';
+        const intro = rawItems.find((i) => i.order === 2)?.tag[lang] ?? '';
 
-        // return {
-        //     title: text(TAGS_DICTIONARY.HOM_GOALS_TITLE),
-        //     description: text(TAGS_DICTIONARY.HOM_GOALS_CTX),
-        //     steps: [
-        //         { num: 1, title: text(TAGS_DICTIONARY.GOAL_NAM_0), desc: text(TAGS_DICTIONARY.GOAL_DESC_0) },
-        //         { num: 2, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_2), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_2) },
-        //         { num: 3, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_3), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_3) },
-        //         { num: 4, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_4), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_4) },
-        //         { num: 5, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_5), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_5) },
-        //         { num: 6, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_6), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_6) },
-        //         { num: 7, title: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_TITLE_7), desc: text(TAGS_DICTIONARY.HOM_GOAL_ITEM_CTX_7) },
-        //     ],
-        // };
+        const cardItems = rawItems.filter((i) => i.order > 2);
+        const steps: { num: number; title: string; desc: string }[] = [];
+
+        for (let i = 0; i < cardItems.length; i += 2) {
+            const title = cardItems[i];
+            const desc = cardItems[i + 1];
+            if (!title) continue;
+            steps.push({
+                num: steps.length + 1,
+                title: title.tag[lang] ?? '',
+                desc: desc?.tag[lang] ?? '',
+            });
+        }
+
+        return { sectionTitle, intro, steps };
     });
 
     readonly colors = ['#32CD32', '#2ab82a', '#229422', '#1a701a', '#124c12', '#0a280a', '#050f05'];

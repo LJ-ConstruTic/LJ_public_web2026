@@ -1,9 +1,9 @@
-<!-- <div class="goals">
-  <h2 class="goals-title">{{ goals().title }}</h2>
+<div class="goals">
+  <h2 class="goals-title">{{ goals().sectionTitle }}</h2>
 
   <div class="goals-grid">
     <div class="goals-card goals-card-intro">
-      <p class="goals-intro-text">{{ goals().description }}</p>
+      <p class="goals-intro-text">{{ goals().intro }}</p>
     </div>
 
     @for (step of goals().steps; track step.num; let i = $index) {
@@ -15,4 +15,4 @@
       </div>
     }
   </div>
-</div> -->
+</div>
