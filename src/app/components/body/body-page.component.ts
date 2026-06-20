@@ -27,8 +27,14 @@ export class BodyPageComponent implements OnInit{
     }
 
     getComponent(name: string): Type<any> | null {
-        return COMPONENT_DICTIONARY[name] ?? null;
+        return COMPONENT_DICTIONARY[name]?.component ?? null;
+        // return COMPONENT_DICTIONARY[name] ?? null;
     // getComponent(idx: number): Type<any> | null {
     //     return COMPONENT_DICTIONARY[idx] ?? null;
+    }
+
+    getDictionaryKey(name: string): string {
+        console.log('name:', name, '| entry:', COMPONENT_DICTIONARY[name]);
+        return COMPONENT_DICTIONARY[name]?.key ?? name;
     }
 }

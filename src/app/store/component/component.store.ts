@@ -4,11 +4,14 @@ import { computed, inject, Injectable } from "@angular/core";
 import { ComponentService } from "../../core/services/component.service";
 import { ComponentDataModel, ComponentMenuItem } from "../../core/model/component-dto";
 import { switchMap, tap } from "rxjs";
+import { COMPONENT_DICTIONARY } from "../../core/dictionary/component-dictionary";
+import { Router } from "@angular/router";
 
 
 @Injectable()
 export class ComponentAppStore extends ComponentStore<ComponentState> {
     readonly componentService = inject(ComponentService);
+    private readonly router = inject(Router);
 
     readonly $items = this.selectSignal(state => state.items)
     readonly $menuItems = this.selectSignal(state => state.menuItems)
@@ -17,21 +20,34 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
 
     // Transformar $menuItems (ComponentMenuItem[]) a MenuItem[] que es lo que pide primeng
     readonly $menuConverted = computed(() =>
-        this.$menuItems().map(item => ({
-            label: item.tag,
-            id: item.id,
-            items: item.tagsParent.length ?
-                item.tagsParent.map(child => 
-                ({
-                    label: child.tag,
-                    id: child.id,
-                }))
-                : undefined,
-        }))
+        this.$menuItems().map(item => {
+            const dictEntry = Object.values(COMPONENT_DICTIONARY).find(d => d.key === item.key);
+            const command = dictEntry?.route
+                ? () => this.router.navigate([dictEntry.route])
+                : () => this.scrollTo(item.key);
+            return {
+                label: item.tag,
+                id: item.id,
+                command,
+                items: item.tagsParent.length
+                    ? item.tagsParent.map(child => ({
+                        label: child.tag,
+                        id: child.id,
+                        command: () => this.scrollTo(child.key),
+                    }))
+                    : undefined,
+            };
+        })
     );
 
+    // readonly $activeComponents = computed(() => // TODO: Cuando el json sea correcto, descomentar
+    //     this.$items().filter(comp => comp.isActive).sort((a, b) => a.idx - b.idx)
+    // );
+
     readonly $activeComponents = computed(() => 
-        this.$items().filter(comp => comp.isActive).sort((a, b) => a.idx - b.idx)
+    this.$items()
+        .filter(comp => comp.isActive && !!COMPONENT_DICTIONARY[comp.name])
+        .sort((a, b) => a.idx - b.idx)
     );
 
     constructor() {
@@ -109,5 +125,12 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
             )
         )
     );
+
+    private scrollTo(key: string): void {
+        console.log('scrollTo key:', key);
+    console.log('element found:', document.getElementById(key));
+        const el = document.getElementById(key);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
 
 }

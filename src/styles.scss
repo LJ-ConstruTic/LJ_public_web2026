@@ -278,6 +278,22 @@ strong {
   color: var(--branco);
   opacity: 0.5;
   padding-bottom: 1rem;
+  text-transform: lowercase;
+
+  a::first-letter {
+    text-transform: uppercase;
+  }
+
+  a {
+    color: var(--branco);
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #aaaaaa;
+      opacity: 1;
+    }
+  }
 
   span {
     cursor: pointer;

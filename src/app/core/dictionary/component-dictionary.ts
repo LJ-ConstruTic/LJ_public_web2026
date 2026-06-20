@@ -34,23 +34,35 @@ import { JoinInDetailComponent } from "../../components/body/join-in-detail/join
 //   13:   StrategyComponent,
 // };
 
-export const COMPONENT_DICTIONARY: Record<string, Type<any>> = {
-  'We Are':  AboutComponent,
-  'Team': TeamComponent,
-  'Product': ProductsComponent,
-  'Goals':   GoalsComponent,
-  'Reviews Client':   NewsComponent,
-  'Strategy':   StrategyComponent,
-  'Service': ServicesComponent,
-  'Service Detail':   ServicesDetailComponent,
-  'Contact': ContactComponent,
-  'Product Detail': ProductDetailComponent,
-  'Termos e Condições ':ConditionsComponent,
-  'Política de cookies': CookiesComponent,
-  'Proteçao de Dados': DataProtectionComponent,
-  'Políticas de Privacidades': PrivacityComponent,
-  'Join In Detail': JoinInDetailComponent
+export const COMPONENT_DICTIONARY: Record<string, { component: Type<any>, key: string, route?: string }> =  {
+  'We Are':           { component: AboutComponent,         key: 'headWeAre',    route: 'about/about-detail' },
+  // 'Team':             { component: TeamComponent,          key: 'headTeam' },
+  'Product':          { component: ProductsComponent,      key: 'headProduct' },
+  'Goals':            { component: GoalsComponent,         key: 'headGoals' },
+  'Reviews Client':   { component: NewsComponent,          key: 'headReviews' },
+  'Strategy':         { component: StrategyComponent,      key: 'headStrategy' },
+  'Service':          { component: ServicesComponent,      key: 'headServices' },
+  'Contact':          { component: ContactComponent,       key: 'headContact' },
+  // 'Join In Detail':   { component: JoinInDetailComponent,  key: 'headJoinIn' },
 };
+
+// export const COMPONENT_DICTIONARY: Record<string, Type<any>> = {
+//   'We Are':  AboutComponent,
+//   'Team': TeamComponent,
+//   'Product': ProductsComponent,
+//   'Goals':   GoalsComponent,
+//   'Reviews Client':   NewsComponent,
+//   'Strategy':   StrategyComponent,
+//   'Service': ServicesComponent,
+//   'Service Detail':   ServicesDetailComponent,
+//   'Contact': ContactComponent,
+//   'Product Detail': ProductDetailComponent,
+//   // 'Termos e Condições ':ConditionsComponent,
+//   // 'Política de cookies': CookiesComponent,
+//   // 'Proteçao de Dados': DataProtectionComponent,
+//   // 'Políticas de Privacidades': PrivacityComponent,
+//   'Join In Detail': JoinInDetailComponent
+// };
 
 /*
 Oks:

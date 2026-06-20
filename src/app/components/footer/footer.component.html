@@ -37,8 +37,9 @@
   <div class="footer-divider"></div>
 
   <div class="footer-legal">
-    <span>Política de privacidade</span>
-    <span>Proteção de dados</span>
-    <span>Política de cookies</span>
+    <a routerLink="/privacy">{{ footer().legal.privacy }}</a>
+    <a routerLink="/data-protection">{{ footer().legal.dataProtection }}</a>
+    <a routerLink="/cookies">{{ footer().legal.cookies }}</a>
+    <a routerLink="/conditions">{{ footer().legal.conditions }}</a>
   </div>
 </div>
