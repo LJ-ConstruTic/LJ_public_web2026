@@ -22,9 +22,16 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     readonly $menuConverted = computed(() =>
         this.$menuItems().map(item => {
             const dictEntry = Object.values(COMPONENT_DICTIONARY).find(d => d.key === item.key);
-            const command = dictEntry?.route
-                ? () => this.router.navigate([dictEntry.route])
-                : () => this.scrollTo(item.key);
+            const command = (event: any) => {
+                const target = event?.originalEvent?.target as HTMLElement;
+                if (target?.closest('.p-menubar-submenu-icon')) return;
+                dictEntry?.route
+                    ? this.router.navigate([dictEntry.route])
+                    : this.scrollTo(item.key);
+            };
+            // const command = dictEntry?.route
+            //     ? () => this.router.navigate([dictEntry.route])
+            //     : () => this.scrollTo(item.key);
             return {
                 label: item.tag,
                 id: item.id,
@@ -44,10 +51,10 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     //     this.$items().filter(comp => comp.isActive).sort((a, b) => a.idx - b.idx)
     // );
 
-    readonly $activeComponents = computed(() => 
-    this.$items()
-        .filter(comp => comp.isActive && !!COMPONENT_DICTIONARY[comp.name])
-        .sort((a, b) => a.idx - b.idx)
+    readonly $activeComponents = computed(() =>
+        this.$items()
+            .filter(comp => comp.isActive && !!COMPONENT_DICTIONARY[comp.name])
+            .sort((a, b) => a.idx - b.idx)
     );
 
     constructor() {
@@ -126,11 +133,13 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
         )
     );
 
-    private scrollTo(key: string): void {
-        console.log('scrollTo key:', key);
-    console.log('element found:', document.getElementById(key));
+    scrollTo(key: string): void {
         const el = document.getElementById(key);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    navigateTo(route: string): void {
+        this.router.navigate([route]);
     }
 
 }

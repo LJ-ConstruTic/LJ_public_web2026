@@ -125,3 +125,17 @@
   gap: 12px;
   flex: 0 0 auto;
 }
+
+.p-menubar-item-link {
+    pointer-events: none;
+
+    .p-menubar-item-label {
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    .p-menubar-submenu-icon {
+        pointer-events: all;
+        cursor: pointer;
+    }
+}

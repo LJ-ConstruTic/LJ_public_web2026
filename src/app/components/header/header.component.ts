@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from "@angular/core";
+import { Component, computed, effect, inject, ViewChild } from "@angular/core";
 import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from "@ngx-translate/core";
 import { SelectModule } from 'primeng/select';
@@ -22,6 +22,8 @@ import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
 })
 
 export class HeaderComponent {
+    @ViewChild('menubar') menubar: any;
+
     private readonly languageStore = inject(LanguageStore);
     readonly themeStore = inject(ThemeStore);
     readonly componentStore = inject(ComponentAppStore);
@@ -31,13 +33,13 @@ export class HeaderComponent {
     readonly langOptions = this.languageStore.$langOptions;
     readonly selectedCode = this.languageStore.$selectedCode;
     readonly menu = this.componentStore.$menuConverted;
- 
+
     readonly logoUrl = this.tagStore.$img(TAGS_DICTIONARY.COMPANY_LOGO);
 
     constructor() {
         effect(() => {
             const code = this.languageStore.$selectedCode();
-            if(!code) return;
+            if (!code) return;
             this.componentStore.loadMenu(Number(code));
         });
     }
@@ -48,6 +50,23 @@ export class HeaderComponent {
 
     toggleTheme(): void {
         this.themeStore.toggle();
+    }
+
+    handleMenuCommand(event: any, key: string, route?: string): void {
+        const target = event?.originalEvent?.target as HTMLElement;
+        if (target?.closest('.p-menubar-submenu-icon')) return;
+
+        if (route) {
+            this.componentStore.navigateTo(route);
+        } else {
+            this.componentStore.scrollTo(key);
+        }
+
+        setTimeout(() => this.menubar?.hide?.(), 0);
+    }
+
+    closeMenu(): void {
+        this.menubar?.hide?.();
     }
 
 }
