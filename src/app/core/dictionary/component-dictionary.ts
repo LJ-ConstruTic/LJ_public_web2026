@@ -34,14 +34,14 @@ import { JoinInDetailComponent } from "../../components/body/join-in-detail/join
 //   13:   StrategyComponent,
 // };
 
-export const COMPONENT_DICTIONARY: Record<string, { component: Type<any>, key: string, route?: string }> =  {
+export const COMPONENT_DICTIONARY: Record<string, { component: Type<any>, key: string, route?: string, childRoute?: string }> = {
   'We Are':           { component: AboutComponent,         key: 'headWeAre',    route: 'about/about-detail' },
   // 'Team':             { component: TeamComponent,          key: 'headTeam' },
-  'Product':          { component: ProductsComponent,      key: 'headProduct' },
   'Goals':            { component: GoalsComponent,         key: 'headGoals' },
   'Reviews Client':   { component: NewsComponent,          key: 'headReviews' },
   'Strategy':         { component: StrategyComponent,      key: 'headStrategy' },
-  'Service':          { component: ServicesComponent,      key: 'headServices' },
+  'Service': { component: ServicesComponent, key: 'headServices', childRoute: '/service-detail' },
+  'Product': { component: ProductsComponent, key: 'headProduct',  childRoute: '/product-detail' },
   'Contact':          { component: ContactComponent,       key: 'headContact' },
   // 'Join In Detail':   { component: JoinInDetailComponent,  key: 'headJoinIn' },
 };

@@ -44,6 +44,7 @@ export interface ComponentTagsDescription {
 
 export interface ComponentMenuParentTag {
     id: string;
+    tagId: string;
     idx: number;
     order: number;
     key: string;

@@ -1,0 +1,14 @@
+<div class="component-container">
+    @if (content().img) {
+        <img [src]="content().img" class="services-detail-icon"/>
+    }
+    <div class="services-detail-content">
+        <h2 class="services-detail-title">{{ content().title }}</h2>
+        @for (item of content().texts; track item.text) {
+            @switch (item.tagHtml) {
+                @case ('p') { <p class="services-detail-text">{{ item.text }}</p> }
+                @case ('li') { <li class="services-detail-item">{{ item.text }}</li> }
+            }
+        }
+    </div>
+</div>

@@ -27,6 +27,7 @@
 
 .products-card {
   display: flex;
+  cursor: pointer;
   flex: 0 1 260px;
   flex-direction: column;
   align-items: center;
@@ -43,8 +44,8 @@
 }
 
 .products-card-img {
-  width: 105px;
-  height: 105px;
+  width: 110px;
+  height: 110px;
   border-radius: 8px;
   overflow: hidden;
 

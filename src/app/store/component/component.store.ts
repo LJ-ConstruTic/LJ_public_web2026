@@ -24,14 +24,11 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
             const dictEntry = Object.values(COMPONENT_DICTIONARY).find(d => d.key === item.key);
             const command = (event: any) => {
                 const target = event?.originalEvent?.target as HTMLElement;
-                if (target?.closest('.p-menubar-submenu-icon')) return;
+                if (target?.closest('[data-pc-section="submenuicon"]')) return;
                 dictEntry?.route
                     ? this.router.navigate([dictEntry.route])
                     : this.scrollTo(item.key);
             };
-            // const command = dictEntry?.route
-            //     ? () => this.router.navigate([dictEntry.route])
-            //     : () => this.scrollTo(item.key);
             return {
                 label: item.tag,
                 id: item.id,
@@ -40,7 +37,9 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
                     ? item.tagsParent.map(child => ({
                         label: child.tag,
                         id: child.id,
-                        command: () => this.scrollTo(child.key),
+                        command: () => dictEntry?.childRoute ?
+                            this.router.navigate([dictEntry.childRoute, child.tagId])
+                            : this.scrollTo(child.key),
                     }))
                     : undefined,
             };
@@ -134,12 +133,27 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     );
 
     scrollTo(key: string): void {
-        const el = document.getElementById(key);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (this.router.url !== '/') {
+            this.router.navigate(['/']).then(() => {
+                setTimeout(() => {
+                    document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            });
+        } else {
+            document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     navigateTo(route: string): void {
         this.router.navigate([route]);
+    }
+
+    getTagIdByKey(key: string): string | null {
+        for (const item of this.$menuItems()) {
+            const parent = item.tagsParent.find(p => p.key === key);
+            if (parent) return parent.tagId;
+        }
+        return null;
     }
 
 }

@@ -1,14 +1,21 @@
+import { InternationalizationDataModel } from "./common-response-dto";
+
 export interface GroupDetailItem {
   id: string;
-  tagId: string;
+  idx: number;
   order: number;
-  key: string;
-  tag: string;
-  imgUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  isActive: boolean;
+  internationalization: {
+    keyLabel: string;
+    tagHtml: string;
+    tag: InternationalizationDataModel;
+    imgUrl: string[];
+  };
 }
 
 export interface GroupDetail {
-  id: string;
-  name: string;
+  size: number;
   items: GroupDetailItem[];
 }

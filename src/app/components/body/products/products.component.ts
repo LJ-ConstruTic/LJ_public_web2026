@@ -6,6 +6,7 @@ import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "products",
@@ -18,6 +19,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 })
 export class ProductsComponent implements OnInit {
     readonly tagStore = inject(TagStore);
+    readonly router = inject(Router);
     readonly languageStore = inject(LanguageStore);
     readonly productsStore = inject(GetComponentTagsStore);
     readonly componentStore = inject(ComponentAppStore);
@@ -28,22 +30,24 @@ export class ProductsComponent implements OnInit {
 
     readonly products = computed(() => {
         const lang = this.lang();
-    const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
+        const parents = this.componentStore.$menuItems().find(i => i.key === 'headProduct')?.tagsParent ?? [];
+        const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
 
-    const text = (i: typeof rawItems[0]) => i?.tag[lang] ?? '';
+        const text = (i: typeof rawItems[0]) => i?.tag[lang] ?? '';
 
-    const productItems = rawItems.filter((i) => i.imgUrl.length > 0);
-    const textItems = rawItems.filter((i) => i.imgUrl.length === 0);
+        const productItems = rawItems.filter((i) => i.imgUrl.length > 0);
+        const textItems = rawItems.filter((i) => i.imgUrl.length === 0);
 
-    return {
-        title: text(textItems[0]),
-        subtitle: text(textItems[1]),
-        subtitle2: text(textItems[textItems.length - 1]),
-        products: productItems.map((i) => ({
-            title: text(i),
-            img: i.imgUrl[0],
-        })),
-    };
+        return {
+            title: text(textItems[0]),
+            subtitle: text(textItems[1]),
+            subtitle2: text(textItems[textItems.length - 1]),
+            products: productItems.map((i) => ({
+                keys: i.keys,
+                title: text(i),
+                img: i.imgUrl[0],
+            })),
+        };
     });
 
     ngOnInit(): void {
@@ -51,6 +55,12 @@ export class ProductsComponent implements OnInit {
         if (productsTags) {
             this.productsStore.loadComponentTags(productsTags.id);
         }
+    }
+
+    navigateTo(keys: string): void {
+        const parents = this.componentStore.$menuItems().find(i => i.key === 'headProduct')?.tagsParent ?? [];
+        const match = parents.find(p => p.key === keys);
+        if (match) this.router.navigate(['/product-detail', match.tagId]);
     }
 
 }

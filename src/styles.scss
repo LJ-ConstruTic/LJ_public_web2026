@@ -1,49 +1,49 @@
 @import "primeicons/primeicons.css";
 
 :root {
-    // colors
-    --base: #1E90FF;
-    --button: #2073b4;
-    --branco: #fff;
-    --background: #f5f5f5;
-    --preto: #000;
-    --verde: #32CD32;
-    --amarelo: #FFD700;
-    --advice: #ffa600;
-    --error: #ff4646;
+  // colors
+  --base: #1E90FF;
+  --button: #2073b4;
+  --branco: #fff;
+  --background: #f5f5f5;
+  --preto: #000;
+  --verde: #32CD32;
+  --amarelo: #FFD700;
+  --advice: #ffa600;
+  --error: #ff4646;
 
-    // typography
-    --main-font: 'Raleway', sans-serif;
-    --secondary-font: 'Poppins', sans-serif;
+  // typography
+  --main-font: 'Raleway', sans-serif;
+  --secondary-font: 'Poppins', sans-serif;
 
-    //sizes
-    --size-text-big: 18px;
-    --size-text-medium: 16px;
-    --size-text-small: 14px;
-    --size-text-tiny: 12px;
+  //sizes
+  --size-text-big: 18px;
+  --size-text-medium: 16px;
+  --size-text-small: 14px;
+  --size-text-tiny: 12px;
 
-    // nav-bar - light
-    --ui-background: var(--branco);
-    --ui-text: var(--preto);
+  // nav-bar - light
+  --ui-background: var(--branco);
+  --ui-text: var(--preto);
 
-    --ui-hover-background: var(--preto);
-    --ui-hover-text: var(--branco);
+  --ui-hover-background: var(--preto);
+  --ui-hover-text: var(--branco);
 
-    // modo oscuro / light en body-page:
-    --bg-page: var(--branco);
-    --section-text: var(--preto);
+  // modo oscuro / light en body-page:
+  --bg-page: var(--branco);
+  --section-text: var(--preto);
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--main-font);
-    background-color: var(--bg-page);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--main-font);
+  background-color: var(--bg-page);
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 p {
@@ -51,16 +51,16 @@ p {
 }
 
 html.app-dark {
-    // general
-    --ui-background: var(--preto);
-    --ui-text: var(--branco);
+  // general
+  --ui-background: var(--preto);
+  --ui-text: var(--branco);
 
-    --ui-hover-background: var(--branco);
-    --ui-hover-text: var(--preto);
+  --ui-hover-background: var(--branco);
+  --ui-hover-text: var(--preto);
 
-    // body-page
-    --section-text: var(--branco);
-    --bg-page: #444444;
+  // body-page
+  --section-text: var(--branco);
+  --bg-page: #444444;
 }
 
 html.app-dark .btn-byn {
@@ -68,7 +68,9 @@ html.app-dark .btn-byn {
   color: var(--preto);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--secondary-font);
 }
 
@@ -106,31 +108,32 @@ strong {
   }
 }
 
-.component-container{
-    max-width: 1200px;
-    margin: 0 auto;
-    color: var(--section-text);
-    padding: 2rem 2rem;
-    background-color: transparent;
+.component-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--section-text);
+  padding: 2rem 2rem;
+  background-color: transparent;
 }
 
 .image-container {
-    flex: 0 0 40%;
-    max-width: 50%;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    @media (max-width: 767px) {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+  flex: 0 0 40%;
+  max-width: 50%;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+
+  @media (max-width: 767px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 .image-style {
-    height: 100%;
-    width: 100%;
-    border-radius: 6px;
-    object-fit: cover;
-    object-position: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .presentation-carousel {
@@ -150,6 +153,7 @@ strong {
 }
 
 .presentation-carousel {
+
   .p-carousel-content,
   .p-carousel-items-content,
   .p-carousel-items-container {
@@ -196,7 +200,7 @@ strong {
 
 .footer-company {
   align-items: left;
-  
+
   color: var(--branco);
   font-size: 0.8rem;
   opacity: 0.6;
@@ -317,4 +321,14 @@ strong {
   .footer-social {
     justify-content: center;
   }
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-root>main {
+  flex: 1;
 }

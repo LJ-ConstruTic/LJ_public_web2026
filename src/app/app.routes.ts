@@ -11,6 +11,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/body/about-detail/about-detail.component').then(m => m.AboutDetailComponent),
   },
   {
+    path: 'service-detail/:id',
+    loadComponent: () => import('./components/body/services-detail/services-detail.component').then(m => m.ServicesDetailComponent),
+  },
+  {
+    path: 'product-detail/:id',
+    loadComponent: () => import('./components/body/product-detail/product-detail.component').then(m => m.ProductDetailComponent),
+  },
+  {
     path: 'privacy',
     loadComponent: () => import('./components/footer/privacity/privacity.component').then(m => m.PrivacityComponent),
   },

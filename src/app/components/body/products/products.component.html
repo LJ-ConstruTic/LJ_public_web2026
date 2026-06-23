@@ -4,7 +4,7 @@
 
     <div class="products-grid">
         @for (product of products().products; track product.title) {
-        <div class="products-card">
+        <div class="products-card" (click)="navigateTo(product.keys)">
             <div class="products-card-img">
                 <img [src]="product.img" [alt]="product.title" />
             </div>

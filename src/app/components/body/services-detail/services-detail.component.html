@@ -1,12 +1,14 @@
-<div class="services-detail">
-    <div class="services-detail-grid">
-        @for (item of content(); track $index) {
-        <div class="services-detail-card">
-            @if (item.img) {
-            <img class="services-detail-card-img" [src]="item.img" [alt]="item.title" />
+<div class="component-container">
+    @if (content().img) {
+        <img [src]="content().img" class="services-detail-icon"/>
+    }
+    <div class="services-detail-content">
+        <h2 class="services-detail-title">{{ content().title }}</h2>
+        @for (item of content().texts; track item.text) {
+            @switch (item.tagHtml) {
+                @case ('p') { <p class="services-detail-text">{{ item.text }}</p> }
+                @case ('li') { <li class="services-detail-item">{{ item.text }}</li> }
             }
-            <h2 class="services-detail-card-title">{{ item.title }}</h2>
-        </div>
         }
     </div>
-</div>Service detail?
+</div>

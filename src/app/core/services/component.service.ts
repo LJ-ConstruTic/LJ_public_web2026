@@ -4,6 +4,7 @@ import { map, Observable } from "rxjs";
 import { ComponentDataModel, ComponentMenuItem, ComponentTagsByLanguage, ComponentTagsDescription } from "../model/component-dto";
 import { CommonModelResponse } from "../model/common-response-dto";
 import { AbstractApiService } from "./abstract-api.service";
+import { GroupDetail } from "../model/group-details-dto";
 
 @Injectable({
     providedIn: 'root'
@@ -51,5 +52,12 @@ export class ComponentService extends AbstractApiService {
         const params = new HttpParams().set('codeLanguage', String(codeLanguage));
 
         return this.get<CommonModelResponse<ComponentMenuItem>>(`/menu`, { params });
+    }
+
+    getGroupDetailsById(tagId: string): Observable<GroupDetail> {
+        const params = new HttpParams()
+          .set('tagId', tagId)
+    
+        return this.get<GroupDetail>('/groupDetails/ById', { params });
     }
 }

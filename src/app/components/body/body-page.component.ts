@@ -34,7 +34,6 @@ export class BodyPageComponent implements OnInit{
     }
 
     getDictionaryKey(name: string): string {
-        console.log('name:', name, '| entry:', COMPONENT_DICTIONARY[name]);
         return COMPONENT_DICTIONARY[name]?.key ?? name;
     }
 }

@@ -1,0 +1,46 @@
+:host {
+    display: block;
+}
+
+.component-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.services-detail-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: 60px;
+}
+
+.services-detail-content {
+    flex: 1;
+}
+
+.services-detail-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--section-text);
+    margin-bottom: 1rem;
+}
+
+.services-detail-text {
+    color: var(--section-text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.services-detail-item {
+    color: var(--section-text);
+    line-height: 1.7;
+    margin-left: 2rem;
+    list-style-type: disc;
+}

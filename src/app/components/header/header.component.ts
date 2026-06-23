@@ -18,7 +18,7 @@ import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
     styleUrls: ['./header.component.scss'],
     standalone: true,
     imports: [ButtonModule, TranslateModule, SelectModule, FormsModule, CommonModule, MenubarModule, RouterLink],
-    providers: [ComponentAppStore]
+    providers: []
 })
 
 export class HeaderComponent {
