@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, PLATFORM_ID, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { LanguageStore } from './store/language/language.store';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -16,14 +16,19 @@ import { ComponentAppStore } from './store/component/component.store';
 })
 export class App implements OnInit {
   private readonly componentStore = inject(ComponentAppStore);
+  private readonly platformId = inject(PLATFORM_ID);
 
   protected readonly title = signal('construtic');
 
   constructor(private readonly languageStore: LanguageStore) {
-    this.languageStore.loadAll();
+    if (isPlatformBrowser(this.platformId)) {
+      this.languageStore.loadAll();
+    }
   }
 
   ngOnInit(): void {
-    this.componentStore.loadAllComponents();
+    if (isPlatformBrowser(this.platformId)) {
+      this.componentStore.loadAllComponents();
+    }
   }
 }

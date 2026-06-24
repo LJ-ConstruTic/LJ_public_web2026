@@ -1,0 +1,12 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: deploy_vps/Dockerfile
+    container_name: lj-public-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+    ports:
+      - "127.0.0.1:4000:4000"

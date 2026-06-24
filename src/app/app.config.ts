@@ -1,5 +1,6 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, PLATFORM_ID, importProvidersFrom, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 import { routes } from './app.routes';
 import { firstValueFrom } from 'rxjs';
@@ -31,6 +32,11 @@ import { errorInterceptor } from '../utils/interceptor/error.interceptor';
 
 export function initPublicSession() {
   return () => {
+    const platformId = inject(PLATFORM_ID);
+    if (!isPlatformBrowser(platformId)) {
+      return Promise.resolve();
+    }
+
     const auth = inject(AuthService);
     const tagStore = inject(TagStore);
 
