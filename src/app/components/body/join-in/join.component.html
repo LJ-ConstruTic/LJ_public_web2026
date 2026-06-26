@@ -1,16 +1,17 @@
 <div class="join">
+  <h2 class="join-title">{{ data().sectionTitle }}</h2>
   @if (data().offers.length > 0) {
-    <div class="join-grid">
-      @for (offer of data().offers; track offer.title) {
-        <div class="join-card">
-          <div class="join-card-icon">
-            <i class="pi pi-briefcase"></i>
-          </div>
-          <h3 class="join-card-title">{{ offer.title }}</h3>
-          <p class="join-card-desc">{{ offer.desc }}</p>
-          <button class="btn-blue join-card-btn">Saiba mais</button>
-        </div>
-      }
+  <div class="join-grid">
+    @for (offer of data().offers; track offer.title) {
+    <div class="join-card">
+      <div class="join-card-icon">
+        <i class="pi pi-briefcase"></i>
+      </div>
+      <h3 class="join-card-title">{{ offer.title }}</h3>
+      <p class="join-card-desc">{{ offer.desc }}</p>
+      <button class="btn-blue join-card-btn">Saiba mais</button>
     </div>
+    }
+  </div>
   }
 </div>

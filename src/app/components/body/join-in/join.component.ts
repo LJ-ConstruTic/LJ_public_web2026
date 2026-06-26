@@ -32,7 +32,8 @@ export class JoinInComponent implements OnInit {
     const lang = this.lang();
     const rawItems = this.items()?.items ?? [];
 
-    const titles = rawItems.filter((i) => i.tagHtml === 'h2');
+    const sectionTitle = rawItems.find(i => i.tagHtml === 'h2' && i.order === 1)?.tag[lang] ?? '';
+    const titles = rawItems.filter(i => i.tagHtml === 'h2' && i.order > 1);
 
     const offers = titles.map((titleItem) => {
       const n = titleItem.keys.replace('JoinTitle', '');
@@ -40,9 +41,9 @@ export class JoinInComponent implements OnInit {
         title: titleItem.tag[lang] ?? '',
         desc: rawItems.find((i) => i.keys === `JoinDesc0${n}`)?.tag[lang] ?? '',
       };
-    }).filter((o) => o.title);
+    }).filter(o => o.title);
 
-    return { offers };
+    return { sectionTitle, offers };
   });
 
   ngOnInit(): void {
