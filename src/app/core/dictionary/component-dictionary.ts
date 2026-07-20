@@ -36,7 +36,7 @@ import { JoinInDetailComponent } from "../../components/body/join-in-detail/join
 
 export const COMPONENT_DICTIONARY: Record<string, { component: Type<any>, key: string, route?: string, childRoute?: string }> = {
   'We Are':           { component: AboutComponent,         key: 'headWeAre',    route: 'about/about-detail' },
-  // 'Team':             { component: TeamComponent,          key: 'headTeam' },
+  'Reviews Component':             { component: NewsComponent,          key: 'headTeam', route: 'news/news-detail' },
   'Goals':            { component: GoalsComponent,         key: 'headGoals' },
   'Reviews Client':   { component: NewsComponent,          key: 'headReviews' },
   'Strategy':         { component: StrategyComponent,      key: 'headStrategy' },
