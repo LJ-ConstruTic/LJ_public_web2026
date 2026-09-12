@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, Type } from "@angul
 import { ComponentAppStore } from "../../store/component/component.store";
 import { CommonModule } from "@angular/common";
 import { COMPONENT_DICTIONARY } from "../../core/dictionary/component-dictionary";
-import { TagStore } from "../../store/tag/tag.store";
 import { PresentationComponent } from "./presentation/presentation.component";
 
 @Component({
@@ -14,13 +13,13 @@ import { PresentationComponent } from "./presentation/presentation.component";
   templateUrl: './body-page.component.html',
   styleUrl: './body-page.component.scss'
 })
-export class BodyPageComponent implements OnInit{
+export class BodyPageComponent {
     
     private componentStore = inject(ComponentAppStore);
-    readonly tagStore = inject(TagStore);
+    // readonly tagStore = inject(TagStore);
     
     readonly $loading = this.componentStore.$loading;
-    readonly $activeComponents = this.componentStore.$activeComponents;
+    // readonly $activeComponents = this.componentStore.$activeComponents;
 
     ngOnInit() {
         

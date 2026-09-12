@@ -1,17 +1,15 @@
-import { ComponentTagsDescription } from "../../core/model/component-dto";
-
 export interface ContactState {
-  tags: ComponentTagsDescription | null;
-  loading: boolean;
   sending: boolean;
   sent: boolean;
-  error: string | null;
+  requestId: string | null;    // referencia del 202 para soporte
+  errorCode: string | null;    // 'CAPTCHA_INVALID', 'CONTACT_RATE_LIMITED', etc.
+  errorMessage: string | null; // mensaje legible para el usuario
 }
 
 export const initialContactState: ContactState = {
-  tags: null,
-  loading: false,
   sending: false,
   sent: false,
-  error: null,
+  requestId: null,
+  errorCode: null,
+  errorMessage: null,
 };

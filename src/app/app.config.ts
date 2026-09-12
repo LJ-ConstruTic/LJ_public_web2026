@@ -19,41 +19,33 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { API_BASE_URL } from '../api.tokens';
 import { environment } from '../environments/environments';
 import { LanguageStore } from './store/language/language.store';
-import { TagStore } from './store/tag/tag.store';
 import { ComponentAppStore } from './store/component/component.store';
 
 // impor service Auth 
 import { AuthService } from '../app/auth/AuthService';
-import { publicJwtInterceptor } from '../app/auth/AuthInterceptor';
-import { ContactStore } from './store/body/contact.store';
-import { errorInterceptor } from '../utils/interceptor/error.interceptor';
+import { apiErrorInterceptor } from './core/api-error.interceptor';
 
 
 export function initPublicSession() {
   return () => {
     const auth = inject(AuthService);
-    const tagStore = inject(TagStore);
 
     // Siempre nueva autenticación al levantar la app
     auth.clearSession();
 
-    return firstValueFrom(auth.startPublicSession()).then(() => {tagStore.loadAllTags()}).catch((err) => {
-      console.error('Public session failed:', err);
-    });
   };
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
     LanguageStore,
-    TagStore,
     ComponentAppStore,
     {
       provide: API_BASE_URL,
       useValue: environment.apiBaseUrl,
     },
     provideAnimations(),
-    provideHttpClient(withFetch(), withInterceptors([publicJwtInterceptor, errorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([apiErrorInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top' })), 

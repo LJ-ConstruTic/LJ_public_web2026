@@ -1,4 +1,4 @@
-import { TeamMemberConfig } from "../model/tags-dto";
+
 
 export const TAGS_DICTIONARY = {
     // ── Contact ───────────────────────────────────

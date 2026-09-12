@@ -1,11 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, OnInit } from "@angular/core";
-import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
+import { ChangeDetectionStrategy, Component, inject, Injector, OnInit } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
-import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
 import { ComponentAppStore } from "../../../store/component/component.store";
-import { GetComponentTagsStore } from "../../../store/body/tagsByComponent.store";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { CardModule } from "primeng/card";
 
@@ -13,13 +9,13 @@ import { CardModule } from "primeng/card";
   selector: "news",
   standalone: true,
   imports: [CommonModule, CardModule],
-  providers: [GetComponentTagsStore],
+  providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss'
 })
 export class NewsComponent implements OnInit {
-  readonly newsStore = inject(GetComponentTagsStore);
+  // readonly newsStore = inject(GetComponentTagsStore);
   readonly languageStore = inject(LanguageStore);
   readonly componentStore = inject(ComponentAppStore);
   readonly router = inject(Router);
@@ -38,6 +34,6 @@ export class NewsComponent implements OnInit {
   }
 
     goToNews(): void {
-    this.router.navigate(['news/news-detail']);
-  }
+      this.router.navigate(['news/news-detail']);
+    }
 }

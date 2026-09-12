@@ -1,63 +1,41 @@
 import { Injectable } from "@angular/core";
 import { HttpParams } from "@angular/common/http";
-import { map, Observable } from "rxjs";
-import { ComponentDataModel, ComponentMenuItem, ComponentTagsByLanguage, ComponentTagsDescription } from "../model/component-dto";
-import { CommonModelResponse } from "../model/common-response-dto";
 import { AbstractApiService } from "./abstract-api.service";
-import { GroupDetail } from "../model/group-details-dto";
+import { Observable } from "rxjs";
+import { BootstrapResponse, PageResponse } from "../model/component-dto";
+import { LanguagesResponse } from "../model/language-dto";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ComponentService extends AbstractApiService {
     constructor() {
-        super('/Component');
-    }
+    super(''); // endpoints directos sobre la base
+  }
 
-    getAllComponents(): Observable<CommonModelResponse<ComponentDataModel>> {
-        return this.get<CommonModelResponse<ComponentDataModel>>();
-    }
+  getBootstrap(lang: string, site = 'main'): Observable<BootstrapResponse> {
+    const params = new HttpParams()
+      .set('site', site)
+      .set('lang', lang);
+    return this.get<BootstrapResponse>('/site/bootstrap', { params });
+  }
 
-    getComponentById(id: number): Observable<ComponentDataModel> {
-        if (!id) throw new Error('Missing required param: id');
+  getPageByRoute(route: string, lang: string, site = 'main'): Observable<PageResponse> {
+    const params = new HttpParams()
+      .set('site', site)
+      .set('lang', lang)
+      .set('route', route);
+    return this.get<PageResponse>('/pages/by-route', { params });
+  }
 
-        return this.get<ComponentDataModel>(`/${id}`);
-    }
+  getPageBySlug(slug: string, lang: string, site = 'main'): Observable<PageResponse> {
+    const params = new HttpParams()
+      .set('site', site)
+      .set('lang', lang);
+    return this.get<PageResponse>(`/pages/${encodeURIComponent(slug)}`, { params });
+  }
 
-    getComponentTagsByLanguage(idComponent: string, codeLanguage: number): Observable<ComponentTagsByLanguage> {
-        if (!idComponent) throw new Error('Missing required param: idComponent');
-
-        if (!codeLanguage) throw new Error('Missing required param: codeLanguage');
-
-        const params = new HttpParams()
-            .set('idComponent', idComponent)
-            .set('codeLanguage', String(codeLanguage));
-
-        return this.get<ComponentTagsByLanguage>(`/tags/Language`, { params });
-    }
-
-    getTagsByComponentId(componentId: string): Observable<ComponentTagsDescription> {
-        if (!componentId) throw new Error('Missing required param: componentId');
-
-        return this.get<any>(`/tags/${encodeURIComponent(componentId)}`).pipe(
-            map((response) => response?.items ?? response)
-        );
-    }
-
-    getComponentMenu(codeLanguage: number): Observable<CommonModelResponse<ComponentMenuItem>> {
-        if (codeLanguage === null || codeLanguage === undefined) {
-            throw new Error('Missing required param: codeLanguage');
-        }
-
-        const params = new HttpParams().set('codeLanguage', String(codeLanguage));
-
-        return this.get<CommonModelResponse<ComponentMenuItem>>(`/menu`, { params });
-    }
-
-    getGroupDetailsById(tagId: string): Observable<GroupDetail> {
-        const params = new HttpParams()
-          .set('tagId', tagId)
-    
-        return this.get<GroupDetail>('/groupDetails/ById', { params });
-    }
+  getLanguages(): Observable<LanguagesResponse> {
+    return this.get<LanguagesResponse>('/languages');
+  }
 }

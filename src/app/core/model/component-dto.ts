@@ -1,64 +1,73 @@
-import { InternationalizationDataModel } from "./common-response-dto";
+import { LanguageItem } from "./language-dto";
 
-export interface ComponentDataModel {
-    id: string;
-    idx: number;
-    createdAt: string;
-    updatedAt: string;
-    isActive: boolean;
-    name: string;
-    description: string;
+export interface BootstrapResponse {
+  site: SiteInfo;
+  language: string;
+  languages: LanguageItem[];
+  sections: SectionPage[];
 }
 
-export interface ComponentLanguageTagItem {
-    keyLabel: string;
-    tagId: number;
-    tagIdx: number;
-    tag: string;
-    imgUrl: string[];
+export interface PageResponse {
+  page: Page;
+  meta: PageMeta;
 }
 
-export interface ComponentTagsByLanguage {
-    componentId: string;
-    componentName: string;
-    idx: number;
-    language: string;
-    items: ComponentLanguageTagItem[];
+export interface Page {
+  id: string;
+  slug: string;
+  route: string;
+  pageType: string;
+  language: string;
+  fallbackLanguage?: string;
+  version?: string;
+  title: string;
+  description?: string;
+  seo?: Record<string, unknown>;
+  sections: SectionPage[];
 }
 
-export interface ComponentTagDescriptionItem {
-    tagId: string;
-    keys: string;
-    order: number;
-    tag: InternationalizationDataModel;
-    imgUrl: string[];
-    tagHtml?: string;
+export interface SectionPage {
+  id: string;
+  key: string;
+  type: string;
+  scope: string;       // 'global' | 'page'
+  order: number;
+  settings?: Record<string, unknown>;
+  blocks: Block[];
 }
 
-export interface ComponentTagsDescription {
-    componentId: string;
-    componentName: string;
-    idx: number;
-    items: ComponentTagDescriptionItem[];
+export interface Block {
+  id: string;
+  key: string;
+  type: string;
+  htmlTag?: string;
+  order: number;
+  content?: string;
+  altText?: string;
+  ariaLabel?: string;
+  properties?: Record<string, unknown>;
+  media?: Media[];
+  children?: Block[];
 }
 
-export interface ComponentMenuParentTag {
-    id: string;
-    tagId: string;
-    idx: number;
-    order: number;
-    key: string;
-    tag: string;
-    imgUrl: string[];
+export interface Media {
+  id: string;
+  type: string;
+  url: string;
+  mimeType?: string;
+  width?: number;
+  height?: number;
+  role?: string;
+  order: number;
 }
 
-export interface ComponentMenuItem {
-    id: string;
-    idx: number;
-    order: number;
-    key: string;
-    tag: string;
-    language: string;
-    imgUrl: string[];
-    tagsParent: ComponentMenuParentTag[];
+export interface SiteInfo {
+  code: string;
+  name: string;
+  defaultLanguage: string;
+}
+
+export interface PageMeta {
+  generatedAt: string;
+  etag: string;
 }

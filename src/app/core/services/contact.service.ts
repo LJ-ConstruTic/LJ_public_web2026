@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AbstractApiService } from './abstract-api.service';
-import { ContactDetail, CreateContactRequest, CreateContactResponse, GetAllContactsResponse } from '../model/contact-dto';
+import { ContactRequest, ContactResponse } from '../model/contact-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +9,10 @@ import { ContactDetail, CreateContactRequest, CreateContactResponse, GetAllConta
 export class ContactService extends AbstractApiService {
 
   constructor() {
-    super('/Contact');
+    super('');
   }
 
-  create(payload: CreateContactRequest): Observable<CreateContactResponse> {
-    return this.post<CreateContactResponse>('', payload);
+  submit(body: ContactRequest): Observable<ContactResponse> {
+    return this.post<ContactResponse>('/contact-requests', body);
   }
 }

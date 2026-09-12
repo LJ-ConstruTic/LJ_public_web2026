@@ -1,11 +1,10 @@
-export interface LanguageDataModel {
-  id: string;
-  idx: number;
-  createdAt: string;
-  updatedAt: string;
-  isActive: boolean;
-  language: string;
-  tag: string;
-  tagRegion: string;
-  code: number;
+export interface LanguageItem {
+  code: string;
+  name: string;
+  nativeName: string;
+  order: number;
+}
+
+export interface LanguagesResponse {
+  items: LanguageItem[];
 }

@@ -1,17 +1,17 @@
-import { LanguageDataModel } from "../../core/model/language-dto";
+import { LanguageItem } from "../../core/model/language-dto";
 
 export interface LanguageState {
-  items: LanguageDataModel[];
+  langs: LanguageItem[];
   loading: boolean;
   error: string | null;
-  selectedCode: number | null;
+  selectedCode: string | null; // 'es', 'pt', 'en', 'umb'
 }
 
 export const initialLanguageState: LanguageState = {
-  items: [],
+  langs: [],
   loading: false,
   error: null,
   selectedCode: null,
 };
 
-export const LS_KEY = 'ui-lang-code';
+export const LOCALSTORAGE_KEY = 'ui-lang-code';

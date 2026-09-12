@@ -1,75 +1,68 @@
 import { computed, effect, inject, Injectable, untracked } from "@angular/core";
-import { initialLanguageState, LanguageState, LS_KEY } from "./language.state";
+import { initialLanguageState, LanguageState, LOCALSTORAGE_KEY } from "./language.state";
 import { ComponentStore } from "@ngrx/component-store";
-import { LanguageService } from "../../core/services/language.service";
 import { catchError, EMPTY, switchMap, tap } from "rxjs";
 import { TranslateService } from "@ngx-translate/core";
-import { LanguageDataModel } from "../../core/model/language-dto";
 import { getBrowserLang } from "../../../assets/i18n/lang";
+import { ComponentService } from "../../core/services/component.service";
+import { LanguageItem } from "../../core/model/language-dto";
 
 @Injectable()
 export class LanguageStore extends ComponentStore<LanguageState> {
-    private readonly languageService = inject(LanguageService);
+    private readonly componentService = inject(ComponentService);
     private readonly translate = inject(TranslateService);
 
-    readonly $items = this.selectSignal(state => state.items);
+    readonly $items = this.selectSignal(state => state.langs);
     readonly $loading = this.selectSignal(state => state.loading);
     readonly $error = this.selectSignal(state => state.error);
-    readonly $selectedCode = this.selectSignal(state => state.selectedCode);
+    readonly $selectedCodeLang = this.selectSignal(state => state.selectedCode);
 
     readonly $langOptions = computed(() =>
-        this.$items().map(x => ({ // actualiza el desplegable
-            name: x.language,
+        this.$items().map(x => ({
             code: x.code,
-            tag: x.tag,
-            tagRegion: x.tagRegion,
+            name: x.name,
+            nativeName: x.nativeName,
         }))
     );
 
     readonly $selectedLanguage = computed(() =>
-        this.$langOptions().find((item) =>
-            item.code === this.$selectedCode()) ?? null
+        this.$langOptions().find(item => item.code === this.$selectedCodeLang()) ?? null
     );
 
     constructor() {
         super(initialLanguageState);
-        this.syncSelectedLanguage(); // la persistencia y traducción se hacen de forma reactiva en syncSelectedLanguage().
+        this.syncSelectedLanguage();
     }
 
-    // UPDATERS
+    // --- Updaters ---
     private readonly setLoading = this.updater<boolean>((state, loading) => ({ ...state, loading }));
     private readonly setError = this.updater<string | null>((state, error) => ({ ...state, error }));
-    private readonly setItems = this.updater<LanguageDataModel[]>((state, items) => ({ ...state, items }));
-    // readonly setSelectedCode = this.updater<number | null>((state, code) => ({ ...state, selectedCode: code }));
-    private readonly _setCode = this.updater<number | null>((state, selectedCode) => ({ ...state, selectedCode }));
+    private readonly setArrayLangs = this.updater<LanguageItem[]>((state, items) => ({ ...state, items }));
+    private readonly setCodeLang = this.updater<string | null>((state, selectedCode) => ({ ...state, selectedCode }));
 
-    readonly setSelectedCode = (code: number | null) => this._setCode(code); // es la API pública del store, lo que expone hacia los componentes.
+    readonly setSelectedCode = (code: string | null) => this.setCodeLang(code);
 
-    // EFFECTS
-    readonly loadAll = this.effect<void>((trigger$) =>
+    // --- Effects ---
+    readonly loadAllLanguages = this.effect<void>((trigger$) =>
         trigger$.pipe(
-            tap(() => { 
-                this.setLoading(true); 
-                this.setError(null); }),
+            tap(() => {
+                this.setLoading(true);
+                this.setError(null);
+            }),
             switchMap(() =>
-                this.languageService.getAllLanguages().pipe(
+                this.componentService.getLanguages().pipe(
                     tap(res => {
-                        const items = res.items ?? [];
-                        this.setItems(res.items ?? []);
+                        const langs = res?.items;
+                        this.setArrayLangs(langs);
                         this.setLoading(false);
 
-                        this._setCode(this.resolveInitialCode(items));
-
-                        // inicialización del idioma
-                        // const stored = localStorage.getItem('ui-lang-code');
-                        // const storedCode = stored != null ? Number(stored) : null;
-
-                        // const defaultCode = storedCode ?? res.items[0]?.code ?? null;
-                        // this.setSelectedCode(defaultCode);
+                        const resolved = this.getInitialLanguage(langs);
+                        this.setCodeLang(resolved); // update language
                     }),
                     catchError(err => {
                         this.setLoading(false);
-                        this.setError(err?.error?.message ?? err?.message ?? 'Unexpected error');
+                        this.setError(err?.message ?? 'Error loading languages');
+                        console.error('[LanguageStore] error:', err);
                         return EMPTY;
                     })
                 )
@@ -77,41 +70,38 @@ export class LanguageStore extends ComponentStore<LanguageState> {
         )
     );
 
-    private resolveInitialCode(items: LanguageDataModel[]): number | null {
-        if (!items.length) return null;
+    private getInitialLanguage(langs: LanguageItem[]): string | null {
+        if (!langs?.length) return null;
 
-        // Recoge el código guardado en localStorage
-        const langCodeStored = localStorage.getItem(LS_KEY);
-
-        if (langCodeStored !== null) {
-            const storedCodeAsNumber = Number(langCodeStored); // el código de idioma es numérico
-            const codeExists = items.some(cod => cod.code === storedCodeAsNumber);
-
-        if (codeExists) return storedCodeAsNumber;
+        // 1 — localStorage
+        if (typeof window !== 'undefined') {
+            const langStored = localStorage.getItem(LOCALSTORAGE_KEY);
+            if (langStored && langs.some(i => i.code === langStored)){
+                return langStored;
+            }
         }
 
-        // 2 — Tomar el idioma del navegador
-        const browserTag = getBrowserLang(this.translate); // 'en' | 'es' | 'pt' | 'umb'
-        console.log('browserTag', browserTag);
-        const byBrowser = items.find(x => x.tag === browserTag || x.tagRegion?.toLowerCase().startsWith(browserTag));
-        console.log('byBrowser', byBrowser);
+        // 2 — idioma del navegador
+        const browserTag = getBrowserLang(this.translate);
+
+        const byBrowser = langs.find(i => i.code === browserTag);
         if (byBrowser) return byBrowser.code;
 
-        // 3 — Default: devuelve inglés
-        console.log('3 — Default: devuelve inglés', items);
-        return items[4].code;
+        // 3 — default inglés si no existen idiomas coincidentes
+        return langs.find(i => i.code === 'en')?.code ?? langs[0].code;
     }
 
-    private syncSelectedLanguage(): void { // cuando cambia selectedCode → aplicar idioma y persiste en el localStorage
+    private syncSelectedLanguage(): void { // reacciona cada vez que el idioma seleccionado cambia.
         effect(() => {
             const selected = this.$selectedLanguage();
             if (!selected) return;
 
-            untracked(() => { // untracked() evita que translate.use() / localStorage disparen re-renders en el grafo de signals.
-                this.translate.use(selected.tag);
-                localStorage.setItem(LS_KEY, String(selected.code));
+            untracked(() => {
+                this.translate.use(selected.code);
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem(LOCALSTORAGE_KEY, selected.code);
+                }
             });
         });
     }
-
 }

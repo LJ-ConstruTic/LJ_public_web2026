@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api-v2.ljconstrutic.com/v1',
+  apiBaseUrl: 'https://ap-v2-1.ljconstrutic.com/v2',
 };

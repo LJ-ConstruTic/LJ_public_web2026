@@ -1,9 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, inject, PLATFORM_ID, signal } from "@angular/core";
-import { TagStore } from "../../../store/tag/tag.store";
 import { LanguageStore } from "../../../store/language/language.store";
-import { InternationalizationDataModel } from "../../../core/model/common-response-dto";
-import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
 import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
 import { SafePipe } from "../../../../utils/pipes/safe-iframe.pipe";
@@ -23,88 +20,88 @@ import { ComponentAppStore } from "../../../store/component/component.store";
     styleUrl: './contact.component.scss'
 })
 export class ContactComponent {
-    readonly tagStore = inject(TagStore);
-    readonly contactStore = inject(ContactStore);
-    readonly languageStore = inject(LanguageStore);
-    readonly componentStore = inject(ComponentAppStore);
+    // readonly tagStore = inject(TagStore);
+    // readonly contactStore = inject(ContactStore);
+    // readonly languageStore = inject(LanguageStore);
+    // readonly componentStore = inject(ComponentAppStore);
 
-    private readonly fb = inject(FormBuilder);
+    // private readonly fb = inject(FormBuilder);
 
-    readonly sending = toSignal(this.contactStore.sending$, { initialValue: false });
-    readonly sent = toSignal(this.contactStore.sent$, { initialValue: false });
-    private readonly items = toSignal(this.contactStore.tags$, { initialValue: null });
+    // readonly sending = toSignal(this.contactStore.sending$, { initialValue: false });
+    // readonly sent = toSignal(this.contactStore.sent$, { initialValue: false });
+    // private readonly items = toSignal(this.contactStore.tags$, { initialValue: null });
 
-    submitted = signal(false);
+    // submitted = signal(false);
 
-    ngOnInit(): void {
-        const contact = this.componentStore.$items().find((component) => component.idx === 9);
-        if (contact) {
-        this.contactStore.loadContactTags(contact.id);
-        }
-    }
+    // ngOnInit(): void {
+    //     const contact = this.componentStore.$items().find((component) => component.idx === 9);
+    //     if (contact) {
+    //     this.contactStore.loadContactTags(contact.id);
+    //     }
+    // }
 
-    private readonly lang = computed(
-        () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
-    );
+    // private readonly lang = computed(
+    //     () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
+    // );
 
 
-    private readonly contactItems = computed(() => {
-    const lang = this.lang();
-    const raw = this.items();
-    return (Array.isArray(raw) ? raw : raw?.items ?? [])
-        .sort((a, b) => a.order - b.order)
-        .map((i) => ({
-            keys: i.keys,
-            text: i.tag[lang] ?? '',
-            img:  i.imgUrl[0] ?? null,
-        }));
-    });
+    // private readonly contactItems = computed(() => {
+    // const lang = this.lang();
+    // const raw = this.items();
+    // return (Array.isArray(raw) ? raw : raw?.items ?? [])
+    //     .sort((a, b) => a.order - b.order)
+    //     .map((i) => ({
+    //         keys: i.keys,
+    //         text: i.tag[lang] ?? '',
+    //         img:  i.imgUrl[0] ?? null,
+    //     }));
+    // });
 
-    readonly label = computed(() => {
-        const items = this.contactItems();
-        const find    = (keys: string) => items.find((i) => i.keys === keys)?.text ?? '';
-        const findImg = (keys: string) => items.find((i) => i.keys === keys)?.img  ?? '';
+    // readonly label = computed(() => {
+    //     const items = this.contactItems();
+    //     const find    = (keys: string) => items.find((i) => i.keys === keys)?.text ?? '';
+    //     const findImg = (keys: string) => items.find((i) => i.keys === keys)?.img  ?? '';
 
-        return {
-            title:    find('contMoreInfo'),
-            subtitle: find('contWeHelp'),
-            name:     find('contName'),
-            phone:    find('contTel'),
-            email:    find('contEmail'),
-            message:  find('contMessage'),
-            btnSend:  find('btnSendContactForm'),
-            mapUrl:   findImg('mapContatFormUrl'),
-        };
-    });
+    //     return {
+    //         title:    find('contMoreInfo'),
+    //         subtitle: find('contWeHelp'),
+    //         name:     find('contName'),
+    //         phone:    find('contTel'),
+    //         email:    find('contEmail'),
+    //         message:  find('contMessage'),
+    //         btnSend:  find('btnSendContactForm'),
+    //         mapUrl:   findImg('mapContatFormUrl'),
+    //     };
+    // });
 
-    readonly form: FormGroup = this.fb.group({
-        name: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        message: ['', Validators.required],
-        website: [''],
-    });
+    // readonly form: FormGroup = this.fb.group({
+    //     name: ['', Validators.required],
+    //     phone: ['', Validators.required],
+    //     email: ['', [Validators.required, Validators.email]],
+    //     message: ['', Validators.required],
+    //     website: [''],
+    // });
 
-    hasError(field: string): boolean {
-        const control = this.form.get(field);
-        return !!control && control.invalid && (control.touched || this.submitted());
-    }
+    // hasError(field: string): boolean {
+    //     const control = this.form.get(field);
+    //     return !!control && control.invalid && (control.touched || this.submitted());
+    // }
 
-    onSubmit(): void {
-        this.submitted.set(true);
+    // onSubmit(): void {
+    //     this.submitted.set(true);
 
-        if (this.form.invalid) return; // Validación
+    //     if (this.form.invalid) return; // Validación
 
-        const { ...formData } = this.form.value;
+    //     const { ...formData } = this.form.value;
 
-        this.contactStore.submit(formData);
+    //     this.contactStore.submit(formData);
 
-        // Resetear formulario cuando el envío sea exitoso
-        this.contactStore.sent$.pipe(
-            filter(Boolean),
-            take(1)).subscribe(() => {
-            this.form.reset();
-            this.submitted.set(false);
-        });
-    }
+    //     // Resetear formulario cuando el envío sea exitoso
+    //     this.contactStore.sent$.pipe(
+    //         filter(Boolean),
+    //         take(1)).subscribe(() => {
+    //         this.form.reset();
+    //         this.submitted.set(false);
+    //     });
+    // }
 }

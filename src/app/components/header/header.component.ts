@@ -9,7 +9,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { RouterLink } from "@angular/router";
 import { LanguageStore } from "../../store/language/language.store";
 import { ComponentAppStore } from "../../store/component/component.store";
-import { TagStore } from "../../store/tag/tag.store";
+
 import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
 
 @Component({
@@ -24,49 +24,49 @@ import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
 export class HeaderComponent {
     @ViewChild('menubar') menubar: any;
 
-    private readonly languageStore = inject(LanguageStore);
-    readonly themeStore = inject(ThemeStore);
-    readonly componentStore = inject(ComponentAppStore);
-    readonly tagStore = inject(TagStore);
+    // private readonly languageStore = inject(LanguageStore);
+    // readonly themeStore = inject(ThemeStore);
+    // readonly componentStore = inject(ComponentAppStore);
+    // readonly tagStore = inject(TagStore);
 
-    readonly isDark$ = this.themeStore.isDark$;
-    readonly langOptions = this.languageStore.$langOptions;
-    readonly selectedCode = this.languageStore.$selectedCode;
-    readonly menu = this.componentStore.$menuConverted;
+    // readonly isDark$ = this.themeStore.isDark$;
+    // readonly langOptions = this.languageStore.$langOptions;
+    // readonly selectedCode = this.languageStore.$selectedCode;
+    // readonly menu = this.componentStore.$menuConverted;
 
-    readonly logoUrl = this.tagStore.$img(TAGS_DICTIONARY.COMPANY_LOGO);
+    // readonly logoUrl = this.tagStore.$img(TAGS_DICTIONARY.COMPANY_LOGO);
 
-    constructor() {
-        effect(() => {
-            const code = this.languageStore.$selectedCode();
-            if (!code) return;
-            this.componentStore.loadMenu(Number(code));
-        });
-    }
+    // constructor() {
+    //     effect(() => {
+    //         const code = this.languageStore.$selectedCode();
+    //         if (!code) return;
+    //         this.componentStore.loadMenu(Number(code));
+    //     });
+    // }
 
-    onLangChange(code: number) {
-        this.languageStore.setSelectedCode(code);
-    }
+    // onLangChange(code: number) {
+    //     this.languageStore.setSelectedCode(code);
+    // }
 
-    toggleTheme(): void {
-        this.themeStore.toggle();
-    }
+    // toggleTheme(): void {
+    //     this.themeStore.toggle();
+    // }
 
-    handleMenuCommand(event: any, key: string, route?: string): void {
-        const target = event?.originalEvent?.target as HTMLElement;
-        if (target?.closest('.p-menubar-submenu-icon')) return;
+    // handleMenuCommand(event: any, key: string, route?: string): void {
+    //     const target = event?.originalEvent?.target as HTMLElement;
+    //     if (target?.closest('.p-menubar-submenu-icon')) return;
 
-        if (route) {
-            this.componentStore.navigateTo(route);
-        } else {
-            this.componentStore.scrollTo(key);
-        }
+    //     if (route) {
+    //         this.componentStore.navigateTo(route);
+    //     } else {
+    //         this.componentStore.scrollTo(key);
+    //     }
 
-        setTimeout(() => this.menubar?.hide?.(), 0);
-    }
+    //     setTimeout(() => this.menubar?.hide?.(), 0);
+    // }
 
-    closeMenu(): void {
-        this.menubar?.hide?.();
-    }
+    // closeMenu(): void {
+    //     this.menubar?.hide?.();
+    // }
 
 }

@@ -2,103 +2,82 @@ import { ComponentStore } from "@ngrx/component-store";
 import { ComponentState, initialComponentState } from "./component.state";
 import { computed, inject, Injectable } from "@angular/core";
 import { ComponentService } from "../../core/services/component.service";
-import { ComponentDataModel, ComponentMenuItem } from "../../core/model/component-dto";
 import { switchMap, tap } from "rxjs";
-import { COMPONENT_DICTIONARY } from "../../core/dictionary/component-dictionary";
 import { Router } from "@angular/router";
 
 
 @Injectable()
 export class ComponentAppStore extends ComponentStore<ComponentState> {
-    readonly componentService = inject(ComponentService);
+    private readonly componentService = inject(ComponentService);
     private readonly router = inject(Router);
 
-    readonly $items = this.selectSignal(state => state.items)
-    readonly $menuItems = this.selectSignal(state => state.menuItems)
-    readonly $loading = this.selectSignal(state => state.loading)
-    readonly $error = this.selectSignal(state => state.error)
+    readonly $globalSections = this.selectSignal(state => state.globalSections);
+    readonly $pageSections = this.selectSignal(state => state.pageSections);
+    readonly $loading = this.selectSignal(state => state.loading);
+    readonly $error = this.selectSignal(state => state.error);
 
-    // Transformar $menuItems (ComponentMenuItem[]) a MenuItem[] que es lo que pide primeng
-    readonly $menuConverted = computed(() =>
-        this.$menuItems().map(item => {
-            const dictEntry = Object.values(COMPONENT_DICTIONARY).find(d => d.key === item.key);
-            const command = (event: any) => {
-                const target = event?.originalEvent?.target as HTMLElement;
-                if (target?.closest('[data-pc-section="submenuicon"]')) return;
-                dictEntry?.route
-                    ? this.router.navigate([dictEntry.route])
-                    : this.scrollTo(item.key);
-            };
-            return {
-                label: item.tag,
-                id: item.id,
-                command,
-                items: item.tagsParent.length
-                    ? item.tagsParent.map(child => ({
-                        label: child.tag,
-                        id: child.id,
-                        command: () => dictEntry?.childRoute ?
-                            this.router.navigate([dictEntry.childRoute, child.tagId])
-                            : this.scrollTo(child.key),
-                    }))
-                    : undefined,
-            };
-        })
+    // ----- Secciones -------------------------------------------------
+    readonly $headerSection = computed(() =>
+        this.$globalSections().find(s => s.type === 'header') ?? null
     );
 
-    // readonly $activeComponents = computed(() => // TODO: Cuando el json sea correcto, descomentar
-    //     this.$items().filter(comp => comp.isActive).sort((a, b) => a.idx - b.idx)
-    // );
-
-    readonly $activeComponents = computed(() =>
-        this.$items()
-            .filter(comp => comp.isActive && !!COMPONENT_DICTIONARY[comp.name])
-            .sort((a, b) => a.idx - b.idx)
+    readonly $logoBlock = computed(() =>
+        this.$headerSection()?.blocks.find(b => b.type === 'image') ?? null
     );
+
+    readonly $menuBlock = computed(() =>
+        this.$headerSection()?.blocks.find(b => b.type === 'menu') ?? null
+    );
+    readonly $menuLinks = computed(() => {
+        const menuBlock = this.$menuBlock();
+        if (!menuBlock?.children) return [];
+        return [...menuBlock.children].sort((a, b) => a.order - b.order);
+    });
+
+    readonly $footerSection = computed(() =>
+        this.$globalSections().find(s => s.type === 'footer') ?? null
+    );
+    readonly $footerCompany = computed (() => {
+        this.$footerSection()?.blocks.find(b => b.type === 'text')
+    });
+    readonly $footerContact = computed (() => {
+        this.$footerSection()?.blocks.find(b => b.type === 'contact')
+    });
+    readonly $footerSocial = computed (() => {
+        this.$footerSection()?.blocks.find(b => b.type === 'social')
+    });
 
     constructor() {
         super(initialComponentState);
     }
 
-    // Updaters:
-    readonly setLoading = this.updater<boolean>((state, loading) => ({
-        ...state,
-        loading
+    // --- Updaters ---
+    private readonly setLoading = this.updater<boolean>((state, loading) => ({
+        ...state, loading
+    }));
+    private readonly setError = this.updater<string | null>((state, error) => ({
+        ...state, error
     }));
 
-    readonly setError = this.updater<string | null>((state, error) => ({
-        ...state,
-        error
-    }));
-
-    readonly setItems = this.updater<ComponentDataModel[]>((state, items) => ({
-        ...state,
-        items
-    }));
-
-    readonly setMenuItems = this.updater<ComponentMenuItem[]>((state, menuItems) => ({
-        ...state,
-        menuItems
-    }));
-
-    // Effects:
-    readonly loadAllComponents = this.effect<void>((trigger$) =>
-        trigger$.pipe(
+    // --- Effects ---
+    readonly loadComponents = this.effect<string>((lang$) =>
+        lang$.pipe(
             tap(() => {
                 this.setLoading(true);
                 this.setError(null);
             }),
-            switchMap(() =>
-                this.componentService.getAllComponents().pipe(
+            switchMap((lang) =>
+                this.componentService.getBootstrap(lang).pipe(
                     tap({
-                        next: (response) => {
-                            console.log('Component TODOS LSO COMPONENTES:', response);
-                            const filtered = (response.items ?? []).filter(item => item.name !== 'Menu');
-                            this.setItems(filtered);
-                            this.setLoading(false);
+                        next: (res) => {
+                            console.log('loadBootstrap', res);
+                            this.patchState({
+                                globalSections: res.sections,
+                                loading: false,
+                            });
                         },
-                        error: (error) => {
-                            this.setError('Error loading components');
+                        error: (err) => {
+                            this.setError(err?.message ?? 'Error loading site');
                             this.setLoading(false);
                         },
                     })
@@ -107,23 +86,24 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
         )
     );
 
-    readonly loadMenu = this.effect<number>((trigger$) =>
-        trigger$.pipe(
+    readonly loadPage = this.effect<{ route: string; lang: string }>((params$) =>
+        params$.pipe(
             tap(() => {
                 this.setLoading(true);
                 this.setError(null);
             }),
-            switchMap((codeLanguage) =>
-                this.componentService.getComponentMenu(codeLanguage).pipe(
+            switchMap(({ route, lang }) =>
+                this.componentService.getPageByRoute(route, lang).pipe(
                     tap({
-                        next: (response) => {
-                            console.log('Component MENU:', response);
-                            this.setMenuItems(response.items ?? []);
-                            this.setLoading(false);
+                        next: (res) => {
+                            console.log('loadPage', res);
+                            this.patchState({
+                                pageSections: res.page.sections,
+                                loading: false,
+                            });
                         },
-                        error: (error) => {
-                            console.error('Error loading components:', error);
-                            this.setError('Error loading components');
+                        error: (err) => {
+                            this.setError(err?.message ?? 'Error loading page');
                             this.setLoading(false);
                         },
                     })
@@ -143,17 +123,4 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
             document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
         }
     }
-
-    navigateTo(route: string): void {
-        this.router.navigate([route]);
-    }
-
-    getTagIdByKey(key: string): string | null {
-        for (const item of this.$menuItems()) {
-            const parent = item.tagsParent.find(p => p.key === key);
-            if (parent) return parent.tagId;
-        }
-        return null;
-    }
-
 }

@@ -1,20 +1,53 @@
-<section>
-    <div class="image-container">
-        <img class="image-style" src='../../../../assets/img/new.jpg' alt="apresentaçao" />
+<div class="component-container">
+
+  <!-- Envoltura semántica del artículo del blog -->
+  <article class="blog-article">
+    
+    <!-- Título principal con tu fuente secundaria -->
+    <h1 class="blog-title">O futuro digital da LJ Constructic já está em marcha!</h1>
+
+    <div class="blog-image-wrapper">
+      <img src="img/new.jpg" alt="Apresentação da nova página web" />
     </div>
-    <h2>O futuro digital da LJ Constructic já está em marcha!</h2>
-    <p>Na LJ Constructic não paramos. Com o objetivo de continuar a liderar o setor e oferecer sempre a máxima excelência, temos o prazer de anunciar que começámos a construir a nossa nova página web de forma dinâmica.
 
-Este não será um site qualquer; trata-se de uma transformação digital completa, desenhada por e para os nossos clientes.
+    <!-- Contenido del artículo separado por párrafos estructurados -->
+    <div class="blog-content">
+      <p>
+        Na LJ Constructic não paramos. Com o objetivo de continuar a liderar o setor e oferecer sempre a máxima excelência, temos o prazer de anunciar que começámos a construir a nossa nova página web de forma dinâmica.
+      </p>
+      
+      <p>
+        Este não será um site qualquer; trata-se de uma transformação digital completa, desenhada por e para os nossos clientes.
+      </p>
 
-O que trará esta nova plataforma?
-Informação à distância de um clique: Um espaço centralizado onde os nossos clientes atuais e potenciais encontrarão absolutamente tudo o que precisam de saber sobre os nossos serviços, fases de projetos, materiais e metodologias, de forma clara, transparente e detalhada.
+      <h3 class="blog-subtitle">O que trará esta nova plataforma?</h3>
 
-Um íman de captação: Graças a uma arquitetura web dinâmica e interativa, a página oferecerá uma experiência de utilizador única que resolverá dúvidas em tempo real, facilitará a solicitação de orçamentos e nos ajudará a conectar e a captar novos clientes com uma eficácia muito maior.
+      <p>
+        <strong>Informação à distância de um clique:</strong> Um espaço centralizado onde os nossos clientes atuais e potenciais encontrarão absolutamente tudo o que precisam de saber sobre os nossos serviços, fases de projetos, materiais e metodologias, de forma clara, transparente e detalhada.
+      </p>
 
-Conteúdo em constante evolução: O novo portal estará vivo. Será atualizado constantemente com casos de sucesso, artigos técnicos do setor e ferramentas digitais personalizadas.
+      <p>
+        <strong>Um íman de captação:</strong> Graças a uma arquitetura web dinâmica e interativa, a página oferecerá uma experiência de utilizador única que resolverá dúvidas em tempo real, facilitará a solicitação de orçamentos e nos ajudará a conectar e a captar novos clientes com uma eficácia muito maior.
+      </p>
 
-Estamos convictos de que esta nova janela para o mundo não só reforçará a confiança de quem já nos escolhe, mas também se tornará na nossa ferramenta mais potente para atrair novos projetos e fazer crescer a marca.
+      <p>
+        <strong>Conteúdo em constante evolução:</strong> O novo portal estará vivo. Será atualizado constantemente com casos de sucesso, artigos técnicos do setor e ferramentas digitais personalizadas.
+      </p>
 
-Fiquem atentos, porque muito em breve partilharemos os primeiros avanços!</p>
-</section>
+      <p>
+        Estamos convictos de que esta nova janela para o mundo não só reforçará a confiança de quem já nos escolhe, mas também se tornará na nossa ferramenta mais potente para atrair novos projetos e fazer crescer a marca.
+      </p>
+
+      <p class="blog-highlight">
+        Fiquem atentos, porque muito em breve partilharemos os primeiros avanços!
+      </p>
+    </div>
+
+  </article>
+
+  <section class="back-section">
+    <button class="btn-back" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i> Voltar
+    </button>
+  </section>
+</div>
