@@ -9,8 +9,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { RouterLink } from "@angular/router";
 import { LanguageStore } from "../../store/language/language.store";
 import { ComponentAppStore } from "../../store/component/component.store";
-
-import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
+import { MenuItem } from "primeng/api";
 
 @Component({
     selector: 'app-header',
@@ -24,49 +23,53 @@ import { TAGS_DICTIONARY } from "../../core/dictionary/tags-dictionary";
 export class HeaderComponent {
     @ViewChild('menubar') menubar: any;
 
-    // private readonly languageStore = inject(LanguageStore);
-    // readonly themeStore = inject(ThemeStore);
-    // readonly componentStore = inject(ComponentAppStore);
-    // readonly tagStore = inject(TagStore);
+    readonly componentStore = inject(ComponentAppStore);
+    private readonly languageStore = inject(LanguageStore);
+    readonly themeStore = inject(ThemeStore);
 
-    // readonly isDark$ = this.themeStore.isDark$;
-    // readonly langOptions = this.languageStore.$langOptions;
-    // readonly selectedCode = this.languageStore.$selectedCode;
-    // readonly menu = this.componentStore.$menuConverted;
+    readonly logoBlock = this.componentStore.$logoBlock;
+    readonly menuLinks = this.componentStore.$menuLinks;
+    readonly langOptions = this.languageStore.$langOptions;
+    readonly selectedCode = this.languageStore.$selectedCodeLang;
+    readonly isDark$ = this.themeStore.isDark$;
 
-    // readonly logoUrl = this.tagStore.$img(TAGS_DICTIONARY.COMPANY_LOGO);
+    readonly $menuItems = computed(() => {
+        const links = this.menuLinks();
 
-    // constructor() {
-    //     effect(() => {
-    //         const code = this.languageStore.$selectedCode();
-    //         if (!code) return;
-    //         this.componentStore.loadMenu(Number(code));
-    //     });
-    // }
+        return links.map(linkItem => {
+            const label = linkItem?.content;
+            const href = linkItem.properties?.['href'] as string;
 
-    // onLangChange(code: number) {
-    //     this.languageStore.setSelectedCode(code);
-    // }
+            return {
+                label,
+                command: () => {
+                    if (href) { // Aquí hacer la versión de es un scroll o un componente
+                        this.componentStore.scrollTo(linkItem.key); // TODO: key o id
+                    }
+                }
+            } as MenuItem;
+        });
+    });
 
-    // toggleTheme(): void {
-    //     this.themeStore.toggle();
-    // }
+    constructor() {
+        effect(() => {
+            // console.log('logoBlock:', this.logoBlock());
+            // console.log('menuLinks:', this.menuLinks());
+            // console.log('selectedCode:', this.selectedCode());
+            // console.log('langOptions:', this.langOptions());
+        });
+    }
 
-    // handleMenuCommand(event: any, key: string, route?: string): void {
-    //     const target = event?.originalEvent?.target as HTMLElement;
-    //     if (target?.closest('.p-menubar-submenu-icon')) return;
+    onLangChange(code: string) {
+        this.languageStore.setSelectedCode(code);
+    }
 
-    //     if (route) {
-    //         this.componentStore.navigateTo(route);
-    //     } else {
-    //         this.componentStore.scrollTo(key);
-    //     }
+    toggleTheme(): void {
+        this.themeStore.toggle();
+    }
 
-    //     setTimeout(() => this.menubar?.hide?.(), 0);
-    // }
-
-    // closeMenu(): void {
-    //     this.menubar?.hide?.();
-    // }
+    closeMenu(): void {
+        this.menubar?.hide?.();
+    }
 
 }

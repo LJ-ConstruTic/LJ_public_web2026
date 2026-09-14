@@ -17,13 +17,14 @@ export class LanguageStore extends ComponentStore<LanguageState> {
     readonly $error = this.selectSignal(state => state.error);
     readonly $selectedCodeLang = this.selectSignal(state => state.selectedCode);
 
-    readonly $langOptions = computed(() =>
-        this.$items().map(x => ({
+    readonly $langOptions = computed(() => {
+        const items = this.$items();
+        return items.map(x => ({
             code: x.code,
             name: x.name,
             nativeName: x.nativeName,
-        }))
-    );
+        }));
+    });
 
     readonly $selectedLanguage = computed(() =>
         this.$langOptions().find(item => item.code === this.$selectedCodeLang()) ?? null
@@ -37,7 +38,7 @@ export class LanguageStore extends ComponentStore<LanguageState> {
     // --- Updaters ---
     private readonly setLoading = this.updater<boolean>((state, loading) => ({ ...state, loading }));
     private readonly setError = this.updater<string | null>((state, error) => ({ ...state, error }));
-    private readonly setArrayLangs = this.updater<LanguageItem[]>((state, items) => ({ ...state, items }));
+    private readonly setArrayLangs = this.updater<LanguageItem[]>((state, langs) => ({ ...state, langs }));
     private readonly setCodeLang = this.updater<string | null>((state, selectedCode) => ({ ...state, selectedCode }));
 
     readonly setSelectedCode = (code: string | null) => this.setCodeLang(code);

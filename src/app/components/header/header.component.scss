@@ -61,8 +61,8 @@
 
 :host ::ng-deep .p-menubar-item:not(.p-disabled)>.p-menubar-item-content:hover {
   // hover de menú
-  background: var(--ui-hover-background) !important;
-  color: var(--ui-hover-text) !important;
+  background: transparent !important;
+  color: var(--ui-hover-background) !important;
   font-weight: bold !important;
 }
 

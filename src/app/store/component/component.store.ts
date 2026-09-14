@@ -16,18 +16,16 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     readonly $loading = this.selectSignal(state => state.loading);
     readonly $error = this.selectSignal(state => state.error);
 
-    // ----- Secciones -------------------------------------------------
-    readonly $headerSection = computed(() =>
-        this.$globalSections().find(s => s.type === 'header') ?? null
-    );
-
-    readonly $logoBlock = computed(() =>
-        this.$headerSection()?.blocks.find(b => b.type === 'image') ?? null
-    );
-
-    readonly $menuBlock = computed(() =>
-        this.$headerSection()?.blocks.find(b => b.type === 'menu') ?? null
-    );
+    // ----- Secciones ----------------------------------------------------------------
+    readonly $headerSection = computed(() => {
+        return this.$globalSections().find(s => s.type === 'header') ?? null
+    });
+    readonly $logoBlock = computed(() =>{
+        return this.$headerSection()?.blocks.find(b => b.type === 'image') ?? null
+    });
+    readonly $menuBlock = computed(() => {
+        return this.$headerSection()?.blocks.find(b => b.type === 'menu') ?? null
+    });
     readonly $menuLinks = computed(() => {
         const menuBlock = this.$menuBlock();
         if (!menuBlock?.children) return [];
@@ -38,13 +36,13 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
         this.$globalSections().find(s => s.type === 'footer') ?? null
     );
     readonly $footerCompany = computed (() => {
-        this.$footerSection()?.blocks.find(b => b.type === 'text')
+        return this.$footerSection()?.blocks.find(b => b.type === 'text')
     });
     readonly $footerContact = computed (() => {
-        this.$footerSection()?.blocks.find(b => b.type === 'contact')
+        return this.$footerSection()?.blocks.find(b => b.type === 'contact')
     });
     readonly $footerSocial = computed (() => {
-        this.$footerSection()?.blocks.find(b => b.type === 'social')
+        return this.$footerSection()?.blocks.find(b => b.type === 'social')
     });
 
     constructor() {
@@ -111,6 +109,10 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
             )
         )
     );
+
+    // navigateTo(route: string): void {
+    //     this.router.navigate([route]);
+    // }
 
     scrollTo(key: string): void {
         if (this.router.url !== '/') {
