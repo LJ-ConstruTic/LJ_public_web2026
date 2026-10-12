@@ -1,17 +1,24 @@
 <div class="products">
-    <!-- <h2 class="products-title">{{ products().title }}</h2>
-    <p class="products-subtitle">{{ products().subtitle }}</p>
+    <h2 class="products-title">{{ productsTitle() }}</h2>
+
+    @if (productTextBlocks().length > 0) {
+        <p class="products-subtitle">{{ productTextBlocks()[0].content }}</p>
+    }
 
     <div class="products-grid">
-        @for (product of products().products; track product.title) {
-        <div class="products-card" (click)="navigateTo(product.keys)">
-            <div class="products-card-img">
-                <img [src]="product.img" [alt]="product.title" />
+        @for (product of productCards(); track product.id) {
+            <div class="products-card" (click)="navigateToProduct(product)">
+                @if (product.media.length > 0) {
+                    <div class="products-card-img">
+                        <img [src]="product.media[0].url" [alt]="product.content ?? ''" />
+                    </div>
+                }
+                <h3 class="products-card-title">{{ product.content }}</h3>
             </div>
-            <h3 class="products-card-title">{{ product.title }}</h3>
-        </div>
         }
     </div>
-    <p class="products-subtitle">{{ products().subtitle2 }}</p> -->
-    productos
+
+    @if (productTextBlocks().length > 1) {
+        <p class="products-subtitle">{{ productTextBlocks()[1].content }}</p>
+    }
 </div>

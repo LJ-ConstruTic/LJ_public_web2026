@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, OnInit, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, input, OnInit, signal } from "@angular/core";
 import { CarouselModule } from "primeng/carousel";
+import { Block } from "../../../core/model/component-dto";
 
 
 @Component({
@@ -12,52 +13,27 @@ import { CarouselModule } from "primeng/carousel";
   styleUrls: ['./presentation.component.scss']
 })
 export class PresentationComponent {
-  // readonly tagStore = inject(TagStore);
-  // readonly weAreStore = inject(GetComponentTagsStore);
-  // readonly languageStore = inject(LanguageStore);
-  // private readonly componentStore = inject(ComponentAppStore);
-  // private readonly injector = inject(Injector);
 
-  // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+  readonly block = input.required<Block>();
 
-  // private readonly items = toSignal(this.weAreStore.tags$, { initialValue: null });
+  readonly carouselTitle = computed(() => {
+    const title = this.block().content ?? '';
+    return title;
+  });
 
-  // activeIndex = signal<number>(0);
+  readonly carouselSlides = computed(() => {
+    const slides = [...this.block().children].sort(
+      (slideA, slideB) => slideA.order - slideB.order
+    );
+    return slides;
+  });
 
-  // // Faltará coger los datos a partir del componente
-
-  // readonly slides = computed<TranslatedSlide[]>(() => {
-  //   const lang = this.lang();
-  //   const tags = this.tagStore.$tags();
-
-  //   const text = (key: TagKey): string => {
-  //     const tag = tags.find((item) => item.isActive && item.internationalization.keyLabel === key)?.internationalization.tag;
-  //     return tag ? (tag[lang] || tag['en']) : '';
-  //   };
-
-  //   const img = (key: TagKey, i = 0): string =>
-  //     tags.find((t) => t.isActive && t.internationalization.keyLabel === key)?.internationalization.imgUrl[i] ?? '';
-
-  //   return [
-  //     { title: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE), context: text(TAGS_DICTIONARY.SLI_PROJECTBUILD_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_PROJECTBUILD_TITLE) },
-  //     { title: text(TAGS_DICTIONARY.SLI_APP_TITLE), context: text(TAGS_DICTIONARY.SLI_APP_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_APP_TITLE) },
-  //     { title: text(TAGS_DICTIONARY.SLI_REFORM_TITLE), context: text(TAGS_DICTIONARY.SLI_REFORM_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_REFORM_TITLE) },
-  //     { title: text(TAGS_DICTIONARY.SLI_MANTEN_TITLE), context: text(TAGS_DICTIONARY.SLI_MANTEN_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_MANTEN_TITLE) },
-  //     { title: text(TAGS_DICTIONARY.SLI_REFORM2_TITLE), context: text(TAGS_DICTIONARY.SLI_REFORM2_CTX), imgUrl: img(TAGS_DICTIONARY.SLI_REFORM2_TITLE) },
-  //   ];
-  // });
-
-  //   ngOnInit(): void {
-  //     effect(() => {
-  //       const items = this.componentStore.$items();
-  //       if (items.length === 0) return;
-
-  //       const weAre = items.find((c) => c.idx === 3);
-  //       if (weAre) {
-  //         this.weAreStore.loadComponentTags(weAre.id);
-  //       }
-  //     }, { injector: this.injector });
-  //   }
+  readonly carouselImage = computed(() => {
+    const mediaItems = this.block().media;
+    const imageUrl = mediaItems.length > 0 ? mediaItems[0].url : null;
+    console.log('[PresentationComponent] imagen:', imageUrl ?? 'sin imagen');
+    return imageUrl;
+  });
 
   goTo(index: number): void {
     // this.activeIndex.set(index);

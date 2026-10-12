@@ -1,10 +1,9 @@
 import { SectionPage, SiteInfo } from "../../core/model/component-dto";
 
-
 export interface ComponentState {
   site: SiteInfo | null;
-  globalSections: SectionPage[];  // header, menu, footer del bootstrap
-  pageSections: SectionPage[];    // secciones de la página actual
+  globalSections: SectionPage[];
+  pageSectionsBySlug: Record<string, SectionPage[]>;
   loading: boolean;
   error: string | null;
 }
@@ -12,7 +11,7 @@ export interface ComponentState {
 export const initialComponentState: ComponentState = {
   site: null,
   globalSections: [],
-  pageSections: [],
+  pageSectionsBySlug: {},
   loading: false,
   error: null,
 };

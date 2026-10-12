@@ -1,18 +1,29 @@
-<!-- <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="5000"
-  [showNavigators]="false" [showIndicators]="true" styleClass="presentation-carousel">
+<section class="slider-wrapper">
+  @if (carouselSlides().length > 0) {
+    <p-carousel
+      [value]="carouselSlides()"
+      [numVisible]="1"
+      [numScroll]="1"
+      [circular]="true"
+      [autoplayInterval]="5000"
+      [showNavigators]="false"
+      [showIndicators]="true"
+      styleClass="presentation-carousel">
 
-  <ng-template #item let-slide>
-    <div class="slide">
-      @if (slide.imgUrl) {
-      <img [src]="slide.imgUrl" [alt]="slide.title" class="slide-img" />
-      } @else {
-      <div class="slide-placeholder"></div>
-      }
-      <div class="slide-overlay">
-        <h1 class="slide-title">{{ slide.title }}</h1>
-      </div>
-    </div>
-  </ng-template>
+      <ng-template #item let-slide>
+        <div class="slide">
+          @if (carouselImage()) {
+            <img [src]="carouselImage()" [alt]="carouselTitle()" class="slide-img" />
+          } @else {
+            <div class="slide-placeholder"></div>
+          }
+          <div class="slide-overlay">
+            <!-- <h1 class="slide-title">{{ carouselTitle() }}</h1> -->
+            <p class="slide-title">{{ slide.content }}</p>
+          </div>
+        </div>
+      </ng-template>
 
-</p-carousel> -->
-Carrusel deportivo
+    </p-carousel>
+  }
+</section>

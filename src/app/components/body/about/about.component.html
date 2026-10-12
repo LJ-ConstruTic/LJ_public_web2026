@@ -1,16 +1,14 @@
 <div class="about">
   <div class="image-container">
-    about
-    <!-- @if (about().weAreImg) {
-      <img class="image-style" [src]="about().weAreImg" alt="Who we are" />
-    } -->
+    @if (aboutImageUrl()) {
+      <img class="image-style" [src]="aboutImageUrl()" [alt]="block().content ?? ''" />
+    }
   </div>
 
   <div class="about-content">
-    <!-- <p [innerHTML]="about().history | bold"></p> -->
+    <p [innerHTML]="block().content | bold"></p>
     <button class="btn-byn" (click)="goToAboutDetail()">
-      Saiba mais <!-- TODO: traducir -->
+      Saiba mais
     </button>
   </div>
-
 </div>

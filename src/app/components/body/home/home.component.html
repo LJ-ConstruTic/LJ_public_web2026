@@ -1,0 +1,13 @@
+@for (item of orderedBlocksHome(); track item.block.id) {
+
+  @if (item.sectionKey === 'carousel') {
+    <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
+  } @else {
+    <div class="component-container">
+      @if (item.component && item.sectionKey !== 'carousel') {
+        <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
+      }
+    </div>
+  }
+
+}

@@ -1,7 +1,0 @@
-{
-  "/v2": {
-    "target": "https://ap-v2-1.ljconstrutic.com",
-    "secure": true,
-    "changeOrigin": true
-  }
-}

@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { TagKey, TAGS_DICTIONARY } from "../../../core/dictionary/tags-dictionary";
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, ViewEncapsulation } from "@angular/core";
+
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, ViewEncapsulation } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
+import { Block } from "../../../core/model/component-dto";
 
 @Component({
   selector: "strategy",
@@ -15,6 +16,8 @@ import { ComponentAppStore } from "../../../store/component/component.store";
   styleUrl: './strategy.component.scss'
 })
 export class StrategyComponent {
+  readonly block = input.required<Block>();
+
   // readonly tagStore = inject(TagStore);
   // readonly productsStore = inject(GetComponentTagsStore);
   // private readonly languageStore = inject(LanguageStore);

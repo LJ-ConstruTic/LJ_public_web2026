@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 import { LanguageStore } from "../../../store/language/language.store";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { Block } from "../../../core/model/component-dto";
+import { extractFirstMediaUrl } from "../../../core/utils/extract-img.utils";
 
 @Component({
   selector: "about",
@@ -17,33 +19,30 @@ import { toSignal } from "@angular/core/rxjs-interop";
   styleUrl: './about.component.scss'
 })
 export class AboutComponent {
-  // readonly tagStore = inject(TagStore);
-  // readonly languageStore = inject(LanguageStore);
+  readonly block = input.required<Block>();
+
   readonly router = inject(Router);
-  // readonly weAreStore = inject(GetComponentTagsStore);
-  // readonly componentStore = inject(ComponentAppStore);
 
-  // private readonly items = toSignal(this.weAreStore.tags$, { initialValue: null });
+  readonly aboutImage = computed(() => {
+    const mediaItems = this.block().media;
+    const imageUrl = mediaItems.length > 0 ? mediaItems[0].url : null;
+    return imageUrl;
+  });
 
-  // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+  readonly aboutTextChildren = computed(() => {
+    const children = this.block().children.filter(
+      child => child.type === 'text'
+    );
+    return children;
+  });
 
-  // readonly about = computed(() => {
-  //   const lang = this.lang();
-  //   const rawItems = this.items()?.items ?? [];
-  //   const byOrder = (order: number) => rawItems.find((i) => i.order === order);
-  //   const item0 = byOrder(1);
-  //   return {
-  //     history: item0?.tag[lang] ?? '',
-  //     weAreImg: item0?.imgUrl[0] ?? null,
-  //   };
-  // });
+  readonly aboutImageUrl = computed(() => {
+    const mediaItems = this.block().media;
+    if (mediaItems.length === 0) return null;
+    const url = extractFirstMediaUrl(mediaItems[0].url);
+    return url;
+  });
 
-  // ngOnInit(): void {
-  //   const weAre = this.componentStore.$items().find((component) => component.idx === 3);
-  //   if (weAre) {
-  //     this.weAreStore.loadComponentTags(weAre.id);
-  //   }
-  // }
 
   goToAboutDetail(): void {
     this.router.navigate(['about/about-detail']);

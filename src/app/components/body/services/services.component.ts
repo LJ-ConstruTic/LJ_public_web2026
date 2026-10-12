@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit } from "@angular/core";
+import { Block } from "../../../core/model/component-dto";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "services",
@@ -11,60 +13,34 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@a
     styleUrl: './services.component.scss'
 })
 export class ServicesComponent {
-//     readonly tagStore = inject(TagStore);
-//     readonly router = inject(Router);
-//     readonly languageStore = inject(LanguageStore);
-//     readonly servicesStore = inject(GetComponentTagsStore);
-//     readonly componentStore = inject(ComponentAppStore);
+    readonly block = input.required<Block>();
+    private readonly router = inject(Router);
 
-//     private readonly items = toSignal(this.servicesStore.tags$, { initialValue: null });
-//     private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    
+    readonly servicesTitle = computed(() => {
+        const title = this.block().content ?? '';
+        console.log('[ServicesComponent] título:', title);
+        return title;
+    });
 
-//     private readonly serviceParents = computed(() =>
-//         this.componentStore.$menuItems().find(i => i.key === 'headServices')?.tagsParent ?? []
-//     );
+    readonly serviceCardsWithDescription = computed(() => {
+        const cards = this.block().children
+            .filter(child => child.properties['productId'] != null)
+            .map(card => {
+                const description = card.children.find(child => child.type === 'text')?.content ?? '';
+                console.log('[ServicesComponent] card:', card.content, '→ desc:', description.substring(0, 40) + '...');
+                return { card, description };
+            });
 
-//     readonly services = computed(() => {
-//         const lang = this.lang();
-//         const parents = this.serviceParents(); // ← señal reactiva separada
-//         const rawItems = [...(this.items()?.items ?? [])].sort((a, b) => a.order - b.order);
+        console.log('[ServicesComponent] tarjetas:', cards.length);
+        return cards;
+    });
 
-//         const sectionTitle = rawItems.find((i) => i.order === 1)?.tag[lang] ?? '';
-//         const cardItems = rawItems.filter((i) => i.order > 1);
-
-//         const cards = [];
-//         for (let i = 0; i < cardItems.length; i += 2) {
-//             const title = cardItems[i];
-//             const desc = cardItems[i + 1];
-//             if (!title) continue;
-//             const parent = parents.find(p => p.key === title.keys);
-//             console.log('title.keys:', title.keys, '| parents keys:', parents.map(p => p.key), '| match:', parent);
-//             cards.push({
-//                 keys: title.keys,
-//                 title: title.tag[lang] ?? '',
-//                 desc: desc?.tag[lang] ?? '',
-//                 img: title.imgUrl?.[0] ?? null,
-//             });
-//         }
-
-//         return { sectionTitle, cards };
-//     });
-
-//     ngOnInit(): void {
-//         console.log('menuItems after load:', this.componentStore.$menuItems());
-//         const servicesTags = this.componentStore.$items().find((component) => component.idx === 5);
-//         if (servicesTags) {
-//             this.servicesStore.loadComponentTags(servicesTags.id);
-//         }
-//     }
-
-// navigateTo(keys: string): void {
-//     console.log('navigateTo called:', keys);
-//     const parents = this.componentStore.$menuItems().find(i => i.key === 'headServices')?.tagsParent ?? [];
-//     console.log('parents:', parents);
-//     const match = parents.find(p => p.key === keys);
-//     console.log('match:', match);
-//     if (match) this.router.navigate(['/service-detail', match.tagId]);
-// }
-
+    navigateToService(serviceBlock: Block): void {
+        const productId = serviceBlock.properties['productId'];
+        console.log('[ServicesComponent] click en servicio:', serviceBlock.content, '→ id:', productId);
+        if (typeof productId === 'string') {
+            this.router.navigate(['/service', productId]);
+        }
+    }
 }

@@ -1,21 +1,21 @@
 <div class="services">
-  <!-- <h2 class="services-title">{{ services().sectionTitle }}</h2>
-  <div class="services-grid">
-    @for (card of services().cards; track $index) {
-      <div class="services-card" (click)="navigateTo(card.keys)">
-        <div class="services-card-img">
-          @if (card.img) {
-            <img [src]="card.img" [alt]="card.title" />
-          } @else {
-            <div class="services-card-placeholder"></div>
-          }
-        </div>
-        <div class="services-card-content">
-          <h3 class="services-card-title">{{ card.title }}</h3>
-          <p class="services-card-desc">{{ card.desc }}</p>
-        </div>
-      </div>
-    }
-  </div> -->
-  servicios
+    <h2 class="services-title">{{ servicesTitle() }}</h2>
+
+    <div class="services-grid">
+        @for (item of serviceCardsWithDescription(); track item.card.id) {
+            <div class="services-card" (click)="navigateToService(item.card)">
+                <div class="services-card-img">
+                    @if (item.card.media.length > 0) {
+                        <img [src]="item.card.media[0].url" [alt]="item.card.content ?? ''" />
+                    } @else {
+                        <div class="services-card-placeholder"></div>
+                    }
+                </div>
+                <div class="services-card-content">
+                    <h3 class="services-card-title">{{ item.card.content }}</h3>
+                    <p class="services-card-desc">{{ item.description }}</p>
+                </div>
+            </div>
+        }
+    </div>
 </div>
