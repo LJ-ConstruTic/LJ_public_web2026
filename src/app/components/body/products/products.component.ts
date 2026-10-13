@@ -19,6 +19,7 @@ export class ProductsComponent {
     readonly block = input.required<Block>();
 
     readonly router = inject(Router);
+    readonly componentStore = inject(ComponentAppStore);
     readonly languageStore = inject(LanguageStore);
 
     readonly productsTitle = computed(() => {
@@ -43,9 +44,14 @@ export class ProductsComponent {
 
     navigateToProduct(productBlock: Block): void {
         const productId = productBlock.properties['productId'];
-        console.log('[ProductsComponent] click en producto:', productBlock.content, '→ id:', productId);
-        if (typeof productId === 'string') {
-            this.router.navigate(['/product', productId]);
+        const pageSlag = productBlock.properties['page'];
+        const lang = this.languageStore.$selectedCodeLang();
+
+        console.log('[ProductsComponent] click en producto:', productBlock.content, '→ id:', productId, '→ page:', pageSlag);
+
+        if (typeof productId === 'string' && typeof pageSlag === 'string' && lang) {
+            this.componentStore.loadPageBySlug({ slug: pageSlag, lang });
+            this.router.navigate(['/product-detail', productId]);
         }
     }
 

@@ -1,6 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { findBlockById } from "../../../core/utils/order-blocks.utils";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { map } from "rxjs";
 
 
 @Component({
@@ -14,44 +18,41 @@ import { ActivatedRoute, Router } from "@angular/router";
     styleUrls: ['./services-detail.component.scss']
 })
 export class ServicesDetailComponent {
-    // readonly languageStore = inject(LanguageStore);
     private readonly router = inject(Router);
-    // readonly detailStore = inject(GetGroupDetailsStore);
     private readonly route = inject(ActivatedRoute);
+    private readonly componentStore = inject(ComponentAppStore);
 
-    // private readonly detail = toSignal(this.detailStore.detail$, { initialValue: null });
-    // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    private readonly servicePageSections = this.componentStore.getSectionsBySlug('page-service');
 
-    // readonly content = computed(() => {
-    //     const lang = this.lang();
-    //     const items = [...(this.detail()?.items ?? [])].sort((a, b) => a.order - b.order);
+    private readonly serviceIdFromRoute = toSignal(
+        this.route.params.pipe(
+            map(params => params['id'] as string)
+        )
+    );
 
-    //     const header = items.find(i =>
-    //         (i.internationalization.tagHtml === 'h2' || i.internationalization.tagHtml === 'li')
-    //         && i.internationalization.imgUrl?.length > 0
-    //     );
+    readonly serviceBlock = computed(() => {
+        const sections = this.servicePageSections();
+        const serviceId = this.serviceIdFromRoute();
 
-    //     return {
-    //         img: header?.internationalization.imgUrl?.[0] ?? null,
-    //         title: header?.internationalization.tag[lang] ?? '',
-    //         texts: items
-    //             .filter(i => i !== header)
-    //             .map(i => ({
-    //                 tagHtml: i.internationalization.tagHtml,
-    //                 text: i.internationalization.tag[lang] ?? '',
-    //             }))
-    //     };
-    // });
+        if (sections.length === 0 || !serviceId) {
+            console.log('[ServicesDetailComponent] esperando datos... sections:', sections.length, 'id:', serviceId);
+            return null;
+        }
 
-    // ngOnInit(): void {
-    //     this.route.params.subscribe(params => {
-    //         const tagId = params['id'];
-    //         if (tagId) this.detailStore.loadDetail(tagId);
-    //     });
-    // }
+        for (const section of sections) {
+            const found = findBlockById(section.blocks, serviceId);
+            if (found) {
+                console.log('[ServicesDetailComponent] servicio encontrado:', found.content);
+                return found;
+            }
+        }
+
+        console.log('[ServicesDetailComponent] no se encontró servicio con id:', serviceId);
+        return null;
+    });
 
     goBack(): void {
+        console.log('[ServicesDetailComponent] volviendo al home');
         this.router.navigate(['/']);
     }
-
 }

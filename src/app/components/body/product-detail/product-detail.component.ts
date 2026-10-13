@@ -3,6 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, ViewEncap
 import { LanguageStore } from "../../../store/language/language.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { map } from "rxjs";
+import { findBlockById } from "../../../core/utils/order-blocks.utils";
 
 @Component({
     selector: "products",
@@ -14,42 +17,36 @@ import { ActivatedRoute, Router } from "@angular/router";
     templateUrl: './product-detail.component.html',
     styleUrl: './product-detail.component.scss'
 })
+
 export class ProductDetailComponent {
-    // readonly languageStore = inject(LanguageStore);
     private readonly router = inject(Router);
-    // readonly detailStore = inject(GetGroupDetailsStore);
     private readonly route = inject(ActivatedRoute);
+    private readonly componentStore = inject(ComponentAppStore);
 
-    // private readonly detail = toSignal(this.detailStore.detail$, { initialValue: null });
-    // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    private readonly productPageSections = this.componentStore.getSectionsBySlug('page-product');
 
-    // readonly content = computed(() => {
-    //     const lang = this.lang();
-    //     const items = [...(this.detail()?.items ?? [])].sort((a, b) => a.order - b.order);
+    private readonly productIdFromRoute = toSignal(
+        this.route.params.pipe(
+            map(params => params['id'] as string)
+        )
+    );
 
-    //     const header = items.find(i =>
-    //         (i.internationalization.tagHtml === 'h2' || i.internationalization.tagHtml === 'li')
-    //         && i.internationalization.imgUrl?.length > 0
-    //     );
+    readonly productBlock = computed(() => {
+        const sections = this.productPageSections();
+        const productId = this.productIdFromRoute();
 
-    //     return {
-    //         img: header?.internationalization.imgUrl?.[0] ?? null,
-    //         title: header?.internationalization.tag[lang] ?? '',
-    //         texts: items
-    //             .filter(i => i !== header)
-    //             .map(i => ({
-    //                 tagHtml: i.internationalization.tagHtml,
-    //                 text: i.internationalization.tag[lang] ?? '',
-    //             }))
-    //     };
-    // });
+        if (sections.length === 0 || !productId) return null;
 
-    // ngOnInit(): void {
-    //     this.route.params.subscribe(params => {
-    //         const tagId = params['id'];
-    //         if (tagId) this.detailStore.loadDetail(tagId);
-    //     });
-    // }
+        for (const section of sections) {
+            const found = findBlockById(section.blocks, productId);
+            if (found) {
+                console.log('[ProductDetailComponent] bloque completo:', JSON.stringify(found, null, 2));
+                return found;
+            }
+        }
+
+        return null;
+    });
 
     goBack(): void {
         this.router.navigate(['/']);

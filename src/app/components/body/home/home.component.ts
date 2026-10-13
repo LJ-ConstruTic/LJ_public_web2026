@@ -17,7 +17,7 @@ export class HomeComponent {
     private readonly componentStore = inject(ComponentAppStore);
 
     readonly orderedBlocksHome = computed((): BlockWithComponent[] => {
-    const sections = this.componentStore.getSectiosnBySlug('page-home')();
+    const sections = this.componentStore.getSectionsBySlug('page-home')();
     if (sections.length === 0) return [];
 
     const firstSection = sections[0];

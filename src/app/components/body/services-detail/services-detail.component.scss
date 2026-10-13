@@ -4,11 +4,17 @@
 
 .component-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 1.5rem;
     padding: 2rem 1.5rem;
     max-width: 900px;
     margin: 0 auto;
+}
+
+.services-detail-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
     align-items: flex-start;
 }
 
@@ -43,4 +49,8 @@
     line-height: 1.7;
     margin-left: 2rem;
     list-style-type: disc;
+}
+
+.btn-byn {
+    align-self: flex-start;
 }

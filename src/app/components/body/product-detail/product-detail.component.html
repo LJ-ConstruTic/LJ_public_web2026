@@ -1,14 +1,22 @@
 <div class="component-container">
-    <!-- @if (content().img) {
-        <img [src]="content().img" class="services-detail-icon"/>
-    }
-    <div class="services-detail-content">
-        <h2 class="services-detail-title">{{ content().title }}</h2>
-        @for (item of content().texts; track item.text) {
-            @switch (item.tagHtml) {
-                @case ('p') { <p class="services-detail-text">{{ item.text }}</p> }
-                @case ('li') { <li class="services-detail-item">{{ item.text }}</li> }
+    @if (productBlock(); as bloque) {
+        <div class="product-detail">
+            <h2 class="product-detail-title">{{ bloque.content }}</h2>
+
+            @if (bloque.media.length > 0) {
+                <img [src]="bloque.media[0].url" [alt]="bloque.content ?? ''" class="product-detail-icon"/>
             }
-        }
-    </div> -->
+
+            @for (child of bloque.children; track child.id) {
+                @switch (child.htmlTag) {
+                    @case ('p') { <p class="product-detail-text">{{ child.content }}</p> }
+                    @case ('li') { <li class="product-detail-item">{{ child.content }}</li> }
+                }
+            }
+        </div>
+
+        <button class="btn-byn" (click)="goBack()">Volver</button>
+    } @else {
+        <p>Producto no disponible</p>
+    }
 </div>
