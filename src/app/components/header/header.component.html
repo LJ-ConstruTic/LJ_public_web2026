@@ -1,7 +1,7 @@
 <p-menubar #menubar [model]="$menuItems()" aria-label="Menu">
     
     <ng-template #start>
-        @if (logoBlock(); as logo) {
+        @if (logoBlockFromMenu(); as logo) {
             <a routerLink="/" class="logo-link" aria-label="Go to home">
                 <img [src]="logo.media?.[0]?.url" [alt]="logo.altText ?? ''" class="logo"/>
             </a>

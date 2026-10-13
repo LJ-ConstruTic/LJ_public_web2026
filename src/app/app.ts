@@ -36,7 +36,8 @@ export class App {
       }
 
       untracked(() => {
-        this.componentStore.loadComponents(selectedLanguageCode);
+        // this.componentStore.loadComponents(selectedLanguageCode);
+        this.componentStore.loadPageBySlug({ slug: 'page-menu', lang: selectedLanguageCode });
       });
     });
   }

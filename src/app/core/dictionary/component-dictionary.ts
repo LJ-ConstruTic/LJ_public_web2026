@@ -17,3 +17,9 @@ export const HOME_SECTION_DICTIONARY: Record<string, Type<any>> = {
   'goals':         GoalsComponent,
   'contact':       ContactComponent
 };
+
+export const MENU_SCROLL_TARGET: Record<string, string> = {
+  'headProduct':  'our-products',
+  'headServices': 'our-services',
+  'headContact':  'contact',
+};

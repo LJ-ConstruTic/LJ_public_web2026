@@ -3,7 +3,7 @@
   @if (item.sectionKey === 'carousel') {
     <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
   } @else {
-    <div class="component-container">
+    <div class="component-container" [id]="item.sectionKey ?? item.block.key">
       @if (item.component && item.sectionKey !== 'carousel') {
         <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
       }
