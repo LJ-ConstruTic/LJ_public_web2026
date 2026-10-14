@@ -24,7 +24,6 @@ export class ProductsComponent {
 
     readonly productsTitle = computed(() => {
         const title = this.block().content ?? '';
-        console.log('[ProductsComponent] título:', title);
         return title;
     });
 
@@ -46,8 +45,6 @@ export class ProductsComponent {
         const productId = productBlock.properties['productId'];
         const pageSlag = productBlock.properties['page'];
         const lang = this.languageStore.$selectedCodeLang();
-
-        console.log('[ProductsComponent] click en producto:', productBlock.content, '→ id:', productId, '→ page:', pageSlag);
 
         if (typeof productId === 'string' && typeof pageSlag === 'string' && lang) {
             this.componentStore.loadPageBySlug({ slug: pageSlag, lang });

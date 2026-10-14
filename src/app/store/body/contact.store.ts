@@ -29,22 +29,18 @@ export class ContactStore extends ComponentStore<ContactState> {
 
     // --- Updaters ---
     private readonly setSending = this.updater<boolean>((state, sending) => {
-        console.log('[ContactStore] state change — sending:', sending);
         return { ...state, sending };
     });
 
     private readonly setSent = this.updater<boolean>((state, sent) => {
-        console.log('[ContactStore] state change — sent:', sent);
         return { ...state, sent };
     });
 
     private readonly setRequestId = this.updater<string | null>((state, requestId) => {
-        console.log('[ContactStore] state change — requestId:', requestId);
         return { ...state, requestId };
     });
 
     private readonly setErrorFromResponse = this.updater<{code: string | null; message: string | null;}>((state, error) => {
-        console.log('[ContactStore] state change — error:', error.code, error.message);
         return {
             ...state,
             errorCode: error.code,
@@ -53,13 +49,11 @@ export class ContactStore extends ComponentStore<ContactState> {
     });
 
     private readonly clearError = this.updater((state) => {
-        console.log('[ContactStore] state change — clearing error');
         return { ...state, errorCode: null, errorMessage: null };
     });
 
     // Resetear todo el estado (después de envío exitoso y el usuario quiere enviar otro)
     readonly resetState = this.updater(() => {
-        console.log('[ContactStore] state change — full reset');
         return initialContactState;
     });
 
@@ -68,13 +62,6 @@ export class ContactStore extends ComponentStore<ContactState> {
         payload$.pipe(
             // 1. Arranca el envío: poner sending=true, limpiar errores previos
             tap((payload) => {
-                console.log('[ContactStore] submit — starting, payload:', {
-                    name: payload.name,
-                    email: payload.email,
-                    hasPhone: !!payload.phone,
-                    messageLength: payload.message.length,
-                    hasToken: !!payload.captchaToken,
-                });
                 this.setSending(true);
                 this.clearError();
             }),
@@ -84,7 +71,6 @@ export class ContactStore extends ComponentStore<ContactState> {
                 this.contactService.submit(payload).pipe(
                     // 3a. Éxito (202)
                     tap((response) => {
-                        console.log('[ContactStore] submit — success, response:', response);
                         this.setSending(false);
                         this.setSent(true);
                         this.setRequestId(response.requestId);
@@ -92,7 +78,6 @@ export class ContactStore extends ComponentStore<ContactState> {
 
                     // 3b. Error — aquí es donde distinguimos cada caso
                     catchError((error: ApiErrorDetail) => {
-                        console.error('[ContactStore] submit — error:', error);
                         this.setSending(false);
 
                         const userFacingMessage = this.resolveErrorMessage(error);
@@ -115,8 +100,6 @@ export class ContactStore extends ComponentStore<ContactState> {
 
     // Traduce el código de error de la API a un mensaje para el usuario
     private resolveErrorMessage(error: ApiErrorDetail): string {
-        console.log('[ContactStore] resolving message for error code:', error.code, 'status:', error.status);
-
         switch (error.status) {
             case 429:
                 return 'Has alcanzado el límite temporal. Espera antes de volver a enviar.';

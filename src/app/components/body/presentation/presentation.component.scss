@@ -26,20 +26,21 @@
   inset: 0;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-start;
-  padding: 2.5rem 3rem;
+  justify-content: center;
+  padding-right: 6%; padding-left: 6%;
 }
 
 .slide-title {
   color: white;
   line-height: 1.4;
-  margin: 0;
+  margin: 0 0 0 0;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   word-break: break-word;
   background-color: rgba(0, 0, 0, 0.8);
   padding: 0.3rem 0.6rem;
   display: inline;
+  justify-content: center;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }

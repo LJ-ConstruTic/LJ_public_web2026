@@ -63,8 +63,11 @@ export class HeaderComponent {
 
         const menuItem: MenuItem = {
             label: block.content ?? '',
-            command: () => this.executeMenuAction(linkAction, block),
         };
+
+        if (block.children.length === 0) { // command para los que no tienen hijos en el menú
+            menuItem.command = () => this.executeMenuAction(linkAction, block);
+        }
 
         if (block.children.length > 0) {
             const sortedChildren = [...block.children].sort(
@@ -86,7 +89,6 @@ export class HeaderComponent {
 
     private executeMenuAction(action: MenuLinkAction, block: Block): void {
         const lang = this.languageStore.$selectedCodeLang();
-
         switch (action.type) {
             case 'scroll':
                 const sourceKey = block.properties['sourceKey'] as string ?? '';

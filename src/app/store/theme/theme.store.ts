@@ -80,7 +80,6 @@ export class ThemeStore extends ComponentStore<ThemeState> {
   // Funciones de theme switch (botón nav-bar)
   toggle(): void {
     const pref = this.get().pref;
-    console.log('toggle', pref);
 
     if (pref === 'dark') {
       this.setPref('light');

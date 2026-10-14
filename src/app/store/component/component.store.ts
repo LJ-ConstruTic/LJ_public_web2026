@@ -16,35 +16,6 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     readonly $loading = this.selectSignal(state => state.loading);
     readonly $error = this.selectSignal(state => state.error);
 
-    // ----- Secciones ---------------------------------------------------------------- LOS HEADERS Y FOOTERS YA NO DEBERÁN IR POR LA LLAMADA DE BOOTSTRAP
-    readonly $headerSection = computed(() => {
-        return this.$globalSections().find(s => s.type === 'header') ?? null
-    });
-    readonly $logoBlock = computed(() => {
-        return this.$headerSection()?.blocks.find(b => b.type === 'image') ?? null
-    });
-    readonly $menuBlock = computed(() => {
-        return this.$headerSection()?.blocks.find(b => b.type === 'menu') ?? null
-    });
-    readonly $menuLinks = computed(() => {
-        const menuBlock = this.$menuBlock();
-        if (!menuBlock?.children) return [];
-        return [...menuBlock.children].sort((a, b) => a.order - b.order);
-    });
-
-    readonly $footerSection = computed(() =>
-        this.$globalSections().find(s => s.type === 'footer') ?? null
-    );
-    readonly $footerCompany = computed(() => {
-        return this.$footerSection()?.blocks.find(b => b.type === 'text')
-    });
-    readonly $footerContact = computed(() => {
-        return this.$footerSection()?.blocks.find(b => b.type === 'contact')
-    });
-    readonly $footerSocial = computed(() => {
-        return this.$footerSection()?.blocks.find(b => b.type === 'social')
-    });
-
     constructor() {
         super(initialComponentState);
     }
@@ -58,58 +29,6 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     }));
 
     // --- Effects ---
-    readonly loadComponents = this.effect<string>((lang$) =>
-        lang$.pipe(
-            tap(() => {
-                this.setLoading(true);
-                this.setError(null);
-            }),
-            switchMap((lang) =>
-                this.componentService.getBootstrap(lang).pipe(
-                    tap({
-                        next: (res) => {
-                            console.log('loadBootstrap', res);
-                            this.patchState({
-                                globalSections: res.sections,
-                                loading: false,
-                            });
-                        },
-                        error: (err) => {
-                            this.setError(err?.message ?? 'Error loading site');
-                            this.setLoading(false);
-                        },
-                    })
-                )
-            )
-        )
-    );
-
-    // readonly loadPage = this.effect<{ route: string; lang: string }>((params$) =>
-    //     params$.pipe(
-    //         tap(() => {
-    //             this.setLoading(true);
-    //             this.setError(null);
-    //         }),
-    //         switchMap(({ route, lang }) =>
-    //             this.componentService.getPageByRoute(route, lang).pipe(
-    //                 tap({
-    //                     next: (res) => {
-    //                         console.log('loadPage', res);
-    //                         this.patchState({
-    //                             pageSections: res.page.sections,
-    //                             loading: false,
-    //                         });
-    //                     },
-    //                     error: (err) => {
-    //                         this.setError(err?.message ?? 'Error loading page');
-    //                         this.setLoading(false);
-    //                     },
-    //                 })
-    //             )
-    //         )
-    //     )
-    // );
-
     readonly loadPageBySlug = this.effect<{ slug: string; lang: string }>((parametrosDeCarga$) =>
         parametrosDeCarga$.pipe(
             tap(({ slug, lang }) => {
@@ -146,9 +65,8 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     getSectionsBySlug(slug: string) {
         return computed(() => {
             const todasLasSeccionesPorSlug = this.$pageSectionsBySlug();
-            console.log('todasLasSeccionesPorSlug:', todasLasSeccionesPorSlug); console.log('slug:', slug);
+            console.log('todasLasSeccionesPorSlug:', todasLasSeccionesPorSlug);
             const seccionesDeEsteSlug = todasLasSeccionesPorSlug[slug] ?? [];
-            console.log('[ComponentAppStore] obtenerSeccionesPorSlug — slug:', slug, '→ encontradas:', seccionesDeEsteSlug.length, 'secciones');
             return seccionesDeEsteSlug;
         });
     }

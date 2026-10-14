@@ -2,34 +2,43 @@
   <div class="footer-main">
 
     <div class="footer-brand">
-      <!-- @if (footer().logo) {
-      <img class="footer-logo" [src]="footer().logo" alt="LJConstruTic" />
-      } -->
-      <p class="footer-company">{{ footerCompany()?.content }}</p>
-      <!-- <p class="footer-copyright">{{ footer().copyright }} {{ currentYear }}</p> -->
+      @if (logoSection(); as logo) {
+        @if (logo.logoUrl) {
+          <img class="footer-logo" [src]="logo.logoUrl" alt="LJConstruTic" />
+        }
+        <p class="footer-company">{{ logo.companyName }}</p>
+      }
     </div>
 
     <div class="footer-social">
-      <!-- @for (social of footerSocial()?.properties; track social.url) { -->
-      <a [href]="footerSocial()?.properties?.['href']" target="_blank" class="footer-social-link">
-        <!-- <img [src]="social.icon" [alt]="social.alt" /> -->
+      @for (social of socialLinks(); track social.url) {
+      <a [href]="social.url" target="_blank" rel="noopener" class="footer-social-link">
+        @if (social.iconUrl) {
+        <img [src]="social.iconUrl" [alt]="social.name" />
+        }
       </a>
-      <!-- } -->
+      }
     </div>
 
     <div class="footer-contact">
-      <a class="footer-contact-item" [href]="'tel:' + footerContact()?.properties?.['phone']">
-        <i class="pi pi-phone"></i>
-        <span>{{ footerContact()?.properties?.['phone'] }}</span>
-      </a>
-      <a class="footer-contact-item" [href]="'mailto:' + footerContact()?.properties?.['email']">
-        <i class="pi pi-envelope"></i>
-        <span>{{ footerContact()?.properties?.['email'] }}</span>
-      </a>
-      <!-- <span class="footer-contact-item">
-        <i class="pi pi-map-marker"></i>
-        <span>{{ footer().address }}</span>
-      </span> -->
+      @for (item of contactItems(); track item.sourceKey) {
+        @if (item.content.includes('@')) {
+        <a class="footer-contact-item" [href]="'mailto:' + item.content">
+          <i class="pi pi-envelope"></i>
+          <span>{{ item.content }}</span>
+        </a>
+        } @else if (item.content.startsWith('+')) {
+          <a class="footer-contact-item" [href]="'tel:' + item.content">
+            <i class="pi pi-phone"></i>
+            <span>{{ item.content }}</span>
+          </a>
+        } @else {
+          <span class="footer-contact-item">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ item.content }}</span>
+          </span>
+        }
+      }
     </div>
 
   </div>
@@ -37,9 +46,9 @@
   <div class="footer-divider"></div>
 
   <div class="footer-legal">
-    <!-- <a routerLink="/privacy">{{ footer().legal.privacy }}</a>
-    <a routerLink="/data-protection">{{ footer().legal.dataProtection }}</a>
-    <a routerLink="/cookies">{{ footer().legal.cookies }}</a>
-    <a routerLink="/conditions">{{ footer().legal.conditions }}</a> -->
+    @for (link of legalLinks(); track link.url) {
+      <a [routerLink]="link.url">{{ link.label }}</a>
+    }
   </div>
+  <p class="footer-copyright">{{ copyrightText() }} {{ currentYear }}</p>
 </div>

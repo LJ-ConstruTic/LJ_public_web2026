@@ -31,7 +31,6 @@ export class PresentationComponent {
   readonly carouselImage = computed(() => {
     const mediaItems = this.block().media;
     const imageUrl = mediaItems.length > 0 ? mediaItems[0].url : null;
-    console.log('[PresentationComponent] imagen:', imageUrl ?? 'sin imagen');
     return imageUrl;
   });
 

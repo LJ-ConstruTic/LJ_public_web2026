@@ -35,24 +35,19 @@ export class ServicesDetailComponent {
         const serviceId = this.serviceIdFromRoute();
 
         if (sections.length === 0 || !serviceId) {
-            console.log('[ServicesDetailComponent] esperando datos... sections:', sections.length, 'id:', serviceId);
             return null;
         }
 
         for (const section of sections) {
             const found = findBlockById(section.blocks, serviceId);
             if (found) {
-                console.log('[ServicesDetailComponent] servicio encontrado:', found.content);
                 return found;
             }
         }
-
-        console.log('[ServicesDetailComponent] no se encontró servicio con id:', serviceId);
         return null;
     });
 
     goBack(): void {
-        console.log('[ServicesDetailComponent] volviendo al home');
         this.router.navigate(['/']);
     }
 }

@@ -24,7 +24,6 @@ export class ServicesComponent {
     
     readonly servicesTitle = computed(() => {
         const title = this.block().content ?? '';
-        console.log('[ServicesComponent] título:', title);
         return title;
     });
 
@@ -33,11 +32,9 @@ export class ServicesComponent {
             .filter(child => child.properties['productId'] != null)
             .map(card => {
                 const description = card.children.find(child => child.type === 'text')?.content ?? '';
-                console.log('[ServicesComponent] card:', card.content, '→ desc:', description.substring(0, 40) + '...');
                 return { card, description };
             });
 
-        console.log('[ServicesComponent] tarjetas:', cards.length);
         return cards;
     });
 
@@ -45,8 +42,6 @@ export class ServicesComponent {
         const productId = serviceBlock.properties['productId'];
         const pageSlug = serviceBlock.properties['page'];
         const lang = this.languageStore.$selectedCodeLang();
-
-        console.log('[ServicesComponent] click en servicio:', serviceBlock.content, '→ id:', productId, '→ page:', pageSlug);
 
         if (typeof productId === 'string' && typeof pageSlug === 'string' && lang) {
             this.componentStore.loadPageBySlug({ slug: pageSlug, lang });

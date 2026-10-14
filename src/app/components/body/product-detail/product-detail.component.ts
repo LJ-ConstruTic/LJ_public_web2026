@@ -40,7 +40,6 @@ export class ProductDetailComponent {
         for (const section of sections) {
             const found = findBlockById(section.blocks, productId);
             if (found) {
-                console.log('[ProductDetailComponent] bloque completo:', JSON.stringify(found, null, 2));
                 return found;
             }
         }
