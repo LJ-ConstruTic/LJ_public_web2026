@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, ViewEncapsulation } from "@angular/core";
-import { LanguageStore } from "../../../store/language/language.store";
-import { ComponentAppStore } from "../../../store/component/component.store";
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from "@angular/core";
 import { Block } from "../../../core/model/component-dto";
 
 @Component({
@@ -18,38 +16,18 @@ import { Block } from "../../../core/model/component-dto";
 export class StrategyComponent {
   readonly block = input.required<Block>();
 
-  // readonly tagStore = inject(TagStore);
-  // readonly productsStore = inject(GetComponentTagsStore);
-  // private readonly languageStore = inject(LanguageStore);
-  // readonly componentStore = inject(ComponentAppStore);
+  readonly strategyTitle = computed(() => {
+    return this.block().content ?? '';
+  });
 
-  // private readonly lang = computed(
-  //   () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
-  // );
+  readonly strategyImage = computed(() => {
+    const url = this.block().media.length > 0 ? this.block().media[0].url : null;
+    return url;
+  });
 
-  // readonly strategy = computed(() => {
-  //   const lang = this.lang();
-  //   const tags = this.tagStore.$tags();
-
-  //   const text = (key: TagKey) =>
-  //     tags.find((tag) => tag.isActive && tag.internationalization.keyLabel === key)?.internationalization.tag[lang] ?? '';
-
-  //   const img = (key: TagKey, i = 0) =>
-  //     tags.find((tag) => tag.isActive && tag.internationalization.keyLabel === key)?.internationalization.imgUrl[i] ?? null;
-
-  //   return {
-  //     title: text(TAGS_DICTIONARY.HOM_ESTRATEGIES_TITLE),
-  //     ctx1:  text(TAGS_DICTIONARY.HOM_ESTRATEGIES_CTX),
-  //     ctx2:  text(TAGS_DICTIONARY.HOM_ESTRATEGIES_CTX2),
-  //     img:   img(TAGS_DICTIONARY.HOM_ESTRATEGIES_TITLE, 0),
-  //   };
-  // });
-
-  // ngOnInit(): void {
-  //       const productsTags = this.componentStore.$items().find((component) => component.idx === 13);
-  //       if (productsTags) {
-  //           this.productsStore.loadComponentTags(productsTags.id);
-  //       }
-  //   }
+  readonly strategyTexts = computed(() => {
+    const texts = this.block().children.filter(child => child.type === 'text');
+    return texts;
+  });
 
 }

@@ -5,7 +5,6 @@ import { ContactComponent } from "../../components/body/contact/contact.componen
 import { StrategyComponent } from "../../components/body/strategy/strategy.component";
 import { ProductsComponent } from "../../components/body/products/products.component";
 import { ServicesComponent } from "../../components/body/services/services.component";
-import { NewsComponent } from "../../components/body/news/news.component";
 import { PresentationComponent } from "../../components/body/presentation/presentation.component";
 
 export const HOME_SECTION_DICTIONARY: Record<string, Type<any>> = {

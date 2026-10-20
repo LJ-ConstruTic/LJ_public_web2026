@@ -1,56 +1,60 @@
 <div class="contact">
-  contacto
-  <!-- <div class="contact-map">
-    <iframe [src]="label().mapUrl | safe" width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
+    @if (labels(); as label) {
+        <div class="contact-map">
+            @if (label.mapUrl) {
+                <iframe [src]="label.mapUrl | safe" width="100%" height="100%" style="border:0;"
+                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            }
+        </div>
 
-  <div class="contact-form" [formGroup]="form">
-    <h2 class="contact-title">{{ label().title }}</h2>
-    <p class="contact-subtitle">{{ label().subtitle }}</p>
+        <div class="contact-form" [formGroup]="form">
+            <h2 class="contact-title">{{ label.title }}</h2>
+            <p class="contact-subtitle">{{ label.subtitle }}</p>
 
-    <div class="contact-field">
-      <label>{{ label().name }} *:</label>
-      <input pInputText formControlName="name" [class.input-error]="hasError('name')" />
-      @if (hasError('name')) {
-      <small class="error-msg">{{ label().name }} é obrigatório</small>
-      }
-    </div>
+            <div class="contact-field">
+                <label>{{ label.name }} *:</label>
+                <input pInputText formControlName="name" [class.input-error]="hasError('name')" />
+                @if (hasError('name')) {
+                    <small class="error-msg">{{ label.name }} es obligatorio</small>
+                }
+            </div>
 
-    <div class="contact-field">
-      <label>{{ label().phone }} *:</label>
-      <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" />
-      @if (hasError('phone')) {
-      <small class="error-msg">{{ label().phone }} é obrigatório</small>
-      }
-    </div>
+            <div class="contact-field">
+                <label>{{ label.phone }} *:</label>
+                <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" />
+                @if (hasError('phone')) {
+                    <small class="error-msg">{{ label.phone }} es obligatorio</small>
+                }
+            </div>
 
-    <div class="contact-field">
-      <label>{{ label().email }} *:</label>
-      <input pInputText formControlName="email" [class.input-error]="hasError('email')" />
-      @if (hasError('email') && form.get('email')?.hasError('required')) {
-      <small class="error-msg">{{ label().email }} é obrigatório</small>
-      }
-      @if (hasError('email') && form.get('email')?.hasError('email')) {
-      <small class="error-msg">{{ label().email }} inválido</small>
-      }
-    </div>
+            <div class="contact-field">
+                <label>{{ label.email }} *:</label>
+                <input pInputText formControlName="email" [class.input-error]="hasError('email')" />
+                @if (hasError('email') && form.get('email')?.hasError('required')) {
+                    <small class="error-msg">{{ label.email }} es obligatorio</small>
+                }
+                @if (hasError('email') && form.get('email')?.hasError('email')) {
+                    <small class="error-msg">{{ label.email }} inválido</small>
+                }
+            </div>
 
-    <div class="contact-field">
-      <label>{{ label().message }} *:</label>
-      <textarea pInputTextarea formControlName="message" rows="5" [class.input-error]="hasError('message')"></textarea>
-      @if (hasError('message')) {
-      <small class="error-msg">{{ label().message }} é obrigatório</small>
-      }
-    </div>
+            <div class="contact-field">
+                <label>{{ label.message }} *:</label>
+                <textarea pInputTextarea formControlName="message" rows="5"
+                    [class.input-error]="hasError('message')"></textarea>
+                @if (hasError('message')) {
+                    <small class="error-msg">{{ label.message }} es obligatorio</small>
+                }
+            </div>
 
-    @if (sent()) {
-      <p class="success-msg">Mensagem enviada com sucesso!</p>
-    } @else {
-      <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()">
-        {{ sending() ? '...' : label().btnSend }}
-      </button>
+            @if (sent()) {
+                <p class="success-msg">Mensaje enviado con éxito!</p>
+            } @else {
+                <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()">
+                    {{ sending() ? '...' : label.btnSend }}
+                </button>
+            }
+        </div>
     }
-  </div> -->
 </div>

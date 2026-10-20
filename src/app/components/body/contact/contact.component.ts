@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, PLATFORM_ID, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
@@ -9,6 +9,8 @@ import { ContactStore } from "../../../store/body/contact.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { filter, take } from "rxjs";
 import { ComponentAppStore } from "../../../store/component/component.store";
+import { Block } from "../../../core/model/component-dto";
+import { ContactRequest } from "../../../core/model/contact-dto";
 
 @Component({
     selector: "contact",
@@ -20,88 +22,93 @@ import { ComponentAppStore } from "../../../store/component/component.store";
     styleUrl: './contact.component.scss'
 })
 export class ContactComponent {
-    // readonly tagStore = inject(TagStore);
-    // readonly contactStore = inject(ContactStore);
-    // readonly languageStore = inject(LanguageStore);
-    // readonly componentStore = inject(ComponentAppStore);
+    readonly block = input.required<Block>();
+    private readonly componentStore = inject(ComponentAppStore);
+    private readonly languageStore = inject(LanguageStore);
+    private readonly contactStore = inject(ContactStore);
+    private readonly fb = inject(FormBuilder);
 
-    // private readonly fb = inject(FormBuilder);
+    private readonly contactPageSections = this.componentStore.getSectionsBySlug('page-contact');
 
-    // readonly sending = toSignal(this.contactStore.sending$, { initialValue: false });
-    // readonly sent = toSignal(this.contactStore.sent$, { initialValue: false });
-    // private readonly items = toSignal(this.contactStore.tags$, { initialValue: null });
+    readonly sending = this.contactStore.$sending;
+    readonly sent = this.contactStore.$sent;
+    submitted = signal(false);
 
-    // submitted = signal(false);
+    constructor() {
+        effect(() => {
+            const lang = this.languageStore.$selectedCodeLang();
+            if (!lang) return;
 
-    // ngOnInit(): void {
-    //     const contact = this.componentStore.$items().find((component) => component.idx === 9);
-    //     if (contact) {
-    //     this.contactStore.loadContactTags(contact.id);
-    //     }
-    // }
+            untracked(() => {
+                this.componentStore.loadPageBySlug({ slug: 'page-contact', lang });
+            });
+        });
 
-    // private readonly lang = computed(
-    //     () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
-    // );
+        effect(() => {
+            const sentSuccessfully = this.contactStore.$sent();
+            if (sentSuccessfully) {
+                console.log('[ContactComponent] enviado con éxito, reseteando form');
+                this.form.reset();
+                this.submitted.set(false);
+            }
+        });
+    }
 
+    private readonly contactBlocks = computed(() => {
+        const sections = this.contactPageSections();
+        if (sections.length === 0) return [];
+        const blocks = [...sections[0].blocks].sort((blockA, blockB) => blockA.order - blockB.order);
+        console.log('[ContactComponent] bloques:', blocks.length);
+        return blocks;
+    });
 
-    // private readonly contactItems = computed(() => {
-    // const lang = this.lang();
-    // const raw = this.items();
-    // return (Array.isArray(raw) ? raw : raw?.items ?? [])
-    //     .sort((a, b) => a.order - b.order)
-    //     .map((i) => ({
-    //         keys: i.keys,
-    //         text: i.tag[lang] ?? '',
-    //         img:  i.imgUrl[0] ?? null,
-    //     }));
-    // });
+    private findBySourceKey(sourceKey: string): string {
+        const block = this.contactBlocks().find(
+            block => block.properties['sourceKey'] === sourceKey
+        );
+        return block?.content ?? '';
+    }
 
-    // readonly label = computed(() => {
-    //     const items = this.contactItems();
-    //     const find    = (keys: string) => items.find((i) => i.keys === keys)?.text ?? '';
-    //     const findImg = (keys: string) => items.find((i) => i.keys === keys)?.img  ?? '';
+    readonly labels = computed(() => {
+        const result = {
+            title: this.findBySourceKey('contMoreInfo'),
+            subtitle: this.findBySourceKey('contWeHelp'),
+            name: this.findBySourceKey('contName'),
+            phone: this.findBySourceKey('contTel'),
+            email: this.findBySourceKey('contEmail'),
+            message: this.findBySourceKey('contMessage'),
+            btnSend: this.findBySourceKey('btnSendContactForm'),
+            mapUrl: this.getMapUrl(),
+        };
+        console.log('[ContactComponent] labels:', result);
+        return result;
+    });
 
-    //     return {
-    //         title:    find('contMoreInfo'),
-    //         subtitle: find('contWeHelp'),
-    //         name:     find('contName'),
-    //         phone:    find('contTel'),
-    //         email:    find('contEmail'),
-    //         message:  find('contMessage'),
-    //         btnSend:  find('btnSendContactForm'),
-    //         mapUrl:   findImg('mapContatFormUrl'),
-    //     };
-    // });
+    private getMapUrl(): string {
+        const blocks = this.contactBlocks();
+        const imageBlock = blocks.find(block => block.type === 'image' && block.media.length > 0);
+        const url = imageBlock?.media[0]?.url ?? '';
+        console.log('[ContactComponent] mapa URL:', url);
+        return url;
+    }
 
-    // readonly form: FormGroup = this.fb.group({
-    //     name: ['', Validators.required],
-    //     phone: ['', Validators.required],
-    //     email: ['', [Validators.required, Validators.email]],
-    //     message: ['', Validators.required],
-    //     website: [''],
-    // });
+    readonly form: FormGroup = this.fb.group({
+        name: ['', Validators.required],
+        phone: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        message: ['', Validators.required],
+        website: [''],
+    });
 
-    // hasError(field: string): boolean {
-    //     const control = this.form.get(field);
-    //     return !!control && control.invalid && (control.touched || this.submitted());
-    // }
+    hasError(field: string): boolean {
+        const control = this.form.get(field);
+        return !!control && control.invalid && (control.touched || this.submitted());
+    }
 
-    // onSubmit(): void {
-    //     this.submitted.set(true);
+    onSubmit(): void {
+        this.submitted.set(true);
+        if (this.form.invalid) return;
 
-    //     if (this.form.invalid) return; // Validación
-
-    //     const { ...formData } = this.form.value;
-
-    //     this.contactStore.submit(formData);
-
-    //     // Resetear formulario cuando el envío sea exitoso
-    //     this.contactStore.sent$.pipe(
-    //         filter(Boolean),
-    //         take(1)).subscribe(() => {
-    //         this.form.reset();
-    //         this.submitted.set(false);
-    //     });
-    // }
+        this.contactStore.submitContactForm(this.form.value as ContactRequest);
+    }
 }

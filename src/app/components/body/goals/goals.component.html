@@ -1,18 +1,22 @@
 <div class="goals">
-  GOALS
-  <!-- <h2 class="goals-title">{{ goals().sectionTitle }}</h2>
-  <p class="goals-intro-text">{{ goals().intro }}</p>
+    <h2 class="goals-title">{{ goalsTitle() }}</h2>
+    <p class="goals-intro-text">{{ goalsIntro() }}</p>
 
-  <div class="goals-grid">
-    @for (step of goals().steps; track step.num; let i = $index) {
-      <div class="goals-card" [ngStyle]="{ 'background-color': colors[i], '--card-color': colors[i], 'color': textColor(colors[i]) }">
-        <span class="goals-num">{{ step.num }}. {{ step.title }}</span>
-        <p class="goals-desc">{{ step.desc }}</p>
-        <i class="goals-icon pi" [ngClass]="icons[i]"></i>
-        @if (i < goals().steps.length - 1) {
-          <div class="goals-triangle"></div>
+    <div class="goals-grid">
+        @for (step of goalsSteps(); track step.number; let i = $index) {
+            <div class="goals-card"
+                 [ngStyle]="{
+                     'background-color': colors[i],
+                     '--card-color': colors[i],
+                     'color': textColor(colors[i])
+                 }">
+                <span class="goals-num">{{ step.number }}. {{ step.title }}</span>
+                <p class="goals-desc">{{ step.description }}</p>
+                <i class="goals-icon pi" [ngClass]="icons[i]"></i>
+                @if (i < goalsSteps().length - 1) {
+                    <div class="goals-triangle"></div>
+                }
+            </div>
         }
-      </div>
-    }
-  </div> -->
+    </div>
 </div>
