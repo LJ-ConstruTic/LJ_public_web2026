@@ -15,8 +15,8 @@
             }
         </div>
 
-        <button class="btn-byn" (click)="goBack()">Volver</button>
+        <button class="btn-byn" (click)="goBack()">{{ returnButtonText() }}</button>
     } @else {
-        <p>Producto no disponible</p>
+        <p>{{ 'default.productNotAvailable' | translate }}</p>
     }
 </div>

@@ -1,15 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, untracked, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { LanguageStore } from "../../../store/language/language.store";
 import { Router } from "@angular/router";
-import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { JoinInComponent } from "../join-in/join.component";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
+import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
+import { TeamComponent } from "../team/team.component";
+import { Block } from "../../../core/model/component-dto";
 
 @Component({
   selector: "about-detail",
   standalone: true,
-  imports: [CommonModule, JoinInComponent],
+  imports: [CommonModule, JoinInComponent, BoldPipe, TeamComponent],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -17,81 +21,108 @@ import { JoinInComponent } from "../join-in/join.component";
   styleUrl: './about-detail.component.scss'
 })
 export class AboutDetailComponent {
-  // readonly tagStore = inject(TagStore);
-  // readonly weAreStore = inject(GetComponentTagsStore);
-  // readonly languageStore = inject(LanguageStore);
-  // private readonly componentStore = inject(ComponentAppStore);
-  // private readonly injector = inject(Injector);
-
   private readonly router = inject(Router);
+  private readonly componentStore = inject(ComponentAppStore);
+  private readonly languageStore = inject(LanguageStore);
 
-  // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+  private readonly historyPageSections = this.componentStore.getSectionsBySlug('page-history');
+  private readonly teamPageSections = this.componentStore.getSectionsBySlug('page-team');
+  private readonly joinPageSections = this.componentStore.getSectionsBySlug('page-join');
 
-  // private readonly items = toSignal(this.weAreStore.tags$, { initialValue: null });
+  constructor() {
+    effect(() => {
+      const lang = this.languageStore.$selectedCodeLang();
+      if (!lang) return;
 
-  // readonly sections = computed<AboutSection[]>(() => {
-  //   const lang = this.lang();
-  //   const rawItems = this.items()?.items ?? [];
+      untracked(() => {
+        this.componentStore.loadPageBySlug({ slug: 'page-history', lang });
+        this.componentStore.loadPageBySlug({ slug: 'page-team', lang });
+        this.componentStore.loadPageBySlug({ slug: 'page-join', lang });
+      });
+    });
+  }
 
-  //   const sectionItems = rawItems.filter((i) => i.order >= 2 && i.order <= 10);
+  readonly historyBlocks = computed(() => {
+    const sections = this.historyPageSections();
+    if (sections.length === 0) return [];
+    const blocks = orderBlocksRecursively(sections[0].blocks);
+    return blocks;
+  });
 
-  //   const result: AboutSection[] = [];
-  //   let current: AboutSection | null = null;
+  readonly teamBlocks = computed(() => {
+    const sections = this.teamPageSections();
+    if (sections.length === 0) return [];
+    const blocks = orderBlocksRecursively(sections[0].blocks);
+    return blocks;
+  });
 
-  //   for (const item of sectionItems) {
-  //     const text = item.tag[lang] ?? item.tag['pt'] ?? '';
-  //     // Es título de sección si NO contiene "Context" en su key
-  //     const isSectionTitle = !item.keys.toLowerCase().includes('context');
+  readonly joinBlocks = computed(() => {
+    const sections = this.joinPageSections();
+    if (sections.length === 0) return [];
+    const blocks = orderBlocksRecursively(sections[0].blocks);
+    return blocks;
+  });
 
-  //     if (isSectionTitle) {
-  //       if (current) result.push(current);
-  //       current = {
-  //         title: text,
-  //         img: item.imgUrl?.[0] ?? null,
-  //         paragraphs: [],
-  //       };
-  //     } else if (current) {
-  //       current.paragraphs.push(text);
-  //     }
-  //   }
+  readonly historySections = computed(() => {
+    const blocks = this.historyBlocks();
+    if (blocks.length === 0) return [];
 
-  //   if (current) result.push(current);
-  //   return result;
-  // });
+    const excludedSourceKeys = new Set([
+        'ourTeans', 'workAsContext', 'weJobUx', 'weJobContac', 'weJobBestTic'
+    ]);
 
-  // readonly teamSection = computed(() => {
-  //   const lang = this.lang();
-  //   const rawItems = this.items()?.items ?? [];
+    const isExcluded = (block: Block): boolean => {
+        const sourceKey = block.properties['sourceKey'] as string ?? '';
+        return excludedSourceKeys.has(sourceKey) || sourceKey.startsWith('WeAreName') || sourceKey.startsWith('WeAreJob');
+    };
 
-  //   const teamTitle = rawItems.find((i) => i.keys === 'weJobwe')?.tag[lang] ?? '';
+    const sections: { title: string; image: string | null; paragraphs: string[] }[] = [];
+    let currentSection: { title: string; image: string | null; paragraphs: string[] } | null = null;
 
-  //   const members: TeamMember[] = rawItems
-  //     .filter((i) => /^WeAreName\d+$/.test(i.keys))
-  //     .map((nameItem) => {
-  //       const n = nameItem.keys.replace('WeAreName', '');
-  //       return {
-  //         name: nameItem.tag[lang] ?? '',
-  //         img: nameItem.imgUrl[0] ?? null,
-  //         job: rawItems.find((i) => i.keys === `WeAreJob${n}`)?.tag[lang] ?? '',
-  //       };
-  //     });
+    for (const block of blocks) {
+        if (isExcluded(block)) continue;
 
-  //   return { teamTitle, members };
-  // });
+        if (block.type === 'heading') {
+            if (currentSection) sections.push(currentSection);
+            currentSection = { title: block.content ?? '', image: null, paragraphs: [] };
+        } else if (block.type === 'image' && block.media.length > 0) {
+            if (currentSection) {
+                currentSection.image = block.media[0].url;
+            }
+        } else if (block.type === 'text') {
+            if (currentSection) {
+                currentSection.paragraphs.push(block.content ?? '');
+            }
+        }
+    }
 
-  // ngOnInit(): void {
-  //   effect(() => {
-  //     const items = this.componentStore.$items();
-  //     if (items.length === 0) return;
+    if (currentSection) sections.push(currentSection);
 
-  //     const weAre = items.find((c) => c.idx === 3);
-  //     if (weAre) {
-  //       this.weAreStore.loadComponentTags(weAre.id);
-  //     }
-  //   }, { injector: this.injector });
-  // }
+    return sections;
+  });
+
+  readonly teamMembers = computed(() => {
+    const blocks = this.teamBlocks();
+    const members = blocks.map(block => ({
+      name: block.content ?? '',
+      image: block.media.length > 0 ? block.media[0].url : null,
+    }));
+    return members;
+  });
+
+  readonly returnButtonText = computed(() => {
+    const sections = this.historyPageSections();
+    for (const section of sections) {
+        const buttonBlock = section.blocks.find(block => block.key === 'button-return');
+        if (buttonBlock) {
+            return buttonBlock.content ?? '';
+        }
+    }
+    return '';
+  });
 
   goBack(): void {
     this.router.navigate(['/']);
   }
+
 }

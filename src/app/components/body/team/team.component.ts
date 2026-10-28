@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, input } from "@angular/core";
+import { Block } from "../../../core/model/component-dto";
 
 @Component({
     selector: "team",
@@ -11,30 +12,13 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector 
     styleUrls: ['./team.component.scss']
 })
 export class TeamComponent {
-    // readonly languageStore = inject(LanguageStore);
-    // readonly teamStore = inject(GetComponentTagsStore);
-    // readonly componentStore = inject(ComponentAppStore);
-    // private readonly injector = inject(Injector);
+    readonly blocks = input.required<Block[]>();
 
-    // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
-    // private readonly items = toSignal(this.teamStore.tags$, { initialValue: null });
-
-    // readonly members = computed(() => {
-    //     const lang = this.lang();
-    //     return [...(this.items()?.items ?? [])]
-    //         .sort((a, b) => a.order - b.order)
-    //         .map(i => ({
-    //             name: i.tag[lang] ?? '',
-    //             img: i.imgUrl[0] ?? null,
-    //         }));
-    // });
-
-    // constructor() {
-    //     effect(() => {
-    //         const items = this.componentStore.$items();
-    //         if (items.length === 0) return;
-    //         const team = items.find((c) => c.idx === 20);
-    //         if (team) this.teamStore.loadComponentTags(team.id);
-    //     }, { injector: this.injector });
-    // }
+    readonly members = computed(() => {
+        return this.blocks().map(block => ({
+            id: block.id,
+            name: block.content ?? '',
+            image: block.media.length > 0 ? block.media[0].url : null,
+        }));
+    });
 }

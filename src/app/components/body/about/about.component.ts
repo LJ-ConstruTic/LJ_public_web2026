@@ -43,6 +43,12 @@ export class AboutComponent {
     return url;
   });
 
+  readonly buttonMoreText = computed(() => {
+    const children = this.block().children;
+    const buttonChild = children.find(child => child.key === 'button-more');
+    return buttonChild?.content ?? '';
+  });
+
 
   goToAboutDetail(): void {
     this.router.navigate(['about/about-detail']);

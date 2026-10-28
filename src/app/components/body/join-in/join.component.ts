@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, input, OnInit } from "@angular/core";
 import { LanguageStore } from "../../../store/language/language.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { Block } from "../../../core/model/component-dto";
 
 @Component({
   selector: "join",
@@ -14,44 +15,30 @@ import { toSignal } from "@angular/core/rxjs-interop";
   styleUrl: './join.component.scss'
 })
 export class JoinInComponent {
-  // readonly joinInStore = inject(GetComponentTagsStore);
-  // readonly languageStore = inject(LanguageStore);
-  // readonly componentStore = inject(ComponentAppStore);
-  // private readonly injector = inject(Injector);
+    readonly blocks = input.required<Block[]>();
 
-  // private readonly lang = computed(
-  //   () => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel
-  // );
+    readonly sectionTitle = computed(() => {
+        const titleBlock = this.blocks().find(block => block.type === 'heading');
+        return titleBlock?.content ?? '';
+    });
 
-  // private readonly items = toSignal(this.joinInStore.tags$, { initialValue: null });
+    readonly offers = computed(() => {
+        const allBlocks = this.blocks();
+        const titleBlocks = allBlocks.filter(
+            (block, index) => block.type === 'heading' && index > 0
+        );
 
-  // readonly data = computed(() => {
-  //   const lang = this.lang();
-  //   const rawItems = this.items()?.items ?? [];
+        const offerList = titleBlocks.map(titleBlock => {
+            const titleIndex = allBlocks.indexOf(titleBlock);
+            const descBlock = allBlocks[titleIndex + 1];
+            const description = descBlock?.type === 'text' ? descBlock.content ?? '' : '';
 
-  //   const sectionTitle = rawItems.find(i => i.tagHtml === 'h2' && i.order === 1)?.tag[lang] ?? '';
-  //   const titles = rawItems.filter(i => i.tagHtml === 'h2' && i.order > 1);
+            return {
+                title: titleBlock.content ?? '',
+                description,
+            };
+        });
 
-  //   const offers = titles.map((titleItem) => {
-  //     const n = titleItem.keys.replace('JoinTitle', '');
-  //     return {
-  //       title: titleItem.tag[lang] ?? '',
-  //       desc: rawItems.find((i) => i.keys === `JoinDesc0${n}`)?.tag[lang] ?? '',
-  //     };
-  //   }).filter(o => o.title);
-
-  //   return { sectionTitle, offers };
-  // });
-
-  // ngOnInit(): void {
-  //   effect(() => {
-  //     const items = this.componentStore.$items();
-  //     if (items.length === 0) return;
-
-  //     const joinTags = items.find((component) => component.idx === 7);
-  //     if (joinTags) {
-  //       this.joinInStore.loadComponentTags(joinTags.id);
-  //     }
-  //   }, { injector: this.injector });
-  // }
+        return offerList;
+    });
 }

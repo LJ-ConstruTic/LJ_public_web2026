@@ -1,53 +1,32 @@
 <div class="component-container">
-  <!-- Historia -->
-   Historia
-  <!-- @for (section of sections(); track $index) {
-    <section
-      class="about-section"
-      [class.about-section--reversed]="$index % 2 !== 0"
-    >
-      @if (section.img) {
-        <div class="about-section__image">
-          <img [src]="section.img" [alt]="section.title" />
-        </div>
-      }
-      <div class="about-section__content">
-        <h2>{{ section.title }}</h2>
-        @for (p of section.paragraphs; track $index) {
-          <p>{{ p }}</p>
-        }
-      </div>
-    </section>
-  } -->
 
-  <!-- Equipa -->
-  <section class="team">
-    <!-- <h2>{{ teamSection().teamTitle }}</h2>
-    <div class="team-grid">
-      @for (member of teamSection().members; track member.name) {
-        <div class="team__member">
-          <div class="team__member-img">
-            @if (member.img) {
-              <img [src]="member.img" [alt]="member.name" />
-            } @else {
-              <div class="team__member-placeholder">
-                {{ member.name.charAt(0) }}
-              </div>
+    @for (section of historySections(); track $index) {
+        <section class="about-section"
+                 [class.about-section--reversed]="$index % 2 !== 0">
+            @if (section.image) {
+                <div class="about-section__image">
+                    <img [src]="section.image" [alt]="section.title" />
+                </div>
             }
-          </div>
-          <span class="team__member-role">{{ member.job }}</span>
-          <span class="team__member-name">{{ member.name }}</span>
-        </div>
-      }
-    </div> -->
-    Equipo
-  </section>
+            <div class="about-section__content">
+                <h2>{{ section.title }}</h2>
+                @for (paragraph of section.paragraphs; track $index) {
+                    <p [innerHTML]="paragraph | bold"></p>
+                }
+            </div>
+        </section>
+    }
 
-  <join></join>
+    @if (teamBlocks().length > 0) {
+        <team [blocks]="teamBlocks()" />
+    }
 
-  <section class="back-section">
-    <button class="btn-back" (click)="goBack()">
-      <i class="pi pi-arrow-left"></i> Voltar <!-- TODO: Traducir -->
-    </button>
-  </section>
+    @if (joinBlocks().length > 0) {
+        <join [blocks]="joinBlocks()" />
+    }
+
+    <section class="back-section">
+        <button class="btn-back" (click)="goBack()"><i class="pi pi-arrow-left"></i> {{ returnButtonText() }}</button>
+    </section>
+
 </div>

@@ -11,5 +11,8 @@
   },
   "buttons": {
     "show": "Ver mais"
+  },
+  "default": {
+    "productNotAvailable": "Producto no disponible"
   }
 }
