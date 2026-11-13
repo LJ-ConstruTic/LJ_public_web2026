@@ -1,7 +1,7 @@
 <div class="conditions">
-  privacidad
-  <!-- @for (item of content(); track $index) {
+  @for (item of content(); track $index) {
     @switch (item.tagHtml) {
+      @case ('h1') { <h1 class="conditions-h1">{{ item.text }}</h1> }
       @case ('h2') { <h2 class="conditions-h2">{{ item.text }}</h2> }
       @case ('h4') { <h4 class="conditions-h4">{{ item.text }}</h4> }
       @case ('p')  { <p class="conditions-p">{{ item.text }}</p> }
@@ -9,5 +9,5 @@
       @case ('li') { <ul class="conditions-list"><li>{{ item.text }}</li></ul> }
       @case ('a')  { <a class="conditions-link" href="#">{{ item.text }}</a> }
     }
-  } -->
+  }
 </div>

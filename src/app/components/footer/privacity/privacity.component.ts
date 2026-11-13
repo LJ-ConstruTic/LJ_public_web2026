@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, untracked } from "@angular/core";
+import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { LanguageStore } from "../../../store/language/language.store";
 
 @Component({
     selector: "privacity",
@@ -11,26 +14,32 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@a
     styleUrls: ['./privacity.component.scss']
 })
 export class PrivacityComponent {
-    // readonly languageStore = inject(LanguageStore);
-    // readonly conditionsStore = inject(GetComponentTagsStore);
-    // readonly componentStore = inject(ComponentAppStore);
+    private readonly componentStore = inject(ComponentAppStore);
+    private readonly languageStore = inject(LanguageStore);
 
-    // private readonly items = toSignal(this.conditionsStore.tags$, { initialValue: null });
-    // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    private readonly privacityPageSections = this.componentStore.getSectionsBySlug('page-privated');
 
-    // readonly content = computed(() => {
-    //     const lang = this.lang();
-    //     return [...(this.items()?.items ?? [])]
-    //         .sort((a, b) => a.order - b.order)
-    //         .map(i => ({
-    //             tagHtml: i.tagHtml,
-    //             text: i.tag[lang] ?? '',
-    //         }));
-    // });
+    constructor() {
+        effect(() => {
+            const lang = this.languageStore.$selectedCodeLang();
+            if (!lang) return;
+            untracked(() => {
+                this.componentStore.loadPageBySlug({ slug: 'page-privated', lang });
+            });
+        });
+    }
 
-    // ngOnInit(): void {
-    //     const tags = this.componentStore.$items().find((c) => c.idx === 16);
-    //     if (tags) this.conditionsStore.loadComponentTags(tags.id);
-    // }
+    readonly content = computed(() => {
+        const sections = this.privacityPageSections();
+        if (sections.length === 0) return [];
 
+        const blocks = orderBlocksRecursively(sections[0].blocks);
+
+        const mappedContent = blocks.map(block => ({
+            tagHtml: block.properties?.['sourceHtmlTag'] ?? block.htmlTag,
+            text: block.content
+        }));
+
+        return mappedContent;
+    });
 }

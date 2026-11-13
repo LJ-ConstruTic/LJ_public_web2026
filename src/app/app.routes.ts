@@ -27,17 +27,22 @@ export const routes: Routes = [
     loadComponent: () => import('./components/footer/privacity/privacity.component').then(m => m.PrivacityComponent),
   },
   {
-    path: 'data-protection',
+    path: 'term-condition',
+    loadComponent: () => import('./components/footer/conditions/conditions.component').then(m => m.ConditionsComponent),
+  },
+  {
+    path: 'date-protect',
     loadComponent: () => import('./components/footer/data-protection/data-protection.component').then(m => m.DataProtectionComponent),
+  },
+  {
+    path: 'privated',
+    loadComponent: () => import('./components/footer/privacity/privacity.component').then(m => m.PrivacityComponent),
   },
   {
     path: 'cookies',
     loadComponent: () => import('./components/footer/cookies/cookies.component').then(m => m.CookiesComponent),
   },
-  {
-    path: 'conditions',
-    loadComponent: () => import('./components/footer/conditions/conditions.component').then(m => m.ConditionsComponent),
-  },
+
   { path: 'about', redirectTo: 'body-page', pathMatch: 'full' },
   { path: 'not-found', loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent) },
   { path: '**', redirectTo: 'not-found' },

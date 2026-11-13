@@ -47,7 +47,7 @@
 
   <div class="footer-legal">
     @for (link of legalLinks(); track link.url) {
-      <a [routerLink]="link.url">{{ link.label }}</a>
+      <a (click)="navigateToLegalPage(link)">{{ link.label }}</a>
     }
   </div>
   <p class="footer-copyright">{{ copyrightText() }} {{ currentYear }}</p>

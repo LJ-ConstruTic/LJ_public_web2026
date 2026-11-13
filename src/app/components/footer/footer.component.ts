@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, computed, effect, inject, ViewEncapsulation } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ComponentAppStore } from "../../store/component/component.store";
 import { Block } from "../../core/model/component-dto";
+import { LanguageStore } from "../../store/language/language.store";
 
 @Component({
     selector: 'footer',
@@ -15,6 +16,8 @@ import { Block } from "../../core/model/component-dto";
 
 export class FooterComponent {
     readonly componentStore = inject(ComponentAppStore);
+    private readonly languageStore = inject(LanguageStore);
+    private readonly router = inject(Router);
 
     private readonly footerPageSections = this.componentStore.getSectionsBySlug('page-footer');
 
@@ -73,14 +76,13 @@ export class FooterComponent {
         const block = this.findBlockByName('politics');
         if (!block) return [];
 
-        const links = [...block.children]
+        return [...block.children]
             .sort((childA, childB) => childA.order - childB.order)
             .map(child => ({
                 label: child.content ?? '',
                 url: child.properties['url'] as string ?? '#',
+                slug: child.properties['slug'] as string ?? '',
             }));
-
-        return links;
     });
 
     readonly copyrightText = computed(() => {
@@ -92,4 +94,13 @@ export class FooterComponent {
     });
 
     readonly currentYear = new Date().getFullYear();
+
+    navigateToLegalPage(link: { label: string; url: string; slug: string }): void {
+        const lang = this.languageStore.$selectedCodeLang();
+        if (!lang || !link.slug) return;
+
+        console.log('[FooterComponent] cargando:', link.slug, '→ navegando a:', link.url);
+        this.componentStore.loadPageBySlug({ slug: link.slug, lang });
+        this.router.navigate([link.url]);
+    }
 }

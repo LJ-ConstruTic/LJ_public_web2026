@@ -1,5 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, untracked } from "@angular/core";
+import { ComponentAppStore } from "../../../store/component/component.store";
+import { LanguageStore } from "../../../store/language/language.store";
+import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
 
 @Component({
     selector: "cookies",
@@ -11,26 +14,33 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@a
     styleUrls: ['./cookies.component.scss']
 })
 export class CookiesComponent {
-    // readonly languageStore = inject(LanguageStore);
-    // readonly conditionsStore = inject(GetComponentTagsStore);
-    // readonly componentStore = inject(ComponentAppStore);
+    private readonly componentStore = inject(ComponentAppStore);
+    private readonly languageStore = inject(LanguageStore);
 
-    // private readonly items = toSignal(this.conditionsStore.tags$, { initialValue: null });
-    // private readonly lang = computed(() => (this.languageStore.$selectedLanguage()?.tag ?? 'en') as keyof InternationalizationDataModel);
+    private readonly cookiesPageSections = this.componentStore.getSectionsBySlug('page-cookies');
 
-    // readonly content = computed(() => {
-    //     const lang = this.lang();
-    //     return [...(this.items()?.items ?? [])]
-    //         .sort((a, b) => a.order - b.order)
-    //         .map(i => ({
-    //             tagHtml: i.tagHtml,
-    //             text: i.tag[lang] ?? '',
-    //         }));
-    // });
+    constructor() {
+        effect(() => {
+            const lang = this.languageStore.$selectedCodeLang();
+            if (!lang) return;
 
-    // ngOnInit(): void {
-    //     const tags = this.componentStore.$items().find((c) => c.idx === 18);
-    //     if (tags) this.conditionsStore.loadComponentTags(tags.id);
-    // }
+            untracked(() => {
+                this.componentStore.loadPageBySlug({ slug: 'page-cookies', lang });
+            });
+        });
+    }
 
+    readonly content = computed(() => {
+        const sections = this.cookiesPageSections();
+        if (sections.length === 0) return [];
+
+        const blocks = orderBlocksRecursively(sections[0].blocks);
+
+        const mappedContent = blocks.map(block => ({
+            tagHtml: block.htmlTag,
+            text: block.content
+        }));
+
+        return mappedContent;
+    });
 }
