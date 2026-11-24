@@ -43,12 +43,13 @@
 
   </div>
 
-  <div class="footer-divider"></div>
 
   <div class="footer-legal">
     @for (link of legalLinks(); track link.url) {
       <a (click)="navigateToLegalPage(link)">{{ link.label }}</a>
     }
+    <button type="button" class="footer-cookie-preferences" lang="pt"
+            (click)="cookiePreferences.open()">Preferências de cookies</button>
   </div>
   <p class="footer-copyright">{{ copyrightText() }} {{ currentYear }}</p>
 </div>

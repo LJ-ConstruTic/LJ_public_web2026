@@ -2,9 +2,17 @@
     @if (labels(); as label) {
         <div class="contact-map">
             @if (label.mapUrl) {
-                <iframe [src]="label.mapUrl | safe" width="100%" height="100%" style="border:0;"
-                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                @if (cookiePreferences.externalMapAllowed()) {
+                    <iframe [src]="label.mapUrl | safe" width="100%" height="100%" style="border:0;"
+                        title="Mapa" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                } @else {
+                    <div class="contact-map-notice" lang="pt">
+                        <p>Para ver o mapa externo, permita o seu carregamento nas preferências de cookies.</p>
+                        <button type="button" class="btn-blue"
+                                (click)="cookiePreferences.open()">Preferências de cookies</button>
+                    </div>
+                }
             }
         </div>
 
@@ -47,6 +55,8 @@
                     <small class="error-msg">{{ label.message }} es obligatorio</small>
                 }
             </div>
+
+            <p lang="pt">Consulte a <a routerLink="/privacy">Política de Privacidade</a> antes de enviar os seus dados.</p>
 
             @if (sent()) {
                 <p class="success-msg">Mensaje enviado con éxito!</p>

@@ -5,16 +5,19 @@ import { LanguageStore } from './store/language/language.store';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ComponentAppStore } from './store/component/component.store';
+import { RouterLink } from '@angular/router';
+import { CookiePreferencesService } from './core/services/cookie-preferences.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule],
+  imports: [RouterOutlet, RouterLink, HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers: [],
 })
 export class App {
+  protected readonly cookiePreferences = inject(CookiePreferencesService);
   private readonly languageStore = inject(LanguageStore);
   private readonly componentStore = inject(ComponentAppStore);
 

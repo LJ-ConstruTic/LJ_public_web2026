@@ -16,6 +16,20 @@ import { HOME_SECTION_DICTIONARY } from '../../../core/dictionary/component-dict
 export class HomeComponent {
     private readonly componentStore = inject(ComponentAppStore);
 
+    readonly completedWorks = [
+        { name: 'Vila do Cedro', work: 'Reabilitação de fachada', image: 'fachada.jpg' },
+        { name: 'Vale da Fonte', work: 'Renovação do centro comunitário', image: 'centro-comunitario.jpg' },
+        { name: 'Bairro das Acácias', work: 'Requalificação da praça', image: 'praca.jpg' },
+        { name: 'Alto da Ribeira', work: 'Renovação do campo desportivo', image: 'campo-desportivo.jpg' },
+    ];
+
+    readonly reviewStars = [1, 2, 3, 4, 5];
+    readonly customerReviews = [
+        { name: 'Inês M.', rating: 5, comment: 'A equipa explicou cada etapa da obra e deixou tudo impecável.' },
+        { name: 'Rui C.', rating: 4, comment: 'Gostámos do resultado e da disponibilidade da equipa para esclarecer dúvidas.' },
+        { name: 'Marta F.', rating: 5, comment: 'O espaço ficou mais funcional e os acabamentos ficaram como tínhamos pedido.' },
+    ];
+
     readonly orderedBlocksHome = computed((): BlockWithComponent[] => {
     const sections = this.componentStore.getSectionsBySlug('page-home')();
     if (sections.length === 0) return [];

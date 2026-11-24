@@ -3,11 +3,78 @@
   @if (item.sectionKey === 'carousel') {
     <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
   } @else {
-    <div class="component-container" [id]="item.sectionKey ?? item.block.key">
-      @if (item.component && item.sectionKey !== 'carousel') {
-        <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
+    @if (item.component) {
+      <div class="home-band"
+           [class.home-band--accent]="item.sectionKey === 'our-products' || item.sectionKey === 'goals'"
+           [class.home-band--contact]="item.sectionKey === 'contact'"
+           [id]="item.sectionKey ?? item.block.key">
+        <div class="component-container">
+          <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
+        </div>
+      </div>
+      @if (item.sectionKey === 'goals') {
+        <section id="projetos-em-curso" class="component-container ongoing-projects" lang="pt"
+                 aria-labelledby="projetos-em-curso-title">
+          <h2 id="projetos-em-curso-title">Projetos e Obras em Curso</h2>
+          <p>Exemplos ilustrativos de projetos nas nossas duas áreas de atuação.</p>
+          <div class="ongoing-projects-grid">
+            <article class="ongoing-projects-area">
+              <h3>Construção</h3>
+              <p>Na construção, acompanhamos a preparação do estaleiro, a execução e a verificação dos acabamentos.</p>
+              <p>Em obras de reabilitação, planeamos as intervenções por fases para reduzir o impacto em quem utiliza os espaços.</p>
+              <ul>
+                <li><strong>Centro Comunitário Vale Verde</strong> — renovação das instalações e melhoria dos acessos.</li>
+                <li><strong>Edifício Mirante do Rio</strong> — reparação da fachada e reforço do isolamento térmico.</li>
+              </ul>
+            </article>
+            <article class="ongoing-projects-area">
+              <h3>Informática</h3>
+              <p>Na informática, desenvolvemos aplicações web e ferramentas para organizar informação e simplificar tarefas.</p>
+              <p>Testamos as soluções com os utilizadores ao longo do desenvolvimento para ajustar os fluxos antes da entrada em produção.</p>
+              <ul>
+                <li><strong>Portal de Acompanhamento de Obras</strong> — consulta de etapas, registos fotográficos e documentos.</li>
+                <li><strong>Plataforma de Pedidos de Suporte</strong> — registo e acompanhamento de pedidos de assistência técnica.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section id="trabalho-realizado" class="component-container completed-work" lang="pt"
+                 aria-labelledby="trabalho-realizado-title">
+          <h2 id="trabalho-realizado-title">Trabalho Realizado</h2>
+          <p>Da recuperação de edifícios à renovação de espaços públicos e desportivos, estes exemplos ilustram os tipos de intervenção que podem integrar o nosso portefólio. Os locais e as imagens são ilustrativos.</p>
+          <div class="completed-work-grid">
+            @for (project of completedWorks; track project.image) {
+              <figure class="completed-work-card">
+                <img [src]="'img/trabalho-realizado/' + project.image" alt="" loading="lazy" decoding="async" />
+                <figcaption>
+                  <h3>{{ project.name }}</h3>
+                  <p>{{ project.work }}</p>
+                </figcaption>
+              </figure>
+            }
+          </div>
+        </section>
+        <section id="satisfacao-clientes" class="component-container customer-satisfaction" lang="pt"
+                 aria-labelledby="satisfacao-clientes-title">
+          <h2 id="satisfacao-clientes-title">Satisfação de Nossos Clientes</h2>
+          <p>Comentários e avaliações ilustrativos.</p>
+          <div class="customer-review-grid">
+            @for (review of customerReviews; track review.name) {
+              <figure class="customer-review">
+                <div class="review-rating" role="img" [attr.aria-label]="review.rating + ' de 5 estrelas'">
+                  @for (star of reviewStars; track star) {
+                    <i class="pi" [class.pi-star-fill]="star <= review.rating"
+                       [class.pi-star]="star > review.rating" aria-hidden="true"></i>
+                  }
+                </div>
+                <blockquote><p>{{ review.comment }}</p></blockquote>
+                <figcaption>{{ review.name }}</figcaption>
+              </figure>
+            }
+          </div>
+        </section>
       }
-    </div>
+    }
   }
 
 }

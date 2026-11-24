@@ -1,5 +1,5 @@
 .products {
-  padding: 2rem 1.5rem;
+  padding: 0;
 }
 
 .products-title {
@@ -19,7 +19,7 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 1.5rem;
   padding-bottom: 2rem;
 
@@ -33,11 +33,14 @@
   align-items: center;
   gap: 0.8rem;
   padding: 1.5rem;
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  border-radius: 10px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--panel-text);
+  background: var(--panel);
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 
-  &:hover {
+  &:hover, &:focus-visible {
+    border-color: var(--azul);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }

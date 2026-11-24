@@ -1,3 +1,18 @@
+.team-intro {
+  text-align: center;
+  padding-top: 2rem;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.8rem;
+  }
+
+  p {
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+}
+
 .team-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

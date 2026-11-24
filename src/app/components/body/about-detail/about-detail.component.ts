@@ -27,7 +27,6 @@ export class AboutDetailComponent {
 
   private readonly historyPageSections = this.componentStore.getSectionsBySlug('page-history');
   private readonly teamPageSections = this.componentStore.getSectionsBySlug('page-team');
-  private readonly joinPageSections = this.componentStore.getSectionsBySlug('page-join');
 
   constructor() {
     effect(() => {
@@ -37,7 +36,6 @@ export class AboutDetailComponent {
       untracked(() => {
         this.componentStore.loadPageBySlug({ slug: 'page-history', lang });
         this.componentStore.loadPageBySlug({ slug: 'page-team', lang });
-        this.componentStore.loadPageBySlug({ slug: 'page-join', lang });
       });
     });
   }
@@ -51,13 +49,6 @@ export class AboutDetailComponent {
 
   readonly teamBlocks = computed(() => {
     const sections = this.teamPageSections();
-    if (sections.length === 0) return [];
-    const blocks = orderBlocksRecursively(sections[0].blocks);
-    return blocks;
-  });
-
-  readonly joinBlocks = computed(() => {
-    const sections = this.joinPageSections();
     if (sections.length === 0) return [];
     const blocks = orderBlocksRecursively(sections[0].blocks);
     return blocks;

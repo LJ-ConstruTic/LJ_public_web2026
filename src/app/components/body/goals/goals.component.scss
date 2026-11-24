@@ -24,6 +24,9 @@
 }
 
 .goals-card {
+  --card-color: color-mix(in srgb, var(--azul), var(--turquesa) var(--turquoise-share));
+  background-color: var(--card-color);
+  color: var(--branco);
   position: relative;
   border-radius: 8px;
   padding: 1.2rem 1.5rem 3rem;
@@ -33,6 +36,21 @@
   justify-content: flex-start;
   gap: 0.5rem;
   box-sizing: border-box;
+}
+
+.goals-card--dark-text {
+  // Black maintains contrast at the brighter end of the gradient.
+  color: #000;
+}
+
+html.app-dark .goals-card {
+  --card-color: color-mix(
+    in srgb,
+    #173b63,
+    var(--panel) var(--turquoise-share)
+  );
+  color: var(--branco);
+  box-shadow: inset 0 0 0 1px var(--surface-border);
 }
 
 .goals-card-intro {

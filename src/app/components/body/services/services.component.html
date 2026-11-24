@@ -3,19 +3,17 @@
 
     <div class="services-grid">
         @for (item of serviceCardsWithDescription(); track item.card.id) {
-            <div class="services-card" (click)="navigateToService(item.card)">
-                <div class="services-card-img">
+            <button type="button" class="services-card" (click)="navigateToService(item.card)">
+                <span class="services-card-img">
                     @if (item.card.media.length > 0) {
-                        <img [src]="item.card.media[0].url" [alt]="item.card.content ?? ''" />
-                    } @else {
-                        <div class="services-card-placeholder"></div>
+                        <img [src]="item.card.media[0].url" alt="" />
                     }
-                </div>
-                <div class="services-card-content">
-                    <h3 class="services-card-title">{{ item.card.content }}</h3>
-                    <p class="services-card-desc">{{ item.description }}</p>
-                </div>
-            </div>
+                </span>
+                <span class="services-card-content">
+                    <span class="services-card-title">{{ item.card.content }}</span>
+                    <span class="services-card-desc">{{ item.description }}</span>
+                </span>
+            </button>
         }
     </div>
 </div>

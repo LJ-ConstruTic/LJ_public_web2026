@@ -1,46 +1,74 @@
 .slide {
   position: relative;
-  height: 460px;
-  width: 100%;
+  display: grid;
+  align-items: end;
+  height: clamp(21rem, 58vw, 37rem);
   overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(
+    130deg,
+    var(--azul-profundo),
+    var(--azul) 65%,
+    var(--dark-gradient-start, var(--turquesa))
+  );
+}
+
+.slide-img,
+.slide::after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .slide-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: -2;
   object-fit: cover;
-  object-position: center;
-  display: block;
 }
 
-.slide-placeholder {
-  width: 100%;
-  height: 100%;
-  background: #d0d0d0;
+.slide::after {
+  content: '';
+  z-index: -1;
+  background: linear-gradient(90deg, #0a2848e8, #123c6966),
+    linear-gradient(0deg, #0a2848eb, transparent 75%);
 }
 
 .slide-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-right: 6%; padding-left: 6%;
+  width: min(100%, 1200px);
+  margin-inline: auto;
+  padding: clamp(1.25rem, 5vw, 4.5rem);
 }
 
 .slide-title {
-  color: white;
-  line-height: 1.4;
-  margin: 0 0 0 0;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  word-break: break-word;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 0.3rem 0.6rem;
-  display: inline;
-  justify-content: center;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  max-width: 24ch;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: var(--branco);
+  font-size: clamp(1.6rem, 4.2vw, 3.65rem);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.slide-overlay::before {
+  content: '';
+  display: block;
+  width: 3.25rem;
+  height: 0.3rem;
+  margin-bottom: 1.25rem;
+  border-radius: 999px;
+  background: var(--turquesa);
+}
+
+:host ::ng-deep .p-carousel-item-active .slide-title {
+  animation: title-enter 600ms ease-out both;
+}
+
+@keyframes title-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -2,19 +2,23 @@
 
 :root {
   // colors
-  --base: #1E90FF;
-  --button: #2073b4;
+  --azul: #123c69;
+  --turquesa: #12a6a0;
+  --azul-profundo: #0a2848;
+  --header-footer-background: #061a30;
+  --base: #76e1db;
+  --button: var(--turquesa);
   --branco: #fff;
-  --background: #f5f5f5;
-  --preto: #000;
+  --background: #f4f5f6;
+  --preto: var(--azul-profundo);
   --verde: #32CD32;
   --amarelo: #FFD700;
   --advice: #ffa600;
-  --error: #ff4646;
+  --error: #b42318;
 
   // typography
-  --main-font: 'Raleway', sans-serif;
-  --secondary-font: 'Poppins', sans-serif;
+  --main-font: Montserrat, 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  --secondary-font: var(--main-font);
 
   //sizes
   --size-text-extra-big: 18px;
@@ -24,15 +28,26 @@
   --size-text-tiny: 12px;
 
   // nav-bar - light
-  --ui-background: var(--branco);
+  --ui-background: var(--background);
   --ui-text: var(--preto);
 
   --ui-hover-background: var(--preto);
   --ui-hover-text: var(--branco);
 
   // modo oscuro / light en body-page:
-  --bg-page: var(--branco);
-  --section-text: var(--preto);
+  --bg-page: var(--background);
+  --section-text: var(--azul-profundo);
+  --panel: var(--bg-page);
+  --panel-text: var(--azul-profundo);
+  --band: var(--bg-page);
+  --band-text: var(--azul-profundo);
+  --surface-border: #123c6926;
+  --accent-text: #08716e;
+  --service-surface: var(--panel);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -41,19 +56,27 @@ body {
   box-sizing: border-box;
   font-family: var(--main-font);
   background-color: var(--bg-page);
+  color: var(--section-text);
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 p {
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 html.app-dark {
+  --turquesa: #8fbbec;
+  --base: #b6d3f3;
+  --header-footer-background: #0a2543;
+  --dark-gradient-start: #061426;
+  --dark-gradient-middle: #030e1d;
+  --dark-gradient-end: #010711;
+
   // general
-  --ui-background: var(--preto);
+  --ui-background: var(--panel);
   --ui-text: var(--branco);
 
   --ui-hover-background: var(--branco);
@@ -61,51 +84,82 @@ html.app-dark {
 
   // body-page
   --section-text: var(--branco);
-  --bg-page: #444444;
+  --bg-page: var(--dark-gradient-end);
+  --surface-border: #ffffff30;
+  --accent-text: var(--base);
+  --service-surface: var(--panel);
+  --panel: #0a1d34;
+  --panel-text: var(--branco);
+  --band: transparent;
+  --band-text: var(--branco);
+  --error: #ffaaa3;
 }
 
-html.app-dark .btn-byn {
-  background-color: var(--branco);
-  color: var(--preto);
+html.app-dark app-root > main {
+  background: linear-gradient(
+    180deg,
+    var(--dark-gradient-start),
+    var(--dark-gradient-middle) 48%,
+    var(--dark-gradient-end)
+  );
+}
+
+.home-band--contact {
+  color: var(--panel-text);
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--branco);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--azul-profundo);
 }
 
 h1,
 h2,
 h3 {
   font-family: var(--secondary-font);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h2 {
+  letter-spacing: -0.025em;
 }
 
 strong {
   font-weight: 700;
 }
 
-.btn-blue {
-  background-color: var(--button);
-  color: var(--branco);
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-
-  &:hover {
-    background-color: var(--base);
-  }
-}
-
+.btn-blue,
 .btn-byn {
-  background-color: var(--preto);
-  color: var(--branco);
-  border: none;
-  padding: 0.65rem 1.5rem;
+  background-color: var(--button);
+  color: var(--azul-profundo);
+  min-height: 44px;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
   cursor: pointer;
-  font-weight: 600;
-  border-radius: 4px;
-  transition: opacity 0.2s ease;
+  font-weight: 700;
+  transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease,
+    transform 220ms ease;
 
-  &:hover {
-    opacity: 0.85;
+  &:hover:not(:disabled) {
+    background-color: var(--base);
+    box-shadow: 0 8px 22px #0a284840;
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: default;
   }
 }
 
@@ -113,7 +167,7 @@ strong {
   max-width: 1200px;
   margin: 0 auto;
   color: var(--section-text);
-  padding: 2rem 2rem;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 2.5rem);
   background-color: transparent;
 }
 
@@ -132,22 +186,27 @@ strong {
 .image-style {
   height: 100%;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 1rem;
   object-fit: cover;
   object-position: center;
 }
 
 .presentation-carousel {
+  padding-bottom: 0.75rem;
+
   li.p-carousel-indicator-active button {
-    background: var(--ui-text) !important;
-    transform: scale(1.35);
+    background: var(--turquesa) !important;
+  }
+
+  .p-carousel-indicator button {
+    transition: background-color 220ms ease;
   }
 }
 
 .presentation-carousel {
-  --p-carousel-indicator-width: 10px;
+  --p-carousel-indicator-width: 22px;
   --p-carousel-indicator-height: 10px;
-  --p-carousel-indicator-border-radius: 50%;
+  --p-carousel-indicator-border-radius: 999px;
   --p-carousel-indicator-background: #bbb;
   --p-carousel-indicator-hover-background: #999;
   --p-carousel-indicator-active-background: var(--ui-text);
@@ -174,8 +233,11 @@ strong {
 
 // Footer
 .footer {
+  --section-text: var(--branco);
+  --surface-border: #ffffff30;
+  --accent-text: var(--base);
   padding: 2.5rem 2rem 1rem;
-  background-color: var(--preto);
+  background-color: var(--header-footer-background);
 }
 
 .footer-main {
@@ -202,16 +264,16 @@ strong {
 .footer-company {
   align-items: left;
 
-  color: var(--branco);
+  color: var(--section-text);
   font-size: 0.8rem;
-  opacity: 0.6;
+  opacity: 0.85;
   margin: 0;
 }
 
 .footer-copyright {
-  color: var(--branco);
+  color: var(--section-text);
   font-size: 0.75rem;
-  opacity: 0.5;
+  opacity: 0.8;
   margin: 0;
   margin-top: 1.5rem;
   text-align: center;
@@ -232,12 +294,12 @@ strong {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--surface-border);
   transition: border-color 0.2s ease;
   text-decoration: none;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: var(--accent-text);
   }
 }
 
@@ -259,7 +321,8 @@ strong {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.85rem;
-  color: var(--amarelo);
+  color: var(--accent-text);
+  overflow-wrap: anywhere;
   text-decoration: none;
 
   i {
@@ -271,19 +334,23 @@ strong {
   }
 }
 
-.footer-divider {
-  color: var(--branco);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  margin-bottom: 1rem;
+.footer-cookie-preferences {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .footer-legal {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
   font-size: 0.90rem;
-  color: var(--branco);
-  opacity: 0.5;
+  color: var(--section-text);
+  opacity: 0.85;
   padding-bottom: 1rem;
   text-transform: lowercase;
 
@@ -292,12 +359,12 @@ strong {
   }
 
   a {
-    color: var(--branco);
+    color: var(--section-text);
     text-decoration: none;
     cursor: pointer;
 
     &:hover {
-      color: #aaaaaa;
+      color: var(--accent-text);
       opacity: 1;
     }
   }
@@ -324,6 +391,10 @@ strong {
   .footer-social {
     justify-content: center;
   }
+
+  .footer-brand {
+    align-items: center;
+  }
 }
 
 app-root {
@@ -334,4 +405,56 @@ app-root {
 
 app-root>main {
   flex: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (view-transition-name: route-content) {
+    :root {
+      view-transition-name: none;
+    }
+
+    app-root > main {
+      view-transition-name: route-content;
+    }
+
+    ::view-transition {
+      pointer-events: none;
+    }
+
+    ::view-transition-group(route-content),
+    ::view-transition-old(route-content),
+    ::view-transition-new(route-content) {
+      animation-duration: 240ms;
+      animation-timing-function: ease-in-out;
+    }
+
+    ::view-transition-group(route-content) {
+      animation-name: none;
+    }
+  }
+
+  @supports not (view-transition-name: route-content) {
+    main > router-outlet + * {
+      display: block;
+      animation: route-enter 220ms ease-out both;
+    }
+  }
+}
+
+@keyframes route-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+app-root > app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

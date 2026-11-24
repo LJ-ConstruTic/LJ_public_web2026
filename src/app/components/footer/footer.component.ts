@@ -4,6 +4,7 @@ import { Router, RouterLink } from "@angular/router";
 import { ComponentAppStore } from "../../store/component/component.store";
 import { Block } from "../../core/model/component-dto";
 import { LanguageStore } from "../../store/language/language.store";
+import { CookiePreferencesService } from '../../core/services/cookie-preferences.service';
 
 @Component({
     selector: 'footer',
@@ -15,6 +16,7 @@ import { LanguageStore } from "../../store/language/language.store";
 })
 
 export class FooterComponent {
+    protected readonly cookiePreferences = inject(CookiePreferencesService);
     readonly componentStore = inject(ComponentAppStore);
     private readonly languageStore = inject(LanguageStore);
     private readonly router = inject(Router);

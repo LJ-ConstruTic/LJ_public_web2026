@@ -1,9 +1,9 @@
-<p-menubar #menubar [model]="$menuItems()" aria-label="Menu">
+<p-menubar #menubar [model]="$menuItems()" breakpoint="1180px" aria-label="Menu">
     
     <ng-template #start>
         @if (logoBlockFromMenu(); as logo) {
             <a routerLink="/" class="logo-link" aria-label="Go to home">
-                <img [src]="logo.media?.[0]?.url" [alt]="logo.altText ?? ''" class="logo"/>
+                <img [src]="logo.media[0]?.url || 'img/logo.png'" [alt]="logo.altText ?? ''" class="logo"/>
             </a>
         }
     </ng-template>
@@ -13,7 +13,7 @@
         <div class="actions-menu">
             <div>
                 <p-select [options]="langOptions()" [ngModel]="selectedCode()" 
-                          optionLabel="nativeName" optionValue="code"
+                          optionLabel="nativeName" optionValue="code" ariaLabel="Language"
                           class="w-full md:w-56" (ngModelChange)="onLangChange($event)" />
             </div>
             <div>

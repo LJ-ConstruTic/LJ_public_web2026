@@ -3,17 +3,15 @@
     <p class="goals-intro-text">{{ goalsIntro() }}</p>
 
     <div class="goals-grid">
-        @for (step of goalsSteps(); track step.number; let i = $index) {
+        @for (step of goalsSteps(); track step.number; let i = $index, count = $count) {
+            @let turquoiseShare = count > 1 ? 100 * i / (count - 1) : 0;
             <div class="goals-card"
-                 [ngStyle]="{
-                     'background-color': colors[i],
-                     '--card-color': colors[i],
-                     'color': textColor(colors[i])
-                 }">
+                 [style.--turquoise-share.%]="turquoiseShare"
+                 [class.goals-card--dark-text]="turquoiseShare >= 66">
                 <span class="goals-num">{{ step.number }}. {{ step.title }}</span>
                 <p class="goals-desc">{{ step.description }}</p>
                 <i class="goals-icon pi" [ngClass]="icons[i]"></i>
-                @if (i < goalsSteps().length - 1) {
+                @if (!$last) {
                     <div class="goals-triangle"></div>
                 }
             </div>

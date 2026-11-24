@@ -1,0 +1,112 @@
+.home-band--accent {
+  --section-text: var(--band-text);
+  background: var(--band);
+}
+
+.home-band--contact {
+  --section-text: var(--panel-text);
+}
+
+.ongoing-projects,
+.completed-work,
+.customer-satisfaction {
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.8rem;
+  }
+
+  > p {
+    max-width: 70ch;
+    margin: 0 0 1.75rem;
+  }
+}
+
+.completed-work-grid,
+.customer-review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1.25rem;
+}
+
+.ongoing-projects-area,
+.completed-work-card,
+.customer-review {
+  margin: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 1rem;
+  background: var(--panel);
+  color: var(--panel-text);
+}
+
+.ongoing-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: 1.25rem;
+}
+
+.ongoing-projects-area {
+  padding: clamp(1rem, 3vw, 1.5rem);
+
+  h3 {
+    margin-top: 0;
+    color: var(--accent-text);
+  }
+
+  ul {
+    margin-bottom: 0;
+    padding-inline-start: 1.25rem;
+    line-height: 1.65;
+  }
+
+  li + li {
+    margin-top: 0.5rem;
+  }
+}
+
+.completed-work-card {
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  figcaption {
+    padding: 1rem;
+  }
+
+  h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+}
+
+.customer-review {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+
+  blockquote,
+  p {
+    margin: 0;
+  }
+
+  figcaption {
+    margin-top: auto;
+    font-weight: 700;
+  }
+}
+
+.review-rating {
+  display: flex;
+  gap: 0.3rem;
+  color: var(--accent-text);
+}

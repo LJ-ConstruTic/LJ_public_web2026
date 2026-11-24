@@ -21,9 +21,7 @@
         <team [blocks]="teamBlocks()" />
     }
 
-    @if (joinBlocks().length > 0) {
-        <join [blocks]="joinBlocks()" />
-    }
+    <join />
 
     <section class="back-section">
         <button class="btn-back" (click)="goBack()"><i class="pi pi-arrow-left"></i> {{ returnButtonText() }}</button>

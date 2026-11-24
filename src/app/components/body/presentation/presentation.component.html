@@ -4,21 +4,18 @@
       [value]="carouselSlides()"
       [numVisible]="1"
       [numScroll]="1"
-      [circular]="true"
-      [autoplayInterval]="5000"
+      [circular]="carouselSlides().length > 1"
+      [autoplayInterval]="autoplayInterval()"
       [showNavigators]="false"
       [showIndicators]="true"
       styleClass="presentation-carousel">
 
       <ng-template #item let-slide>
-        <div class="slide">
-          @if (carouselImage()) {
-            <img [src]="carouselImage()" [alt]="carouselTitle()" class="slide-img" />
-          } @else {
-            <div class="slide-placeholder"></div>
+        <div class="slide" [attr.lang]="slide.language ?? null">
+          @if (slide.imageUrl) {
+            <img [src]="slide.imageUrl" [alt]="slide.imageAlt" class="slide-img" />
           }
           <div class="slide-overlay">
-            <!-- <h1 class="slide-title">{{ carouselTitle() }}</h1> -->
             <p class="slide-title">{{ slide.content }}</p>
           </div>
         </div>

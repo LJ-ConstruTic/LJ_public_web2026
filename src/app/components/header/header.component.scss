@@ -1,141 +1,100 @@
-// MOBILE //
-@media (max-width: 960px) {
-  :host ::ng-deep .p-menubar {
-    padding: 0 !important;
-    flex-wrap: wrap;
-  }
-
-  :host ::ng-deep .p-menubar-start {
-    width: 100%;
-    justify-content: center !important;
-    padding: 8px;
-  }
-
-  :host ::ng-deep .p-menubar-end {
-    width: 100%;
-    justify-content: center !important;
-    padding: 4px 8px 8px;
-    border-top: 1px solid var(--ui-border-color, #eee);
-  }
-
-  :host ::ng-deep .p-menubar-button {// botón hamburguesa
-    order: 3; // lo manda al lado del logo
-    width: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-  }
-
-  :host ::ng-deep .p-menubar-root-list {
-    order: 1; // la lista desplegada va debajo
-    align-items: center !important;
-    width: 100% !important;
-  }
-
-  :host ::ng-deep .p-menubar-end {// botón hamburguesa
-    order: 2; // lo manda al lado del logo
-    width: 100% !important;
-    justify-content: center !important;
-  }
-
-  .actions-menu {
-    margin-left: 0 !important;
-    justify-content: center !important;
-    width: 100% !important;
-  }
-
-}
-
-// Desktop/Tablet
-@media (min-width: 961px) {
-  :host ::ng-deep .p-menubar-end {
-    flex: 0 0 auto;
-    justify-content: flex-end;
-  }
-
-  :host ::ng-deep .p-menubar .p-menubar-root-list {
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: center;
-  }
-}
-
-:host ::ng-deep .p-menubar-item:not(.p-disabled)>.p-menubar-item-content:hover {
-  // hover de menú
-  background: transparent !important;
-  color: var(--ui-hover-background) !important;
-  font-weight: bold !important;
+:host {
+  display: block;
+  background: var(--header-footer-background);
+  box-shadow: 0 4px 24px #0a28482b;
 }
 
 :host ::ng-deep .p-menubar {
-  padding: 0 !important;
+  --p-menubar-background: var(--header-footer-background);
+  --p-menubar-color: var(--branco);
+  --p-menubar-item-color: var(--branco);
+  --p-menubar-item-focus-color: var(--branco);
+  --p-menubar-item-active-color: var(--branco);
+  --p-menubar-item-focus-background: color-mix(in srgb, var(--turquesa) 19%, var(--header-footer-background));
+  --p-menubar-item-active-background: var(--p-menubar-item-focus-background);
+  --p-menubar-submenu-background: var(--header-footer-background);
+  --p-menubar-mobile-button-color: var(--branco);
+  --p-menubar-mobile-button-hover-color: var(--branco);
+  --p-menubar-mobile-button-hover-background: var(--p-menubar-item-focus-background);
+
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 0.7rem clamp(0.75rem, 3vw, 2rem);
+  border: 0;
+  border-radius: 0;
 }
 
-:host ::ng-deep .p-menubar-start,
-:host ::ng-deep .p-menubar-end {
-  display: flex;
-  align-items: center;
-  padding: 2px;
+:host ::ng-deep .p-menubar-item-link {
+  min-height: 44px;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
-
-:host ::ng-deep .theme-mode .p-button-text:not(:disabled) {
-  // botón switch theme
-  color: var(--ui-hover-background);
+:host ::ng-deep .p-menubar-item-content,
+:host ::ng-deep .theme-mode button {
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
-:host ::ng-deep .theme-mode .p-button-text:not(:disabled):hover {
-  // botón switch theme: hover
-  background: var(--ui-hover-background);
-  color: var(--ui-hover-text);
-}
-
-.nav-menu {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.logo {
-  display: flex;
-  width: 250px;
-  display: block;
-  padding: 5px;
-  flex: 0 0 auto;
+:host ::ng-deep .theme-mode button {
+  color: var(--branco);
+  --p-button-text-primary-hover-background: var(--p-menubar-item-focus-background);
 }
 
 .logo-link {
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  cursor: pointer;
+  padding: 0.35rem;
+  background: var(--branco);
+  border-radius: 0.5rem;
 }
 
-.links-menu {
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+.logo {
+  display: block;
+  width: clamp(7rem, 16vw, 12rem);
+  height: auto;
+  max-height: 3.5rem;
+  object-fit: contain;
 }
 
 .actions-menu {
-  // margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 0 0 auto;
+  gap: 0.45rem;
 }
 
-.p-menubar-item-link {
-    pointer-events: none;
+@media (min-width: 1181px) {
+  :host ::ng-deep .p-menubar-root-list {
+    flex: 1 1 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
 
-    .p-menubar-item-label {
-        pointer-events: all;
-        cursor: pointer;
-    }
+@media (max-width: 1180px) {
+  :host ::ng-deep .p-menubar-end {
+    margin-inline-start: auto;
+  }
 
-    .p-menubar-submenu-icon {
-        pointer-events: all;
-        cursor: pointer;
-    }
+  :host ::ng-deep .p-menubar-button {
+    order: 1;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+
+  :host ::ng-deep .p-menubar-root-list {
+    max-height: 75dvh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  :host ::ng-deep .p-menubar {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  :host ::ng-deep .actions-menu .p-select {
+    max-width: 7rem;
+  }
 }

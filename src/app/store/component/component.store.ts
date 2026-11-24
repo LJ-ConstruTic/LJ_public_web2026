@@ -72,14 +72,21 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     }
 
     scrollTo(key: string): void {
+        const scrollToSection = () => {
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            document.getElementById(key)?.scrollIntoView({
+                behavior: reducedMotion ? 'instant' : 'smooth',
+            });
+        };
+
         if (this.router.url !== '/') {
-            this.router.navigate(['/']).then(() => {
-                setTimeout(() => {
-                    document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
-                }, 300);
+            this.router.navigate(['/']).then(navigated => {
+                if (navigated) {
+                    setTimeout(scrollToSection, 300);
+                }
             });
         } else {
-            document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
+            scrollToSection();
         }
     }
 }

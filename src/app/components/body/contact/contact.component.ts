@@ -11,17 +11,20 @@ import { filter, take } from "rxjs";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { Block } from "../../../core/model/component-dto";
 import { ContactRequest } from "../../../core/model/contact-dto";
+import { CookiePreferencesService } from '../../../core/services/cookie-preferences.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: "contact",
     standalone: true,
-    imports: [CommonModule, InputTextModule, ButtonModule, SafePipe, ReactiveFormsModule],
+    imports: [CommonModule, InputTextModule, ButtonModule, SafePipe, ReactiveFormsModule, RouterLink],
     providers: [ContactStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './contact.component.html',
     styleUrl: './contact.component.scss'
 })
 export class ContactComponent {
+    protected readonly cookiePreferences = inject(CookiePreferencesService);
     readonly block = input.required<Block>();
     private readonly componentStore = inject(ComponentAppStore);
     private readonly languageStore = inject(LanguageStore);
