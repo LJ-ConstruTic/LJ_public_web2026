@@ -81,8 +81,9 @@ export class FooterComponent {
         return [...block.children]
             .sort((childA, childB) => childA.order - childB.order)
             .map(child => ({
+                key: child.key ?? '',
                 label: child.content ?? '',
-                url: child.properties['url'] as string ?? '#',
+                url: child.properties['url'] as string ?? '',
                 slug: child.properties['slug'] as string ?? '',
             }));
     });

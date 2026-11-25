@@ -9,13 +9,13 @@
 @if (cookiePreferences.visible()) {
   <aside class="cookie-notice" lang="pt" aria-labelledby="cookie-notice-title">
     <div>
-      <h2 id="cookie-notice-title">Preferências de cookies</h2>
+      <h2 id="cookie-notice-title">Preferências de cookies</h2> <!-- Traducir -->
       <p>O mapa é fornecido por um serviço externo que pode utilizar cookies. Pode permitir ou rejeitar o seu carregamento e alterar a escolha no rodapé.</p>
-      <a routerLink="/cookies">Política de cookies</a>
+      <a routerLink="/cookies">Política de cookies</a> <!-- Traducir -->
     </div>
     <div class="cookie-actions">
-      <button class="btn-blue" type="button" (click)="cookiePreferences.save('rejected')">Rejeitar opcionais</button>
-      <button class="btn-blue" type="button" (click)="cookiePreferences.save('accepted')">Aceitar opcionais</button>
+      <button class="btn-blue" type="button" (click)="cookiePreferences.save('rejected')">Rejeitar opcionais</button> <!-- Traducir -->
+      <button class="btn-blue" type="button" (click)="cookiePreferences.save('accepted')">Aceitar opcionais</button> <!-- Traducir -->
     </div>
   </aside>
 }

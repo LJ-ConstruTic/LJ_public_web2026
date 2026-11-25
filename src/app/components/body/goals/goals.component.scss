@@ -24,7 +24,8 @@
 }
 
 .goals-card {
-  --card-color: color-mix(in srgb, var(--azul), var(--turquesa) var(--turquoise-share));
+  --turquesa-goals: #0a7a75;
+  --card-color: color-mix(in srgb, var(--azul), var(--turquesa-goals) var(--turquoise-share));
   background-color: var(--card-color);
   color: var(--branco);
   position: relative;

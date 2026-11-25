@@ -3,7 +3,7 @@
 :root {
   // colors
   --azul: #123c69;
-  --turquesa: #12a6a0;
+  --turquesa: #0a7a75;
   --azul-profundo: #0a2848;
   --header-footer-background: #061a30;
   --base: #76e1db;
@@ -69,11 +69,19 @@ p {
 
 html.app-dark {
   --turquesa: #8fbbec;
-  --base: #b6d3f3;
+  --base: #d4e8fd;
+  --button: #2a6cb8;
   --header-footer-background: #0a2543;
   --dark-gradient-start: #061426;
   --dark-gradient-middle: #030e1d;
   --dark-gradient-end: #010711;
+
+  .btn-blue:hover:not(:disabled),
+  .btn-byn:hover:not(:disabled) {
+    background-color: #fff;
+    color: #1e5a9e;
+    border: 1px solid #1e5a9e;
+  }
 
   // general
   --ui-background: var(--panel);
@@ -137,7 +145,7 @@ strong {
 .btn-blue,
 .btn-byn {
   background-color: var(--button);
-  color: var(--azul-profundo);
+  color: var(--branco);
   min-height: 44px;
   padding: 0.7rem 1.25rem;
   border: 1px solid transparent;
@@ -148,7 +156,9 @@ strong {
     transform 220ms ease;
 
   &:hover:not(:disabled) {
-    background-color: var(--base);
+    background-color: #ffff;
+    color: #0a7a75;
+    border: 1px solid #0a7a75;
     box-shadow: 0 8px 22px #0a284840;
     transform: translateY(-2px);
   }
@@ -279,6 +289,10 @@ strong {
   text-align: center;
 }
 
+.link-footer-legal:hover {
+  text-decoration: underline;
+}
+
 .footer-social {
   display: flex;
   flex-direction: row;
@@ -340,7 +354,6 @@ strong {
   background: transparent;
   color: inherit;
   cursor: pointer;
-  text-decoration: underline;
 }
 
 .footer-legal {

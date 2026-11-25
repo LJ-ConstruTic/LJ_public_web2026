@@ -135,7 +135,7 @@
 
 .btn-back {
   background: transparent;
-  border: 1px solid #ccc;
+  border: 1px solid var(--surface-border);
   border-radius: 8px;
   padding: 0.6rem 1.8rem;
   font-size: 0.95rem;
@@ -144,8 +144,8 @@
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--preto);
-    color: var(--preto);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
     background: rgba(0, 0, 0, 0.03);
   }
 }

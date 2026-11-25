@@ -8,9 +8,9 @@
                     </iframe>
                 } @else {
                     <div class="contact-map-notice" lang="pt">
-                        <p>Para ver o mapa externo, permita o seu carregamento nas preferências de cookies.</p>
+                        <p>Para ver o mapa externo, permita o seu carregamento nas preferências de cookies.</p> <!-- Traducir -->
                         <button type="button" class="btn-blue"
-                                (click)="cookiePreferences.open()">Preferências de cookies</button>
+                                (click)="cookiePreferences.open()">Preferências de cookies</button> <!-- Traducir -->
                     </div>
                 }
             }
@@ -21,45 +21,45 @@
             <p class="contact-subtitle">{{ label.subtitle }}</p>
 
             <div class="contact-field">
-                <label>{{ label.name }} *:</label>
-                <input pInputText formControlName="name" [class.input-error]="hasError('name')" />
+                <label for="contact-name">{{ label.name }} *:</label>
+                <input pInputText formControlName="name" [class.input-error]="hasError('name')" id="contact-name"/>
                 @if (hasError('name')) {
-                    <small class="error-msg">{{ label.name }} es obligatorio</small>
+                    <small class="error-msg">{{ label.name }} es obligatorio</small> <!-- Traducir -->
                 }
             </div>
 
             <div class="contact-field">
-                <label>{{ label.phone }} *:</label>
-                <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" />
+                <label for="contact-phone">{{ label.phone }} *:</label>
+                <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" id="contact-phone"/>
                 @if (hasError('phone')) {
-                    <small class="error-msg">{{ label.phone }} es obligatorio</small>
+                    <small class="error-msg">{{ label.phone }} es obligatorio</small> <!-- Traducir -->
                 }
             </div>
 
             <div class="contact-field">
-                <label>{{ label.email }} *:</label>
-                <input pInputText formControlName="email" [class.input-error]="hasError('email')" />
+                <label for="contact-email">{{ label.email }} *:</label>
+                <input pInputText formControlName="email" [class.input-error]="hasError('email')" id="contact-email" />
                 @if (hasError('email') && form.get('email')?.hasError('required')) {
-                    <small class="error-msg">{{ label.email }} es obligatorio</small>
+                    <small class="error-msg">{{ label.email }} es obligatorio</small> <!-- Traducir -->
                 }
                 @if (hasError('email') && form.get('email')?.hasError('email')) {
-                    <small class="error-msg">{{ label.email }} inválido</small>
+                    <small class="error-msg">{{ label.email }} inválido</small> <!-- Traducir -->
                 }
             </div>
 
             <div class="contact-field">
-                <label>{{ label.message }} *:</label>
+                <label for="contact-message">{{ label.message }} *:</label>
                 <textarea pInputTextarea formControlName="message" rows="5"
-                    [class.input-error]="hasError('message')"></textarea>
+                    [class.input-error]="hasError('message')" id="contact-message"></textarea>
                 @if (hasError('message')) {
-                    <small class="error-msg">{{ label.message }} es obligatorio</small>
+                    <small class="error-msg">{{ label.message }} es obligatorio</small> <!-- Traducir -->
                 }
             </div>
 
-            <p lang="pt">Consulte a <a routerLink="/privacy">Política de Privacidade</a> antes de enviar os seus dados.</p>
+            <p lang="pt">Consulte a <a routerLink="/privacy">Política de Privacidade</a> antes de enviar os seus dados.</p> <!-- Traducir -->
 
             @if (sent()) {
-                <p class="success-msg">Mensaje enviado con éxito!</p>
+                <p class="success-msg">Mensaje enviado con éxito!</p> <!-- Traducir -->
             } @else {
                 <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()">
                     {{ sending() ? '...' : label.btnSend }}

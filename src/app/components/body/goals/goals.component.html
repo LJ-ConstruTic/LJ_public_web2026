@@ -6,8 +6,7 @@
         @for (step of goalsSteps(); track step.number; let i = $index, count = $count) {
             @let turquoiseShare = count > 1 ? 100 * i / (count - 1) : 0;
             <div class="goals-card"
-                 [style.--turquoise-share.%]="turquoiseShare"
-                 [class.goals-card--dark-text]="turquoiseShare >= 66">
+                 [style.--turquoise-share.%]="turquoiseShare">
                 <span class="goals-num">{{ step.number }}. {{ step.title }}</span>
                 <p class="goals-desc">{{ step.description }}</p>
                 <i class="goals-icon pi" [ngClass]="icons[i]"></i>
