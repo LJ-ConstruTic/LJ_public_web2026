@@ -15,7 +15,7 @@
             }
         </div>
 
-        <button class="btn-byn" (click)="goBack()">{{ returnButtonText() }}</button>
+        <button class="btn-byn" (click)="goBack()" [ariaLabel]="translate()?.buttons?.goBack">{{ returnButtonText() }}</button>
     } @else {
         <p>{{ 'default.productNotAvailable' | translate }}</p>
     }

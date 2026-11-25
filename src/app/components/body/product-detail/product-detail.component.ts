@@ -7,6 +7,7 @@ import { ComponentAppStore } from "../../../store/component/component.store";
 import { map } from "rxjs";
 import { findBlockById } from "../../../core/utils/order-blocks.utils";
 import { TranslateModule } from "@ngx-translate/core";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 @Component({
     selector: "products",
@@ -24,6 +25,9 @@ export class ProductDetailComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly componentStore = inject(ComponentAppStore);
     private readonly languageStore = inject(LanguageStore);
+
+    private readonly translateAppService = inject(TranslateAppService);
+    readonly translate = this.translateAppService.labels;
 
     private readonly productPageSections = this.componentStore.getSectionsBySlug('page-product');
 

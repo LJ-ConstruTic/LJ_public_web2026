@@ -10,7 +10,11 @@
     "contact": "Contato"
   },
   "buttons": {
-    "show": "Ver mais"
+    "show": "Ver mais",
+    "goToAboutDetail": "Ir para quem somos",
+    "goBack": "Voltar para o inicio",
+    "send": "Enviar mensagem",
+    "map": "Mapa de localização de LJConstruTic"
   },
   "default": {
     "productNotAvailable": "Produto no disponibel"

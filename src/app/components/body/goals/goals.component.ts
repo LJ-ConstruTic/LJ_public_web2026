@@ -70,7 +70,7 @@ export class GoalsComponent {
         return steps;
     });
 
-    readonly colors = ['#32CD32', '#2ab82a', '#229422', '#1a701a', '#124c12', '#0a280a', '#050f05'];
+    readonly colors = ['#1a7a1a', '#177017', '#146614', '#115c11', '#0e520e', '#0b480b', '#083e08'];
     readonly icons = [
         'pi-search', 'pi-chart-bar', 'pi-users', 'pi-bullseye',
         'pi-cog', 'pi-wrench', 'pi-sync', 'pi-trophy',
@@ -81,6 +81,6 @@ export class GoalsComponent {
         const g = parseInt(hex.slice(3, 5), 16);
         const b = parseInt(hex.slice(5, 7), 16);
         const luminance = (r * 299 + g * 587 + b * 114) / 1000;
-        return luminance > 110 ? '#1a1a1a' : '#ffffff';
+        return luminance > 160 ? '#000000' : '#ffffff';
     }
 }

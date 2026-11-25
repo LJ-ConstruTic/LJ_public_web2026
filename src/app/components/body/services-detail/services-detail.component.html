@@ -2,7 +2,7 @@
     @if (serviceBlock(); as bloque) {
         <div class="services-detail-row">
             @if (bloque.media.length > 0) {
-                <img [src]="bloque.media[0].url" [alt]="bloque.content ?? ''" class="services-detail-icon"/>
+                <img [src]="bloque.media[0].url" [alt]="bloque.content ?? ''" class="services-detail-icon" loading="lazy"/>
             }
             <div class="services-detail-content">
                 <h2 class="services-detail-title">{{ bloque.content }}</h2>
@@ -14,7 +14,7 @@
                 }
             </div>
         </div>
-        <button class="btn-byn" (click)="goBack()">{{ returnButtonText() }}</button>
+        <button class="btn-byn" (click)="goBack()" [ariaLabel]="translate()?.buttons?.goBack">{{ returnButtonText() }}</button>
     } @else {
         <p>{{ 'default.serviceNotAvailable' | translate }}</p>
     }

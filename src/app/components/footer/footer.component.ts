@@ -99,8 +99,6 @@ export class FooterComponent {
         const lang = this.languageStore.$selectedCodeLang();
         if (!lang || !link.slug) return;
 
-        console.log('[FooterComponent] cargando:', link.slug, '→ navegando a:', link.url);
         this.componentStore.loadPageBySlug({ slug: link.slug, lang });
-        this.router.navigate([link.url]);
     }
 }

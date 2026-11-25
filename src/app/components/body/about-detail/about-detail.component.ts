@@ -9,6 +9,7 @@ import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
 import { TeamComponent } from "../team/team.component";
 import { Block } from "../../../core/model/component-dto";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 @Component({
   selector: "about-detail",
@@ -24,6 +25,9 @@ export class AboutDetailComponent {
   private readonly router = inject(Router);
   private readonly componentStore = inject(ComponentAppStore);
   private readonly languageStore = inject(LanguageStore);
+
+  private readonly translateAppService = inject(TranslateAppService);
+  readonly translate = this.translateAppService.labels;
 
   private readonly historyPageSections = this.componentStore.getSectionsBySlug('page-history');
   private readonly teamPageSections = this.componentStore.getSectionsBySlug('page-team');

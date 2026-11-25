@@ -3,7 +3,7 @@
         <div class="contact-map">
             @if (label.mapUrl) {
                 <iframe [src]="label.mapUrl | safe" width="100%" height="100%" style="border:0;"
-                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" [title]="translate()?.buttons?.map">
                 </iframe>
             }
         </div>
@@ -13,24 +13,24 @@
             <p class="contact-subtitle">{{ label.subtitle }}</p>
 
             <div class="contact-field">
-                <label>{{ label.name }} *:</label>
-                <input pInputText formControlName="name" [class.input-error]="hasError('name')" />
+                <label for="contact-name">{{ label.name }} *:</label>
+                <input pInputText formControlName="name" id="contact-name" [class.input-error]="hasError('name')" />
                 @if (hasError('name')) {
                     <small class="error-msg">{{ label.name }} es obligatorio</small>
                 }
             </div>
 
             <div class="contact-field">
-                <label>{{ label.phone }} *:</label>
-                <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" />
+                <label for="contact-phone">{{ label.phone }} *:</label>
+                <input pInputText formControlName="phone" id="contact-phone" [class.input-error]="hasError('phone')" />
                 @if (hasError('phone')) {
                     <small class="error-msg">{{ label.phone }} es obligatorio</small>
                 }
             </div>
 
             <div class="contact-field">
-                <label>{{ label.email }} *:</label>
-                <input pInputText formControlName="email" [class.input-error]="hasError('email')" />
+                <label for="contact-email">{{ label.email }} *:</label>
+                <input pInputText formControlName="email" id="contact-email" [class.input-error]="hasError('email')" />
                 @if (hasError('email') && form.get('email')?.hasError('required')) {
                     <small class="error-msg">{{ label.email }} es obligatorio</small>
                 }
@@ -40,9 +40,8 @@
             </div>
 
             <div class="contact-field">
-                <label>{{ label.message }} *:</label>
-                <textarea pInputTextarea formControlName="message" rows="5"
-                    [class.input-error]="hasError('message')"></textarea>
+                <label for="contact-message">{{ label.message }} *:</label>
+                <textarea pInputTextarea formControlName="message" id="contact-message" rows="5" [class.input-error]="hasError('message')"></textarea>
                 @if (hasError('message')) {
                     <small class="error-msg">{{ label.message }} es obligatorio</small>
                 }
@@ -51,7 +50,7 @@
             @if (sent()) {
                 <p class="success-msg">Mensaje enviado con éxito!</p>
             } @else {
-                <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()">
+                <button class="btn-blue" (click)="onSubmit()" [disabled]="sending()" [ariaLabel]="translate()?.buttons?.send">
                     {{ sending() ? '...' : label.btnSend }}
                 </button>
             }

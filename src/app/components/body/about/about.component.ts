@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
-import { LanguageStore } from "../../../store/language/language.store";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
-import { ComponentAppStore } from "../../../store/component/component.store";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { Block } from "../../../core/model/component-dto";
 import { extractFirstMediaUrl } from "../../../core/utils/extract-img.utils";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 @Component({
   selector: "about",
@@ -20,8 +18,9 @@ import { extractFirstMediaUrl } from "../../../core/utils/extract-img.utils";
 })
 export class AboutComponent {
   readonly block = input.required<Block>();
-
   readonly router = inject(Router);
+  private readonly translateAppService = inject(TranslateAppService);
+  readonly translate = this.translateAppService.labels;
 
   readonly aboutImage = computed(() => {
     const mediaItems = this.block().media;

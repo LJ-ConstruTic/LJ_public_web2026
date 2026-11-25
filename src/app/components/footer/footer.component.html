@@ -40,14 +40,13 @@
         }
       }
     </div>
-
   </div>
 
   <div class="footer-divider"></div>
 
   <div class="footer-legal">
     @for (link of legalLinks(); track link.url) {
-      <a (click)="navigateToLegalPage(link)">{{ link.label }}</a>
+      <a [routerLink]="link.url" (click)="navigateToLegalPage(link)">{{ link.label }}</a>
     }
   </div>
   <p class="footer-copyright">{{ copyrightText() }} {{ currentYear }}</p>

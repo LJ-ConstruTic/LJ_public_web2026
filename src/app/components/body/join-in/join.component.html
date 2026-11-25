@@ -9,7 +9,7 @@
                     </div>
                     <h3 class="join-card-title">{{ offer.title }}</h3>
                     <p class="join-card-desc">{{ offer.description }}</p>
-                    <button class="btn-blue join-card-btn">Saiba mais</button>
+                    <button class="btn-blue join-card-btn" [ariaLabel]="translate()?.buttons?.show">{{ translate()?.buttons?.show }}</button>
                 </div>
             }
         </div>

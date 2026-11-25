@@ -7,6 +7,7 @@ import { ComponentAppStore } from "../../../store/component/component.store";
 import { map } from "rxjs";
 import { TranslateModule } from "@ngx-translate/core";
 import { LanguageStore } from "../../../store/language/language.store";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 
 @Component({
@@ -24,6 +25,9 @@ export class ServicesDetailComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly componentStore = inject(ComponentAppStore);
     private readonly languageStore = inject(LanguageStore);
+
+    private readonly translateAppService = inject(TranslateAppService);
+    readonly translate = this.translateAppService.labels;
 
     private readonly servicePageSections = this.componentStore.getSectionsBySlug('page-service');
 

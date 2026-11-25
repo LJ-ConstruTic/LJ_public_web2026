@@ -10,7 +10,11 @@
     "contact": "Contact"
   },
   "buttons": {
-    "show": "Ver mais"
+    "show": "Show more",
+    "goToAboutDetail": "Go to we are",
+    "goBack": "Go back to home page",
+    "send": "Send message",
+    "map": "Ubication map of LJConstruTic"
   },
   "default": {
     "productNotAvailable": "Product not available"

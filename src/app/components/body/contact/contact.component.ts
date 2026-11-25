@@ -11,6 +11,7 @@ import { filter, take } from "rxjs";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { Block } from "../../../core/model/component-dto";
 import { ContactRequest } from "../../../core/model/contact-dto";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 @Component({
     selector: "contact",
@@ -27,6 +28,9 @@ export class ContactComponent {
     private readonly languageStore = inject(LanguageStore);
     private readonly contactStore = inject(ContactStore);
     private readonly fb = inject(FormBuilder);
+
+    private readonly translateAppService = inject(TranslateAppService);
+    readonly translate = this.translateAppService.labels;
 
     private readonly contactPageSections = this.componentStore.getSectionsBySlug('page-contact');
 

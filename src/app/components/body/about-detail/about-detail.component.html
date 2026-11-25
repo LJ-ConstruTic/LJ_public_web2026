@@ -26,7 +26,7 @@
     }
 
     <section class="back-section">
-        <button class="btn-back" (click)="goBack()"><i class="pi pi-arrow-left"></i> {{ returnButtonText() }}</button>
+        <button class="btn-back" (click)="goBack()" [ariaLabel]="translate()?.buttons?.goBack"><i class="pi pi-arrow-left"></i> {{ returnButtonText() }}</button>
     </section>
 
 </div>

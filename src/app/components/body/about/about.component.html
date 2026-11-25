@@ -7,7 +7,7 @@
 
   <div class="about-content">
     <p [innerHTML]="block().content | bold"></p>
-    <button class="btn-byn" (click)="goToAboutDetail()">
+    <button class="btn-byn" (click)="goToAboutDetail()" [ariaLabel]="translate()?.buttons?.goToAboutDetail">
       {{ buttonMoreText() }}
     </button>
   </div>

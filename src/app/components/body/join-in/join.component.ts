@@ -4,6 +4,7 @@ import { LanguageStore } from "../../../store/language/language.store";
 import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Block } from "../../../core/model/component-dto";
+import { TranslateAppService } from "../../../core/services/translate.service";
 
 @Component({
   selector: "join",
@@ -16,6 +17,9 @@ import { Block } from "../../../core/model/component-dto";
 })
 export class JoinInComponent {
     readonly blocks = input.required<Block[]>();
+
+    private readonly translateAppService = inject(TranslateAppService);
+    readonly translate = this.translateAppService.labels;
 
     readonly sectionTitle = computed(() => {
         const titleBlock = this.blocks().find(block => block.type === 'heading');

@@ -7,10 +7,16 @@
 
     <div class="products-grid">
         @for (product of productCards(); track product.id) {
-            <div class="products-card" (click)="navigateToProduct(product)">
+            <div class="products-card" 
+                 (click)="navigateToProduct(product)" 
+                 (keydown.enter)="navigateToProduct(product)" 
+                 (keydown.space)="navigateToProduct(product)"
+                 role="button"
+                 tabindex="0"
+                 [attr.aria-label]="product.content">
                 @if (product.media.length > 0) {
                     <div class="products-card-img">
-                        <img [src]="product.media[0].url" [alt]="product.content ?? ''" />
+                        <img [src]="product.media[0].url" alt="" loading="lazy"/>
                     </div>
                 }
                 <h3 class="products-card-title">{{ product.content }}</h3>
