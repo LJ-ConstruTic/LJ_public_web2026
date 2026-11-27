@@ -9,6 +9,7 @@ import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
 import { TeamComponent } from "../team/team.component";
 import { Block } from "../../../core/model/component-dto";
+import { TeamHeader, TeamMember } from "../../../core/model/team-dto";
 
 @Component({
   selector: "about-detail",
@@ -59,32 +60,32 @@ export class AboutDetailComponent {
     if (blocks.length === 0) return [];
 
     const excludedSourceKeys = new Set([
-        'ourTeans', 'workAsContext', 'weJobUx', 'weJobContac', 'weJobBestTic'
+      'ourTeans', 'workAsContext', 'weJobUx', 'weJobContac', 'weJobBestTic'
     ]);
 
     const isExcluded = (block: Block): boolean => {
-        const sourceKey = block.properties['sourceKey'] as string ?? '';
-        return excludedSourceKeys.has(sourceKey) || sourceKey.startsWith('WeAreName') || sourceKey.startsWith('WeAreJob');
+      const sourceKey = block.properties['sourceKey'] as string ?? '';
+      return excludedSourceKeys.has(sourceKey) || sourceKey.startsWith('WeAreName') || sourceKey.startsWith('WeAreJob');
     };
 
     const sections: { title: string; image: string | null; paragraphs: string[] }[] = [];
     let currentSection: { title: string; image: string | null; paragraphs: string[] } | null = null;
 
     for (const block of blocks) {
-        if (isExcluded(block)) continue;
+      if (isExcluded(block)) continue;
 
-        if (block.type === 'heading') {
-            if (currentSection) sections.push(currentSection);
-            currentSection = { title: block.content ?? '', image: null, paragraphs: [] };
-        } else if (block.type === 'image' && block.media.length > 0) {
-            if (currentSection) {
-                currentSection.image = block.media[0].url;
-            }
-        } else if (block.type === 'text') {
-            if (currentSection) {
-                currentSection.paragraphs.push(block.content ?? '');
-            }
+      if (block.type === 'heading') {
+        if (currentSection) sections.push(currentSection);
+        currentSection = { title: block.content ?? '', image: null, paragraphs: [] };
+      } else if (block.type === 'image' && block.media.length > 0) {
+        if (currentSection) {
+          currentSection.image = block.media[0].url;
         }
+      } else if (block.type === 'text') {
+        if (currentSection) {
+          currentSection.paragraphs.push(block.content ?? '');
+        }
+      }
     }
 
     if (currentSection) sections.push(currentSection);
@@ -92,9 +93,27 @@ export class AboutDetailComponent {
     return sections;
   });
 
-  readonly teamMembers = computed(() => {
+  readonly teamHeader = computed<TeamHeader>(() => {
     const blocks = this.teamBlocks();
-    const members = blocks.map(block => ({
+    // El bloque de cabecera tiene type === 'heading' y key === 'team-header'
+    const headingBlock = blocks.find(block => block.type === 'heading');
+
+    const title = headingBlock?.content ?? '';
+    // El subtítulo está en el children del heading
+    const subtitle = headingBlock?.children?.length
+      ? headingBlock.children[0].content ?? ''
+      : '';
+
+    return { title, subtitle };
+  });
+
+  readonly teamMembers = computed<TeamMember[]>(() => {
+    const blocks = this.teamBlocks();
+
+    const memberBlocks = blocks.filter(block => block.type === 'text');
+
+    const members = memberBlocks.map(block => ({
+      id: block.id,
       name: block.content ?? '',
       image: block.media.length > 0 ? block.media[0].url : null,
     }));
@@ -104,10 +123,10 @@ export class AboutDetailComponent {
   readonly returnButtonText = computed(() => {
     const sections = this.historyPageSections();
     for (const section of sections) {
-        const buttonBlock = section.blocks.find(block => block.key === 'button-return');
-        if (buttonBlock) {
-            return buttonBlock.content ?? '';
-        }
+      const buttonBlock = section.blocks.find(block => block.key === 'button-return');
+      if (buttonBlock) {
+        return buttonBlock.content ?? '';
+      }
     }
     return '';
   });

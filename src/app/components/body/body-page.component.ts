@@ -29,6 +29,7 @@ export class BodyPageComponent {
       untracked(() => {
         this.componentStore.loadPageBySlug({ slug: 'page-home', lang: langCode });
         this.componentStore.loadPageBySlug({ slug: 'page-contact', lang: langCode });
+        this.componentStore.loadPageBySlug({ slug: 'carousel', lang: langCode });
       });
     });
   }

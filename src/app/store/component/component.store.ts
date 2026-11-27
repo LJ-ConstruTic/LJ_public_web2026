@@ -39,7 +39,6 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
                 this.componentService.getPageBySlug(slug, lang).pipe(
                     tap({
                         next: (response) => {
-                            console.log('loadPageBySlug', response);
                             const seccionesExistentes = this.get().pageSectionsBySlug;
 
                             this.patchState({

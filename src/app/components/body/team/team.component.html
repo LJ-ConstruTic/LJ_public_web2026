@@ -1,8 +1,9 @@
 <section class="team-section" aria-labelledby="team-title">
-  <header class="team-intro" lang="pt">
-    <h2 id="team-title">Nossa equipe</h2>
-    <p>Somos uma equipe internacional que reúne profissionais de diferentes áreas, da construção à informática.</p>
-  </header>
+  <h2 id="team-title">{{ header().title }}</h2>
+  @if (header().subtitle) {
+    <p class="team-subtitle">{{ header().subtitle }}</p>
+  }
+
   <div class="team-grid">
     @for (member of members(); track member.id) {
         <div class="team__member">

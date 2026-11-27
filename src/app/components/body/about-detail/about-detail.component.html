@@ -17,8 +17,8 @@
         </section>
     }
 
-    @if (teamBlocks().length > 0) {
-        <team [blocks]="teamBlocks()" />
+    @if (teamMembers().length > 0) {
+        <team [header]="teamHeader()" [members]="teamMembers()" />
     }
 
     <join />

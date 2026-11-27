@@ -50,7 +50,6 @@ export class ContactComponent {
         effect(() => {
             const sentSuccessfully = this.contactStore.$sent();
             if (sentSuccessfully) {
-                console.log('[ContactComponent] enviado con éxito, reseteando form');
                 this.form.reset();
                 this.submitted.set(false);
             }
@@ -61,7 +60,6 @@ export class ContactComponent {
         const sections = this.contactPageSections();
         if (sections.length === 0) return [];
         const blocks = [...sections[0].blocks].sort((blockA, blockB) => blockA.order - blockB.order);
-        console.log('[ContactComponent] bloques:', blocks.length);
         return blocks;
     });
 
@@ -83,7 +81,6 @@ export class ContactComponent {
             btnSend: this.findBySourceKey('btnSendContactForm'),
             mapUrl: this.getMapUrl(),
         };
-        console.log('[ContactComponent] labels:', result);
         return result;
     });
 
@@ -91,7 +88,6 @@ export class ContactComponent {
         const blocks = this.contactBlocks();
         const imageBlock = blocks.find(block => block.type === 'image' && block.media.length > 0);
         const url = imageBlock?.media[0]?.url ?? '';
-        console.log('[ContactComponent] mapa URL:', url);
         return url;
     }
 

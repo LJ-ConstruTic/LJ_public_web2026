@@ -4,6 +4,7 @@ import { ComponentAppStore } from '../../../store/component/component.store';
 import { extractSectionFromBlock, orderBlocksRecursively } from '../../../core/utils/order-blocks.utils';
 import { BlockWithComponent } from '../../../core/model/component-dto';
 import { HOME_SECTION_DICTIONARY } from '../../../core/dictionary/component-dictionary';
+import { PresentationSlide } from '../../../core/model/slide-dto';
 
 @Component({
     selector: 'app-home',
@@ -31,19 +32,37 @@ export class HomeComponent {
     ];
 
     readonly orderedBlocksHome = computed((): BlockWithComponent[] => {
-    const sections = this.componentStore.getSectionsBySlug('page-home')();
-    if (sections.length === 0) return [];
+        const sections = this.componentStore.getSectionsBySlug('page-home')();
+        if (sections.length === 0) return [];
 
-    const firstSection = sections[0];
-    const sortedBlocks = orderBlocksRecursively(firstSection.blocks);
+        const firstSection = sections[0];
+        const sortedBlocks = orderBlocksRecursively(firstSection.blocks);
 
-    const blocksWithComponents = sortedBlocks.map(block => {
-      const sectionKey = extractSectionFromBlock(block);
-      const component = sectionKey ? (HOME_SECTION_DICTIONARY[sectionKey] ?? null) : null;
+        const blocksWithComponents = sortedBlocks.map(block => {
+            const sectionKey = extractSectionFromBlock(block);
+            const component = sectionKey ? (HOME_SECTION_DICTIONARY[sectionKey] ?? null) : null;
 
-      return { block, component, sectionKey };
+            return { block, component, sectionKey };
+        });
+
+        return blocksWithComponents;
     });
 
-    return blocksWithComponents;
-});
+    readonly carouselSlides = computed<PresentationSlide[]>(() => {
+        const sections = this.componentStore.getSectionsBySlug('carousel')();
+        if (sections.length === 0) {
+            return [];
+        }
+
+        const blocks = sections[0].blocks;
+        const slides = [...blocks]
+            .sort((first, second) => first.order - second.order)
+            .map(slide => ({
+                content: slide.content ?? '',
+                imageUrl: slide.media.length > 0 ? slide.media[0].url : null,
+                imageAlt: slide.content ?? '',
+            }));
+
+        return slides;
+    });
 }

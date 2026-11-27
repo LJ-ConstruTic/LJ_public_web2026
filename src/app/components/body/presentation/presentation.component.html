@@ -1,19 +1,19 @@
 <section class="slider-wrapper">
-  @if (carouselSlides().length > 0) {
+  @if (slides().length > 0) {
     <p-carousel
-      [value]="carouselSlides()"
+      [value]="slides()"
       [numVisible]="1"
       [numScroll]="1"
-      [circular]="carouselSlides().length > 1"
+      [circular]="slides().length > 1"
       [autoplayInterval]="autoplayInterval()"
       [showNavigators]="false"
       [showIndicators]="true"
       styleClass="presentation-carousel">
 
       <ng-template #item let-slide>
-        <div class="slide" [attr.lang]="slide.language ?? null">
+        <div class="slide">
           @if (slide.imageUrl) {
-            <img [src]="slide.imageUrl" [alt]="slide.imageAlt" class="slide-img" />
+            <img [src]="slide.imageUrl" [alt]="slide.imageAlt" class="slide-img" loading="lazy" />
           }
           <div class="slide-overlay">
             <p class="slide-title">{{ slide.content }}</p>

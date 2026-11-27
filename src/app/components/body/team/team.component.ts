@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, inject, Injector, input } from "@angular/core";
 import { Block } from "../../../core/model/component-dto";
+import { TeamHeader, TeamMember } from "../../../core/model/team-dto";
 
 @Component({
     selector: "team",
@@ -12,13 +13,13 @@ import { Block } from "../../../core/model/component-dto";
     styleUrls: ['./team.component.scss']
 })
 export class TeamComponent {
-    readonly blocks = input.required<Block[]>();
+    readonly header = input.required<TeamHeader>();
+    readonly members = input.required<TeamMember[]>();
 
-    readonly members = computed(() => {
-        return this.blocks().map(block => ({
-            id: block.id,
-            name: block.content ?? '',
-            image: block.media.length > 0 ? block.media[0].url : null,
-        }));
-    });
+    constructor() {
+        effect(() => {
+            console.log('[TeamComponent] header recibido:', this.header());
+            console.log('[TeamComponent] miembros recibidos:', this.members().length);
+        });
+    }
 }

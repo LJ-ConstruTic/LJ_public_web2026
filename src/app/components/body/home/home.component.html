@@ -1,7 +1,7 @@
 @for (item of orderedBlocksHome(); track item.block.id) {
 
   @if (item.sectionKey === 'carousel') {
-    <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block }" />
+    <ng-container *ngComponentOutlet="item.component; inputs: { block: item.block, slides: carouselSlides() }" />
   } @else {
     @if (item.component) {
       <div class="home-band"
