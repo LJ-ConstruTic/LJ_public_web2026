@@ -2,7 +2,7 @@ import { ComponentStore } from "@ngrx/component-store";
 import { ComponentState, initialComponentState } from "./component.state";
 import { computed, inject, Injectable } from "@angular/core";
 import { ComponentService } from "../../core/services/component.service";
-import { mergeMap, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, filter, finalize, groupBy, mergeMap, switchMap, tap } from "rxjs";
 import { Router } from "@angular/router";
 
 
@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 export class ComponentAppStore extends ComponentStore<ComponentState> {
     private readonly componentService = inject(ComponentService);
     private readonly router = inject(Router);
+    private readonly pendingLanguages = new Map<string, string>();
 
     readonly $globalSections = this.selectSignal(state => state.globalSections);
     readonly $pageSectionsBySlug = this.selectSignal(state => state.pageSectionsBySlug);
@@ -21,54 +22,34 @@ export class ComponentAppStore extends ComponentStore<ComponentState> {
     }
 
     // --- Updaters ---
-    private readonly setLoading = this.updater<boolean>((state, loading) => ({
-        ...state, loading
-    }));
-    private readonly setError = this.updater<string | null>((state, error) => ({
-        ...state, error
-    }));
-
-    // --- Effects ---
-    readonly loadPageBySlug = this.effect<{ slug: string; lang: string }>((parametrosDeCarga$) =>
-        parametrosDeCarga$.pipe(
-            tap(({ slug, lang }) => {
-                this.setLoading(true);
-                this.setError(null);
-            }),
-            mergeMap(({ slug, lang }) =>   // lanza peticiones en paralelo sin cancelar la anterior
-                this.componentService.getPageBySlug(slug, lang).pipe(
-                    tap({
-                        next: (response) => {
-                            console.log('loadPageBySlug', response);
-                            const seccionesExistentes = this.get().pageSectionsBySlug;
-
-                            this.patchState({
-                                pageSectionsBySlug: {
-                                    ...seccionesExistentes,
-                                    [slug]: response.page.sections,
-                                },
-                                loading: false,
-                            });
-
-                        },
-                        error: (error) => {
-                            console.error('[Store] loadPageBySlug ERROR — slug:', slug, error);
-                            this.setError(error?.message ?? 'Error loading page by slug');
-                            this.setLoading(false);
-                        },
-                    })
-                )
-            )
-        )
+    readonly loadPageBySlug = this.effect<{ slug: string; lang: string }>(requests =>
+        requests.pipe(
+            groupBy(request => request.slug),
+            mergeMap(group => group.pipe(
+                filter(({ slug, lang }) => this.pendingLanguages.get(slug) !== lang),
+                switchMap(({ slug, lang }) => {
+                    this.pendingLanguages.set(slug, lang);
+                    this.patchState({ loading: true, error: null });
+                    return this.componentService.getPageBySlug(slug, lang).pipe(
+                        tap(response => this.patchState(state => ({
+                            pageSectionsBySlug: { ...state.pageSectionsBySlug, [slug]: response.page.sections },
+                        }))),
+                        catchError(error => {
+                            this.patchState({ error: error?.message ?? 'Error loading page by slug' });
+                            return EMPTY;
+                        }),
+                        finalize(() => {
+                            this.pendingLanguages.delete(slug);
+                            this.patchState({ loading: this.pendingLanguages.size > 0 });
+                        }),
+                    );
+                }),
+            )),
+        ),
     );
 
     getSectionsBySlug(slug: string) {
-        return computed(() => {
-            const todasLasSeccionesPorSlug = this.$pageSectionsBySlug();
-            console.log('todasLasSeccionesPorSlug:', todasLasSeccionesPorSlug);
-            const seccionesDeEsteSlug = todasLasSeccionesPorSlug[slug] ?? [];
-            return seccionesDeEsteSlug;
-        });
+        return computed(() => this.$pageSectionsBySlug()[slug] ?? []);
     }
 
     scrollTo(key: string): void {

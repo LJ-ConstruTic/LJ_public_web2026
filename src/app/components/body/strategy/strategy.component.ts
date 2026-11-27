@@ -2,11 +2,12 @@ import { CommonModule } from "@angular/common";
 
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from "@angular/core";
 import { Block } from "../../../core/model/component-dto";
+import { CmsImageSrcsetPipe } from '../../../../utils/pipes/cms-image-srcset.pipe';
 
 @Component({
   selector: "strategy",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CmsImageSrcsetPipe],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

@@ -1,7 +1,12 @@
 <div class="about">
   <div class="image-container">
-    @if (aboutImageUrl()) {
-      <img class="image-style" [src]="aboutImageUrl()" [alt]="block().content ?? ''" />
+    @if (aboutImageUrl(); as url) {
+      <picture>
+        @if (url | cmsImageSrcset; as srcset) {
+          <source type="image/webp" [srcset]="srcset" sizes="(max-width: 767px) 92vw, 40vw">
+        }
+        <img class="image-style" [src]="url" [alt]="block().content ?? ''" loading="lazy" decoding="async" />
+      </picture>
     }
   </div>
 

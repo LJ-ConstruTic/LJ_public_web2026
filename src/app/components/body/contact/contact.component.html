@@ -1,9 +1,9 @@
 <div class="contact">
     @if (labels(); as label) {
         <div class="contact-map">
-            @if (label.mapUrl) {
+            @if (label.mapUrl | safe; as mapUrl) {
                 @if (cookiePreferences.externalMapAllowed()) {
-                    <iframe [src]="label.mapUrl | safe" width="100%" height="100%" style="border:0;"
+                    <iframe [src]="mapUrl" width="100%" height="100%" style="border:0;"
                         title="Mapa" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 } @else {

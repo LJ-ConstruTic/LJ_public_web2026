@@ -5,7 +5,12 @@
                  [class.about-section--reversed]="$index % 2 !== 0">
             @if (section.image) {
                 <div class="about-section__image">
-                    <img [src]="section.image" [alt]="section.title" />
+                    <picture>
+                        @if (section.image | cmsImageSrcset; as srcset) {
+                            <source type="image/webp" [srcset]="srcset" sizes="(max-width: 767px) 92vw, 380px">
+                        }
+                        <img [src]="section.image" [alt]="section.title" loading="lazy" decoding="async" />
+                    </picture>
                 </div>
             }
             <div class="about-section__content">

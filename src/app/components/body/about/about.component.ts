@@ -7,11 +7,12 @@ import { ComponentAppStore } from "../../../store/component/component.store";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Block } from "../../../core/model/component-dto";
 import { extractFirstMediaUrl } from "../../../core/utils/extract-img.utils";
+import { CmsImageSrcsetPipe } from '../../../../utils/pipes/cms-image-srcset.pipe';
 
 @Component({
   selector: "about",
   standalone: true,
-  imports: [CommonModule, BoldPipe],
+  imports: [CommonModule, BoldPipe, CmsImageSrcsetPipe],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

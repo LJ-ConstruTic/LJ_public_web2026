@@ -6,3 +6,7 @@
 // :host ::ng-deep .section--gray {
 //     background-color: var(--section-even) !important;
 // }
+:host {
+  display: block;
+  min-height: 100svh;
+}

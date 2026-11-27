@@ -43,7 +43,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/footer/cookies/cookies.component').then(m => m.CookiesComponent),
   },
 
-  { path: 'about', redirectTo: 'body-page', pathMatch: 'full' },
+  { path: 'about', redirectTo: 'about/about-detail', pathMatch: 'full' },
   { path: 'not-found', loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent) },
-  { path: '**', redirectTo: 'not-found' },
+  { path: '**', loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent) },
 ];

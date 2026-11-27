@@ -47,9 +47,9 @@
   <div class="footer-legal">
     @for (link of legalLinks(); track link.url) {
       @if (link.key === 'legal') {
-        <a class="link-footer-legal" (click)="cookiePreferences.open()" role="button" tabindex="0">{{ link.label }}</a>
+        <button class="link-footer-legal" type="button" (click)="cookiePreferences.open()">{{ link.label }}</button>
       } @else {
-        <a class="link-footer-legal" (click)="navigateToLegalPage(link)">{{ link.label }}</a>
+        <a class="link-footer-legal" [routerLink]="link.url" (click)="loadLegalPage(link.slug)">{{ link.label }}</a>
       }
     }
   </div>

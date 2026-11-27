@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { ComponentAppStore } from '../../../store/component/component.store';
 import { extractSectionFromBlock, orderBlocksRecursively } from '../../../core/utils/order-blocks.utils';
 import { BlockWithComponent } from '../../../core/model/component-dto';
 import { HOME_SECTION_DICTIONARY } from '../../../core/dictionary/component-dictionary';
+import { PresentationComponent } from '../presentation/presentation.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, PresentationComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
@@ -16,11 +17,19 @@ import { HOME_SECTION_DICTIONARY } from '../../../core/dictionary/component-dict
 export class HomeComponent {
     private readonly componentStore = inject(ComponentAppStore);
 
+    constructor() {
+        const document = inject(DOCUMENT);
+        afterNextRender(() => {
+            document.getElementById('home-preview')?.remove();
+            document.querySelector('app-root[data-entry="home"]')?.removeAttribute('data-entry');
+        });
+    }
+
     readonly completedWorks = [
-        { name: 'Vila do Cedro', work: 'Reabilitação de fachada', image: 'fachada.jpg' },
-        { name: 'Vale da Fonte', work: 'Renovação do centro comunitário', image: 'centro-comunitario.jpg' },
-        { name: 'Bairro das Acácias', work: 'Requalificação da praça', image: 'praca.jpg' },
-        { name: 'Alto da Ribeira', work: 'Renovação do campo desportivo', image: 'campo-desportivo.jpg' },
+        { name: 'Vila do Cedro', work: 'Reabilitação de fachada', image: 'fachada' },
+        { name: 'Vale da Fonte', work: 'Renovação do centro comunitário', image: 'centro-comunitario' },
+        { name: 'Bairro das Acácias', work: 'Requalificação da praça', image: 'praca' },
+        { name: 'Alto da Ribeira', work: 'Renovação do campo desportivo', image: 'campo-desportivo' },
     ];
 
     readonly reviewStars = [1, 2, 3, 4, 5];

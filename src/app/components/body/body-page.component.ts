@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, effect, inject, OnInit, Type, untracked } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, inject, untracked } from "@angular/core";
 import { ComponentAppStore } from "../../store/component/component.store";
 import { CommonModule } from "@angular/common";
-import { PresentationComponent } from "./presentation/presentation.component";
 import { LanguageStore } from "../../store/language/language.store";
 import { HomeComponent } from "./home/home.component";
 
@@ -19,8 +18,6 @@ export class BodyPageComponent {
   private componentStore = inject(ComponentAppStore);
   private readonly languageStore = inject(LanguageStore);
 
-  readonly $loading = this.componentStore.$loading;
-
   constructor() {
     effect(() => {
       const langCode = this.languageStore.$selectedCodeLang();
@@ -33,7 +30,4 @@ export class BodyPageComponent {
     });
   }
 
-  ngOnInit() {
-
-  }
 }

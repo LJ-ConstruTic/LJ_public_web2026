@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from "@angular/core";
-import { LanguageStore } from "../../../store/language/language.store";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from "@angular/core";
 import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
 import { SafePipe } from "../../../../utils/pipes/safe-iframe.pipe";
@@ -27,7 +26,6 @@ export class ContactComponent {
     protected readonly cookiePreferences = inject(CookiePreferencesService);
     readonly block = input.required<Block>();
     private readonly componentStore = inject(ComponentAppStore);
-    private readonly languageStore = inject(LanguageStore);
     private readonly contactStore = inject(ContactStore);
     private readonly fb = inject(FormBuilder);
 
@@ -38,15 +36,6 @@ export class ContactComponent {
     submitted = signal(false);
 
     constructor() {
-        effect(() => {
-            const lang = this.languageStore.$selectedCodeLang();
-            if (!lang) return;
-
-            untracked(() => {
-                this.componentStore.loadPageBySlug({ slug: 'page-contact', lang });
-            });
-        });
-
         effect(() => {
             const sentSuccessfully = this.contactStore.$sent();
             if (sentSuccessfully) {
@@ -61,7 +50,6 @@ export class ContactComponent {
         const sections = this.contactPageSections();
         if (sections.length === 0) return [];
         const blocks = [...sections[0].blocks].sort((blockA, blockB) => blockA.order - blockB.order);
-        console.log('[ContactComponent] bloques:', blocks.length);
         return blocks;
     });
 
@@ -83,7 +71,6 @@ export class ContactComponent {
             btnSend: this.findBySourceKey('btnSendContactForm'),
             mapUrl: this.getMapUrl(),
         };
-        console.log('[ContactComponent] labels:', result);
         return result;
     });
 
@@ -91,7 +78,6 @@ export class ContactComponent {
         const blocks = this.contactBlocks();
         const imageBlock = blocks.find(block => block.type === 'image' && block.media.length > 0);
         const url = imageBlock?.media[0]?.url ?? '';
-        console.log('[ContactComponent] mapa URL:', url);
         return url;
     }
 

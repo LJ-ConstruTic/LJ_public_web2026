@@ -6,7 +6,7 @@
             <button type="button" class="services-card" (click)="navigateToService(item.card)">
                 <span class="services-card-img">
                     @if (item.card.media.length > 0) {
-                        <img [src]="item.card.media[0].url" alt="" />
+                        <img [src]="item.card.media[0].url" alt="" loading="lazy" decoding="async" />
                     }
                 </span>
                 <span class="services-card-content">

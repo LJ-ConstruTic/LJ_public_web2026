@@ -12,7 +12,12 @@ import { ComponentAppStore } from "../../store/component/component.store";
 import { MenuItem } from "primeng/api";
 import { MenuLinkAction, parseMenuLinkUrl } from "../../core/utils/order-blocks.utils";
 import { Block } from "../../core/model/component-dto";
-import { MENU_SCROLL_TARGET } from "../../core/dictionary/component-dictionary";
+
+const MENU_SCROLL_TARGET: Record<string, string> = {
+    headProduct: 'our-products',
+    headServices: 'our-services',
+    headContact: 'contact',
+};
 
 @Component({
     selector: 'app-header',

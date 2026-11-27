@@ -1,5 +1,7 @@
 import { Component, effect, inject, signal, untracked } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LanguageStore } from './store/language/language.store';
 import { HeaderComponent } from './components/header/header.component';
@@ -7,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ComponentAppStore } from './store/component/component.store';
 import { RouterLink } from '@angular/router';
 import { CookiePreferencesService } from './core/services/cookie-preferences.service';
+import { SeoService } from './core/services/seo.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +31,15 @@ export class App {
   protected readonly hasError = this.componentStore.$error;
 
   constructor() {
+    const router = inject(Router);
+    const seo = inject(SeoService);
+    const navigation = toSignal(router.events.pipe(filter(event => event instanceof NavigationEnd)));
+    effect(() => {
+      if (navigation()) {
+        seo.update(router.routerState.snapshot.root, this.languageStore.$selectedCodeLang() ?? 'pt');
+      }
+    });
+
     this.languageStore.loadAllLanguages();
 
     effect(() => { // se ejecuta cada vez que $selectedCode, el idioma cambia. Al inicio se seteó cunado se cargó la lengua loadAllLanguages().

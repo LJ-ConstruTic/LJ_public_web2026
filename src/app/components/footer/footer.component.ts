@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, computed, effect, inject, ViewEncapsulation } from "@angular/core";
-import { Router, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { ComponentAppStore } from "../../store/component/component.store";
 import { Block } from "../../core/model/component-dto";
 import { LanguageStore } from "../../store/language/language.store";
@@ -19,7 +19,6 @@ export class FooterComponent {
     protected readonly cookiePreferences = inject(CookiePreferencesService);
     readonly componentStore = inject(ComponentAppStore);
     private readonly languageStore = inject(LanguageStore);
-    private readonly router = inject(Router);
 
     private readonly footerPageSections = this.componentStore.getSectionsBySlug('page-footer');
 
@@ -98,12 +97,8 @@ export class FooterComponent {
 
     readonly currentYear = new Date().getFullYear();
 
-    navigateToLegalPage(link: { label: string; url: string; slug: string }): void {
+    loadLegalPage(slug: string): void {
         const lang = this.languageStore.$selectedCodeLang();
-        if (!lang || !link.slug) return;
-
-        console.log('[FooterComponent] cargando:', link.slug, '→ navegando a:', link.url);
-        this.componentStore.loadPageBySlug({ slug: link.slug, lang });
-        this.router.navigate([link.url]);
+        if (lang && slug) this.componentStore.loadPageBySlug({ slug, lang });
     }
 }

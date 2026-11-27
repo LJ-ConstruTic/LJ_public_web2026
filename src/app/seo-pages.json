@@ -1,0 +1,62 @@
+{
+  "origin": "https://ljconstrutic.com",
+  "name": "LJConstruTic",
+  "logo": "/img/logo.svg",
+  "socialImage": "/img/hero-cms-720.webp",
+  "socialImageWidth": 720,
+  "socialImageHeight": 408,
+  "pages": {
+    "": {
+      "pt": ["Construção e tecnologia", "LJConstruTic atua na construção civil e em soluções tecnológicas no Lobito, Benguela, Angola."],
+      "en": ["Construction and technology", "LJConstruTic provides civil construction and technology solutions in Lobito, Benguela, Angola."],
+      "es": ["Construcción y tecnología", "LJConstruTic ofrece servicios de construcción civil y soluciones tecnológicas en Lobito, Benguela, Angola."]
+    },
+    "about/about-detail": {
+      "pt": ["Quem somos", "Conheça a história e a equipa da LJConstruTic."],
+      "en": ["About us", "Learn about the history and team behind LJConstruTic."],
+      "es": ["Quiénes somos", "Conoce la historia y el equipo de LJConstruTic."]
+    },
+    "news/news-detail": {
+      "pt": ["Notícias", "Consulte as notícias da LJConstruTic."],
+      "en": ["News", "Read the latest news from LJConstruTic."],
+      "es": ["Noticias", "Consulta las noticias de LJConstruTic."]
+    },
+    "privacy": {
+      "pt": ["Política de privacidade", "Consulte a política de privacidade da LJConstruTic."],
+      "en": ["Privacy policy", "Read the LJConstruTic privacy policy."],
+      "es": ["Política de privacidad", "Consulta la política de privacidad de LJConstruTic."]
+    },
+    "term-condition": {
+      "pt": ["Termos e condições", "Consulte os termos e condições do site da LJConstruTic."],
+      "en": ["Terms and conditions", "Read the terms and conditions for the LJConstruTic website."],
+      "es": ["Términos y condiciones", "Consulta los términos y condiciones del sitio de LJConstruTic."]
+    },
+    "date-protect": {
+      "pt": ["Proteção de dados", "Consulte a informação sobre proteção de dados da LJConstruTic."],
+      "en": ["Data protection", "Read the LJConstruTic data protection information."],
+      "es": ["Protección de datos", "Consulta la información sobre protección de datos de LJConstruTic."]
+    },
+    "cookies": {
+      "pt": ["Política de cookies", "Consulte a política de cookies e as opções de consentimento da LJConstruTic."],
+      "en": ["Cookie policy", "Read the LJConstruTic cookie policy and consent options."],
+      "es": ["Política de cookies", "Consulta la política de cookies y las opciones de consentimiento de LJConstruTic."]
+    }
+  },
+  "nonIndexable": {
+    "service-detail": {
+      "pt": ["Serviço", "Consulte os detalhes do serviço da LJConstruTic."],
+      "en": ["Service", "View the LJConstruTic service details."],
+      "es": ["Servicio", "Consulta los detalles del servicio de LJConstruTic."]
+    },
+    "product-detail": {
+      "pt": ["Produto", "Consulte os detalhes do produto da LJConstruTic."],
+      "en": ["Product", "View the LJConstruTic product details."],
+      "es": ["Producto", "Consulta los detalles del producto de LJConstruTic."]
+    },
+    "not-found": {
+      "pt": ["Página não encontrada", "A página pedida não está disponível."],
+      "en": ["Page not found", "The requested page is unavailable."],
+      "es": ["Página no encontrada", "La página solicitada no está disponible."]
+    }
+  }
+}

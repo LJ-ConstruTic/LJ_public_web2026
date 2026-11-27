@@ -1,7 +1,12 @@
 <section class="strategy">
     <div class="image-container">
-        @if (strategyImage()) {
-            <img class="image-style" [src]="strategyImage()" alt="Strategy" />
+        @if (strategyImage(); as url) {
+            <picture>
+                @if (url | cmsImageSrcset; as srcset) {
+                    <source type="image/webp" [srcset]="srcset" sizes="(max-width: 767px) 92vw, 40vw">
+                }
+                <img class="image-style" [src]="url" alt="Strategy" loading="lazy" decoding="async" />
+            </picture>
         }
     </div>
     <div class="strategy-content">

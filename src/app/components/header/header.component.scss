@@ -44,15 +44,14 @@
   display: inline-flex;
   align-items: center;
   padding: 0.35rem;
-  background: var(--branco);
+  //background: var(--branco);
   border-radius: 0.5rem;
 }
 
 .logo {
   display: block;
   width: clamp(7rem, 16vw, 12rem);
-  height: auto;
-  max-height: 3.5rem;
+  height: 3.5rem;
   object-fit: contain;
 }
 

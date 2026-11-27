@@ -45,7 +45,12 @@
           <div class="completed-work-grid">
             @for (project of completedWorks; track project.image) {
               <figure class="completed-work-card">
-                <img [src]="'img/trabalho-realizado/' + project.image" alt="" loading="lazy" decoding="async" />
+                <picture>
+                  <source type="image/webp"
+                          [srcset]="'img/trabalho-realizado/' + project.image + '-480.webp' + ' 480w, img/trabalho-realizado/' + project.image + '-960.webp' + ' 960w'"
+                          sizes="(min-width: 1050px) 300px, (min-width: 560px) 45vw, 90vw" />
+                  <img [src]="'img/trabalho-realizado/' + project.image + '-480.webp'" alt="" loading="lazy" decoding="async" />
+                </picture>
                 <figcaption>
                   <h3>{{ project.name }}</h3>
                   <p>{{ project.work }}</p>
@@ -77,4 +82,6 @@
     }
   }
 
+} @empty {
+  <presentation />
 }

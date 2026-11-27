@@ -9,11 +9,12 @@ import { orderBlocksRecursively } from "../../../core/utils/order-blocks.utils";
 import { BoldPipe } from "../../../../utils/pipes/bold.pipe";
 import { TeamComponent } from "../team/team.component";
 import { Block } from "../../../core/model/component-dto";
+import { CmsImageSrcsetPipe } from '../../../../utils/pipes/cms-image-srcset.pipe';
 
 @Component({
   selector: "about-detail",
   standalone: true,
-  imports: [CommonModule, JoinInComponent, BoldPipe, TeamComponent],
+  imports: [CommonModule, JoinInComponent, BoldPipe, TeamComponent, CmsImageSrcsetPipe],
   providers: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

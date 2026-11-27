@@ -12,8 +12,17 @@
 
       <ng-template #item let-slide>
         <div class="slide" [attr.lang]="slide.language ?? null">
-          @if (slide.imageUrl) {
-            <img [src]="slide.imageUrl" [alt]="slide.imageAlt" class="slide-img" />
+          @if (slide.imageUrl; as url) {
+            <picture>
+              @if (slide.srcset || responsiveSources(url); as srcset) {
+                <source type="image/webp"
+                        [srcset]="srcset"
+                        sizes="100vw" />
+              }
+              <img [src]="url" [alt]="slide.imageAlt" class="slide-img"
+                   [attr.fetchpriority]="slide === carouselSlides()[0] ? 'high' : null"
+                   [loading]="slide === carouselSlides()[0] ? 'eager' : 'lazy'" />
+            </picture>
           }
           <div class="slide-overlay">
             <p class="slide-title">{{ slide.content }}</p>

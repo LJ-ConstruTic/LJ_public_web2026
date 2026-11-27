@@ -1,11 +1,10 @@
 <p-menubar #menubar [model]="$menuItems()" breakpoint="1180px" aria-label="Menu">
     
     <ng-template #start>
-        @if (logoBlockFromMenu(); as logo) {
-            <a routerLink="/" class="logo-link" aria-label="Go to home">
-                <img [src]="logo.media[0]?.url || 'img/logo.png'" [alt]="logo.altText ?? ''" class="logo"/>
-            </a>
-        }
+        <a routerLink="/" class="logo-link" aria-label="Go to home">
+            <img [src]="logoBlockFromMenu()?.media?.[0]?.url || 'img/logo.svg'"
+                 [alt]="logoBlockFromMenu()?.altText ?? ''" class="logo"/>
+        </a>
     </ng-template>
 
     <ng-template #end>

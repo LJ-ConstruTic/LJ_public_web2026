@@ -10,7 +10,7 @@
             <button type="button" class="products-card" (click)="navigateToProduct(product)">
                 @if (product.media.length > 0) {
                     <span class="products-card-img">
-                        <img [src]="product.media[0].url" alt="" />
+                        <img [src]="product.media[0].url" alt="" loading="lazy" decoding="async" />
                     </span>
                 }
                 <span class="products-card-title">{{ product.content }}</span>
