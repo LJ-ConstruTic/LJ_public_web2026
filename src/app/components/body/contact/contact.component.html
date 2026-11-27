@@ -24,7 +24,7 @@
                 <label for="contact-name">{{ label.name }} *:</label>
                 <input pInputText formControlName="name" [class.input-error]="hasError('name')" id="contact-name"/>
                 @if (hasError('name')) {
-                    <small class="error-msg">{{ label.name }} es obligatorio</small> <!-- Traducir -->
+                    <small class="error-msg">{{ label.name }} é obrigatório</small> <!-- Traducir -->
                 }
             </div>
 
@@ -32,7 +32,7 @@
                 <label for="contact-phone">{{ label.phone }} *:</label>
                 <input pInputText formControlName="phone" [class.input-error]="hasError('phone')" id="contact-phone"/>
                 @if (hasError('phone')) {
-                    <small class="error-msg">{{ label.phone }} es obligatorio</small> <!-- Traducir -->
+                    <small class="error-msg">{{ label.phone }} é obrigatório</small> <!-- Traducir -->
                 }
             </div>
 
@@ -40,7 +40,7 @@
                 <label for="contact-email">{{ label.email }} *:</label>
                 <input pInputText formControlName="email" [class.input-error]="hasError('email')" id="contact-email" />
                 @if (hasError('email') && form.get('email')?.hasError('required')) {
-                    <small class="error-msg">{{ label.email }} es obligatorio</small> <!-- Traducir -->
+                    <small class="error-msg">{{ label.email }} é obrigatório</small> <!-- Traducir -->
                 }
                 @if (hasError('email') && form.get('email')?.hasError('email')) {
                     <small class="error-msg">{{ label.email }} inválido</small> <!-- Traducir -->
@@ -52,7 +52,7 @@
                 <textarea pInputTextarea formControlName="message" rows="5"
                     [class.input-error]="hasError('message')" id="contact-message"></textarea>
                 @if (hasError('message')) {
-                    <small class="error-msg">{{ label.message }} es obligatorio</small> <!-- Traducir -->
+                    <small class="error-msg">{{ label.message }} é obrigatório</small> <!-- Traducir -->
                 }
             </div>
 
